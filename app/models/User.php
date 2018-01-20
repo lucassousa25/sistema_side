@@ -2,6 +2,41 @@
 
 class User extends \HXPHP\System\Model
 {
+	static $belongs_to = array(
+		array('role')
+	);
+	// Validando a presença dos campos (phpActiveRecord) 
+	static $validates_presence_of = array(
+		array(
+			'name',
+			'message' => 'O nome é um campo Obrigatório!'
+		),
+		array(
+			'email',
+			'message' => 'O email é um campo Obrigatório!'
+		),
+		array(
+			'username',
+			'message' => 'O nome de usuário é um campo Obrigatório!'
+		),
+		array(
+			'password',
+			'message' => 'A senha é um campo Obrigatório!'
+		)
+	);
+
+	// Validando exclusividades dos campos (phpActiveRecord)
+	static $validates_uniqueness_of = array(
+        array(
+       		'email', 
+       		'message' => 'Já existe um usuário com esse e-mail cadastrado.'
+       	),
+        array(
+        	'username',
+        	'message' => 'Já existe um usuário com esse nome de usuário cadastrado.'
+        )
+    );
+    
 	public static function cadastrar(array $post)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
@@ -24,7 +59,7 @@ class User extends \HXPHP\System\Model
 		$pass = \HXPHP\System\Tools::hashHX($post['password']); //Função interna do framework para criptorafia
 
 		$post = array_merge($post, $user_data, $pass);
-		
+
 		$cadastrar = self::create($post);
 
 		if($cadastrar->is_valid()) {
