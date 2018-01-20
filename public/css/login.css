@@ -5,55 +5,51 @@
 /* Importação da Fonte*/
 @import url('https://fonts.googleapis.com/css?family=Lobster+Two');
 
-.container-initial h4 {
-	font-family: 'Lobster Two', cursive;
-	font-size: 18pt;
-}
-.container-initial p {
-	font-family: 'Lobster Two', cursive;
-	font-size: 13pt;
-}
-
-#box-login {
-	margin: 30% auto 0;
-}
-#box-cadastro {
-	margin: 15% auto 0;
+.internal-container {
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	left: 50%; top: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
 }
 
 #box-login .mini-box {
 	padding: 15px;
 	
-	background: #17A589;
+	background: #339966;
 	box-shadow: 1px 1px 2px #999;
 	color: #fff;
 }
 #box-cadastro .mini-box {
 	padding: 15px;
 	
-	background: #17A589;
+	background: #339966;
 	box-shadow: 1px 1px 2px #999;
 	color: #fff;
 }
 
 #box-login .mini-box:last-child {
 	padding: 10px;
-	margin: 10px auto 20px;
-	background: #17A589;
+	margin: 10px auto 0;
+	background: #339966;
 	box-shadow: 1px 1px 2px #999;
 	color: #fff;
 }
 
 #box-cadastro .mini-box:last-child {
 	padding: 10px;
-	margin: 10px auto 20px;
-	background: #17A589;
+	margin: 10px auto 0;
+	background: #339966;
 	box-shadow: 1px 1px 2px #999;
 	color: #fff;
 }
 
-.img-side {
-	margin: 25% auto 0;
-	width: 80%;
-	height: 80%;
+.box-mark {
+	position: relative;
+	vertical-align: center;
+	padding: 5% 0;
+}
+.box-mark img {
+	margin: 0 auto;
 }

@@ -5,6 +5,18 @@ $configs = new HXPHP\System\Configs\Config;
 $configs->env->add('development');
 
 $configs->env->development->baseURI = '/sistema_side/';
+
+$configs->env->development->database->setConnectionData([
+  'driver' => 'mysql',
+  'host' => 'localhost',
+  'user' => 'root',
+  'password' => '',
+  'dbname' => 'side',
+  'charset' => 'utf8'
+]);
+
+$configs->env->development->auth->setURLs('/sistema_side/home/', '/sistema_side/login/');
+
 /*
   //Globais
   $configs->title = 'Titulo customizado';

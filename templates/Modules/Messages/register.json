@@ -1,0 +1,12 @@
+{
+    "description": "Template de mensagens para o módulo de cadastro",
+    "messages": {
+
+    },
+    "alerts": {
+    	"cadastro-realizado": {
+    		"style": "success",
+            "title": "Cadastro realizado!",
+            "message": "O novo usuário foi cadastrado no sistema."
+    	}
+    }

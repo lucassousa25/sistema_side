@@ -6,9 +6,9 @@
 class LoginController extends \HXPHP\System\Controller
 {
 
-	public function __construct()
+	public function __construct($configs)
 	{
-		parent::__construct();
+		parent::__construct($configs);
 	}
 
 	public function indexAction()

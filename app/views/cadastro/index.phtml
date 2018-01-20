@@ -25,37 +25,45 @@
     <div class="container">
       <div class="row">
         <div class="internal-container">
+
+          <?php 
+            echo (isset($this->alert) ? '<div class="col-sm-12">' . $this->alert . '</div>' : ''); 
+          ?>
           
           <div class="col-sm-8 box-mark">
             <img src="<?php echo IMG; ?>logo-side.png" alt="Logomarca SIDE" class="img-responsive img-side">
             <h4 class="text-center">"Tenha um maior controle do seu estoque com os indicadores mais aprimorados do SIDE"</h4>
           </div>
-
+        
           <div class="col-sm-4">
-            <div  id="box-login">
-              <p class="text-center hidden-xs">Faça Login e visualize a situação do seu estoque.</p>
+            <div id="box-cadastro">
+              <p class="text-center hidden-xs">Quer ter uma melhor experiência com o sistema?!<br>Cadastre-se.</p>
               <div class="mini-box">
-                <form method="post">
+                <form method="post" action="<?php echo BASE; ?>cadastro/cadastrar/">
                   <div class="form-group">
-                    <label for="email_login">Email</label>
-                    <input type="email" class="form-control" id="email_login" placeholder="">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" class="form-control" id="name" placeholder="" required="true">
                   </div>
                   <div class="form-group">
-                    <label for="pass_login">Senha</label>
-                    <input type="password" class="form-control" id="pass_login" placeholder="">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="" required="true">
                   </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Lembrar dados
-                    </label>
+                  <div class="form-group">
+                    <label for="email_cadastro">Email</label>
+                    <input type="email" name="email" class="form-control" id="email_cadastro" placeholder="" required="true">
                   </div>
-                  <button type="submit" class="btn btn-default btn-block">Entrar</button>
+                  <div class="form-group">
+                    <label for="pass_cadastro">Senha</label>
+                    <input type="password" name="password" class="form-control" id="pass_cadastro" placeholder="" required="true">
+                  </div>
+                  <hr>
+                  <button type="submit" class="btn btn-default btn-block">Cadastrar</button>
                 </form>
               </div>
-              <div class="mini-box">
-                <p class="text-center">Ainda não tem uma conta? <a href="<?php echo BASE . 'cadastro'; ?>" class="btn btn-default">Cadastre-se</a></p>
-              </div>
+            <div class="mini-box">
+              <p class="text-center">Já tem uma conta? <a href="<?php echo BASE . 'login'; ?>" class="btn btn-default">Faça login</a></p>
             </div>
+          </div>
           </div>
         </div>
       </div>
