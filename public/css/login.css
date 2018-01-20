@@ -1,0 +1,59 @@
+/**
+ * Arquivo: Folha de estilo referente a página(view) de login
+ */
+
+/* Importação da Fonte*/
+@import url('https://fonts.googleapis.com/css?family=Lobster+Two');
+
+.container-initial h4 {
+	font-family: 'Lobster Two', cursive;
+	font-size: 18pt;
+}
+.container-initial p {
+	font-family: 'Lobster Two', cursive;
+	font-size: 13pt;
+}
+
+#box-login {
+	margin: 30% auto 0;
+}
+#box-cadastro {
+	margin: 15% auto 0;
+}
+
+#box-login .mini-box {
+	padding: 15px;
+	
+	background: #17A589;
+	box-shadow: 1px 1px 2px #999;
+	color: #fff;
+}
+#box-cadastro .mini-box {
+	padding: 15px;
+	
+	background: #17A589;
+	box-shadow: 1px 1px 2px #999;
+	color: #fff;
+}
+
+#box-login .mini-box:last-child {
+	padding: 10px;
+	margin: 10px auto 20px;
+	background: #17A589;
+	box-shadow: 1px 1px 2px #999;
+	color: #fff;
+}
+
+#box-cadastro .mini-box:last-child {
+	padding: 10px;
+	margin: 10px auto 20px;
+	background: #17A589;
+	box-shadow: 1px 1px 2px #999;
+	color: #fff;
+}
+
+.img-side {
+	margin: 25% auto 0;
+	width: 80%;
+	height: 80%;
+}
