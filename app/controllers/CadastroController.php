@@ -26,6 +26,7 @@ class CadastroController extends \HXPHP\System\Controller
 	{
 		$this->view->setFile('index')
 				->setTemplate(false);
+				->setTitle('SIDE | Cadastro');
 
 		$this->request->setCustomFilters(array(
 			'email' => FILTER_VALIDATE_EMAIL
