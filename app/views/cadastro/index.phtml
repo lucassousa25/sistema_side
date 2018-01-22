@@ -8,6 +8,7 @@
     <title><?php echo $view_title; ?></title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="<?php echo BOWER; ?>bootstrap/dist/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo BOWER; ?>bootstrap-sweetalert/dist/sweetalert.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="<?php echo CSS; ?>login.css">
     <link rel="shortcut icon" href="<?php echo IMG; ?>icons/favicon.ico" type="image/x-icon">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -16,6 +17,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="<?php echo BOWER; ?>bootstrap-sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
     <?php
     echo $add_css;
     echo $add_js;
@@ -26,9 +28,7 @@
       <div class="row">
         <div class="internal-container">
 
-          <?php 
-            echo (isset($this->alert) ? '<div class="row"><div style="margin: 0 auto; width: 700px;">' . $this->alert . '</div></div>' : ''); 
-          ?>
+          <?php echo (isset($this->alert) ? $this->alert : ''); ?>
           
           <div class="col-sm-8 box-mark">
             <img src="<?php echo IMG; ?>logo-side.png" alt="Logomarca SIDE" class="img-responsive img-side">

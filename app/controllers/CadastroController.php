@@ -24,7 +24,8 @@ class CadastroController extends \HXPHP\System\Controller
 
 	public function cadastrarAction()
 	{
-		$this->view->setFile('index');
+		$this->view->setFile('index')
+				->setTemplate(false);
 
 		$this->request->setCustomFilters(array(
 			'email' => FILTER_VALIDATE_EMAIL
@@ -37,8 +38,8 @@ class CadastroController extends \HXPHP\System\Controller
 
 			if ($cadastrarUsuario->status === false) {
 				$this->load('Helpers\Alert', array(
-					'danger',
-					'Ops! Não foi possível efetuar seu cadastro. <br>Verifique os erros abaixos:',
+					'error',
+					'Não foi possível efetuar seu cadastro. Verifique os erros abaixos:',
 					$cadastrarUsuario->errors
 				));
 			}

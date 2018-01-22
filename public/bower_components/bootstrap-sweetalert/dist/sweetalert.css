@@ -244,6 +244,10 @@ body.stop-scrolling {
   display: none;
   z-index: 2000;
 }
+.sweet-alert p {
+  font-size: 14pt;
+}
+
 @media all and (max-width: 767px) {
   .sweet-alert {
     width: auto;
