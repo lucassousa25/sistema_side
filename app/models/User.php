@@ -69,9 +69,59 @@ class User extends \HXPHP\System\Model
 		}
 
 		$errors = $cadastrar->errors->get_raw_errors(); 
-
+		
 		foreach ($errors as $field => $message) {
 			array_push($callbackObj->errors, $message[0]);
+		}
+		return $callbackObj;
+	}
+
+	public static function login(array $post)
+	{
+		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
+		$callbackObj->user = null;
+		$callbackObj->status = false;
+		$callbackObj->code = null;
+		$callbackObj->tentativas_restantes = null;
+
+		$user = self::find_by_username($post['user_login']);
+
+		if(!is_null($user)) {
+			$password = \HXPHP\System\Tools::hashHX($post['pass_login'], $user->salt);
+
+			if($user->status === 1) {
+				if( LoginAttempt::existemTentativas($user->id) ) { // Condição se ainda existem tentativas de login
+					if ($password['pass_login'] === $user->password) { // Comparando passwords   
+						$callbackObj->user = $user;
+						$callbackObj->status = true; // Status de login se torna 'true' par verificação no Controller
+						LoginAttempt::limparTentativas($user->id); // Zera as tentativas no caso de sucesso ao logar
+					}
+					else {
+						// Condicionamento para exibição de erros se tratanto da quantidade de tentativas
+						if(LoginAttempt::tentativasRestantes($user->id) <= 3) { // Exibe contagem quando chegar em 3 tentativas erradas
+							$callbackObj->code = "tentativas-esgotando";
+							$callbackObj->tentativas_restantes = LoginAttempt::tentativasRestantes($user->id);
+						}
+						else {
+							$callbackObj->code = "dados-incorretos";
+						}
+
+						LoginAttempt::registrarTentativa($user->id);
+					}
+				}
+				else{
+					$callbackObj->code = "usuario-bloqueado";
+
+					$user->status = 0; //Status = 0 quando não existir mais tentativas (login_attempts = 5)
+					$user->save(false); //Pular as validaçãoes de usuário (phpActiveRecord)
+				}
+			}
+			else {
+				$callbackObj->code = "usuario-bloqueado";
+			}
+		}
+		else {
+			$callbackObj->code = "usuario-inexistente";
 		}
 
 		return $callbackObj;

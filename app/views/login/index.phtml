@@ -26,6 +26,8 @@
       <div class="row">
         <div class="internal-container">
           
+          <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
           <div class="col-sm-8 box-mark">
             <img src="<?php echo IMG; ?>logo-side.png" alt="Logomarca SIDE" class="img-responsive img-side">
             <h4 class="text-center">"Tenha um maior controle do seu estoque com os indicadores mais aprimorados do SIDE"</h4>
@@ -35,14 +37,14 @@
             <div  id="box-login">
               <p class="text-center hidden-xs">Faça Login e visualize a situação do seu estoque.</p>
               <div class="mini-box">
-                <form method="post">
+                <form method="post" action="<?php echo BASE; ?>login/logar/">
                   <div class="form-group">
-                    <label for="email_login">Email</label>
-                    <input type="email" class="form-control" id="email_login" placeholder="">
+                    <label for="user_login">Username</label>
+                    <input type="text" name="user_login" class="form-control" id="user_login" placeholder="">
                   </div>
                   <div class="form-group">
                     <label for="pass_login">Senha</label>
-                    <input type="password" class="form-control" id="pass_login" placeholder="">
+                    <input type="password" name="pass_login" class="form-control" id="pass_login" placeholder="">
                   </div>
                   <div class="checkbox">
                     <label>
