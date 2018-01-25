@@ -16,7 +16,7 @@ class Render
         $html = '';
 
         foreach ($messages as $key => $message)
-            $html .=  $message;
+            $html .= '\u2022 ' .  $message . '\n';
 
 
         return $html;
