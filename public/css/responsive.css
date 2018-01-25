@@ -1,0 +1,87 @@
+/************************************
+********** Responsive CSS ***********
+*************************************/
+
+@media screen and (max-width: 768px) {
+    .img-side {
+        margin: 10% auto 0;
+        width: 60%;
+        height: 60%;
+    }
+    #box-login {
+        margin: 0 auto;
+    }
+    #box-cadastro {
+        margin: 0 auto;
+    }
+    .container-initial h4 {
+        font-size: 14pt;
+    }
+    
+    .container {
+        margin: 0 0 0 15%;
+        padding: 0 0 20px 0;
+        width: 80%;
+    }
+    
+    .navbar {
+        height: 40px;
+    }
+    .navbar-default .navbar-brand h2 img {
+        padding: 0;
+        width: 100px;
+        margin-top: -30px;
+    }
+    #navbar-collapse {
+        background: #555;
+    }
+    .navbar-right li .title-main-bar {
+        display: inline-block;
+        padding-left: 15px;
+    }
+    #sidebar-wrapper .sidebar-nav {
+        width: 225px;
+    }
+    #sidebar-wrapper .sidebar-nav li ul li {
+        background: #444;
+    }
+
+    .breadcrumb-custom {
+        font-size: 13pt;
+    }
+
+    .breadcrumb-custom i {
+        padding-left: 40px;
+    }
+    
+    .breadcrumb-custom span {
+        font-size: 8pt;
+    }
+
+    .panel {
+        width: 100%;
+        margin-bottom: 15px; 
+    }
+
+    footer .footer-internal {
+        margin-left: 70px;
+        font-size: 10pt;
+    }
+
+    footer .footer-internal h4 {
+        font-size: 10pt;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    #wrapper {
+        padding-left: 20%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #wrapper #sidebar-wrapper {
+        width: 20%;
+    }
+}
