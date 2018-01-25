@@ -9,6 +9,6 @@ class HomeController extends \HXPHP\System\Controller
 
 	public function indexAction()
 	{
-
+		
 	}
 }

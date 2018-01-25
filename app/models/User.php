@@ -84,14 +84,14 @@ class User extends \HXPHP\System\Model
 		$callbackObj->code = null;
 		$callbackObj->tentativas_restantes = null;
 
-		$user = self::find_by_username($post['user_login']);
+		$user = self::find_by_username($post['username']);
 
 		if(!is_null($user)) {
-			$password = \HXPHP\System\Tools::hashHX($post['pass_login'], $user->salt);
-
+			$password = \HXPHP\System\Tools::hashHX($post['password'], $user->salt);
+			
 			if($user->status === 1) {
 				if( LoginAttempt::existemTentativas($user->id) ) { // Condição se ainda existem tentativas de login
-					if ($password['pass_login'] === $user->password) { // Comparando passwords   
+					if ($password['password'] === $user->password) { // Comparando passwords   
 						$callbackObj->user = $user;
 						$callbackObj->status = true; // Status de login se torna 'true' par verificação no Controller
 						LoginAttempt::limparTentativas($user->id); // Zera as tentativas no caso de sucesso ao logar

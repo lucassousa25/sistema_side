@@ -30,7 +30,9 @@ class LoginController extends \HXPHP\System\Controller
 	{
 		$this->auth->redirectCheck(true); //Configuração de redirecionamento de páginas (private/public)
 
-		$this->view->setFile('index');
+		$this->view->setFile('index')
+				->setTemplate(false)
+				->setTitle('SIDE | Login');
 
 		$post = $this->request->post();
 
@@ -53,6 +55,11 @@ class LoginController extends \HXPHP\System\Controller
 				$this->load('Helpers\Alert', $error);
 			}
 		}
+	}
+
+	public function sairAction()
+	{
+		return $this->auth->logout();
 	}
 
 }
