@@ -1,5 +1,12 @@
-<div class="alert alert-block alert-%s">
-    <a href="#" data-dismiss="alert" class="close">&times;</a>
-    <h4>%s</h4>
-    %s
-</div>
+<!-- <script src="<?php echo BOWER; ?>bootstrap-sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+<script type="application/javascript">
+	swal({
+		type: "%s",
+		title: "%s",
+		text: "%s",
+		confirmButtonClass: "btn-default",
+		confirmButtonText: "OK!",
+		closeOnConfirm: true
+	});
+</script>
