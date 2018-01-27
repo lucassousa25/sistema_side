@@ -7,12 +7,11 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title><?php echo $view_title; ?></title>
 
-    <link rel="shortcut icon" href="<?php echo IMG; ?>favicon.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo IMG; ?>icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?php echo BOWER; ?>bootstrap/dist/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="<?php echo BOWER; ?>font-awesome/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="<?php echo CSS; ?>main_side.css" type="text/css">
     <link rel="stylesheet" href="<?php echo CSS; ?>responsive.css" type="text/css">
-    <script src="<?php echo BOWER; ?>jquery/dist/jquery.min.js"></script>
         
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,7 +61,7 @@
                             <li class="dropdown">
                                 <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="" class="img-responsive img-thumbnail img-circle"> Username</a>
                                 <ul class="dropdown-menu dropdown-block" role="menu">
-                                    <li><a href="edit-user.html">Editar perfil</a></li>
+                                    <li><a href="">Editar perfil</a></li>
                                     <li><a href="#">Configurações</a></li>
                                     <li><a href="<?php echo BASE . 'login/sair';  ?>">Sair</a></li>
                                 </ul>
@@ -78,21 +77,10 @@
             <aside id="sidebar">
                 <ul id="sidemenu" class="sidebar-nav">
                     <li>
-                        <a href="visao-geral.html">
+                        <a href="<?php echo BASE . 'home';  ?>">
                             <span class="sidebar-icon"><i class="fa fa-home"></i></span>
                             <span class="sidebar-title">Home</span>
                         </a>
-                    </li>
-                    <li>
-                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
-                            <span class="sidebar-icon"><i class="fa fa-address-card"></i></span>
-                            <span class="sidebar-title">Cadastros</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
-                            <li><a href="view_clientes.html"><i class="fa fa-caret-right"></i>Clientes</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i>Fornecedores</a></li>
-                        </ul>
                     </li>
                     <li>
                         <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
@@ -101,11 +89,11 @@
                             <b class="caret"></b>
                         </a>
                         <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-                            <li><a href="view_produtos.html"><i class="fa fa-caret-right"></i>Gerenciar Produtos</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Gerenciar Produtos</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="view_vendas.html">
+                        <a href="#">
                             <span class="sidebar-icon"><i class="fa fa-shopping-bag"></i></span>
                             <span class="sidebar-title">Vendas</span>
                         </a>
@@ -117,15 +105,10 @@
                         </a>
                     </li>
                     <li>
-                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-4">
-                            <span class="sidebar-icon"><i class="fa fa-file-text"></i></span>
-                            <span class="sidebar-title">Notas Fiscais</span>
-                            <b class="caret"></b>
+                        <a href="#">
+                            <span class="sidebar-icon"><i class="fa fa-line-chart"></i></span>
+                            <span class="sidebar-title">Indicadores</span>
                         </a>
-                        <ul id="submenu-4" class="panel-collapse collapse panel-switch" role="menu">
-                            <li><a href="#"><i class="fa fa-caret-right"></i>Gerenciar NF-e</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i>Gerenciar NFC-e</a></li>
-                        </ul>
                     </li>
                     <li>
                         <a href="#">

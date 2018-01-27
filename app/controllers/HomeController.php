@@ -12,15 +12,22 @@ class HomeController extends \HXPHP\System\Controller
 			$configs->auth->after_logout,
 			true
 		);
+
+		$this->auth->redirectCheck(false); //Configuração de redirecionamento de páginas (private/public)
+
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		$user = User::find($user_id);
+
+		$this->view->setFile('index')
+               ->setHeader('header_side')
+               ->setFooter('footer_side')
+               ->setTemplate(true)
+               ->setTitle('SIDE | Home')
+               ->setVar('user', $user);
 	}
 
 	public function indexAction()
 	{
-		$this->view->setFile('index')
-               ->setHeader('header_side')
-               ->setFooter('footer_side')
-               ->setTemplate(true);
-
-        $this->auth->redirectCheck(false); //Configuração de redirecionamento de páginas (private/public)
+		  
 	}
 }
