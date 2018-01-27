@@ -17,6 +17,7 @@ $configs->env->development->database->setConnectionData([
 
 $configs->env->development->auth->setURLs('/sistema_side/home/', '/sistema_side/login/');
 
+
 /*
   //Globais
   $configs->title = 'Titulo customizado';

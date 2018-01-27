@@ -16,6 +16,8 @@ class LoginController extends \HXPHP\System\Controller
 			$configs->auth->after_logout,
 			true
 		);
+
+		$this->view->setFile('index');
 	}
 
 	public function indexAction()
@@ -30,8 +32,7 @@ class LoginController extends \HXPHP\System\Controller
 	{
 		$this->auth->redirectCheck(true); //Configuração de redirecionamento de páginas (private/public)
 
-		$this->view->setFile('index')
-				->setTemplate(false)
+		$this->view->setTemplate(false)
 				->setTitle('SIDE | Login');
 
 		$post = $this->request->post();

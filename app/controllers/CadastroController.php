@@ -13,20 +13,20 @@ class CadastroController extends \HXPHP\System\Controller
 			true
 		);
 
-		$this->auth->redirectCheck(true);
+		$this->auth->redirectCheck(true); //Configuração de redirecionamento de páginas (private/public)
+
+		$this->view->setFile('index')
+				->setTitle('SIDE | Cadastro');
 	}
 
 	public function indexAction()
 	{
-		$this->view->setTemplate(false)
-				->setTitle('SIDE | Cadastro');
+		$this->view->setTemplate(false);
 	}
 
 	public function cadastrarAction()
 	{
-		$this->view->setFile('index')
-				->setTemplate(false)
-				->setTitle('SIDE | Cadastro');
+		$this->view->setTemplate(false);
 
 		$this->request->setCustomFilters(array(
 			'email' => FILTER_VALIDATE_EMAIL
