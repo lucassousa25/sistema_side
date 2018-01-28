@@ -36,14 +36,13 @@ class User extends \HXPHP\System\Model
         	'message' => 'Já existe um usuário com esse nome de usuário cadastrado.'
         )
     );
-    
+
 	public static function cadastrar(array $post)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
 		$callbackObj->user = null;
 		$callbackObj->status = false;
 		$callbackObj->errors = array();
-
 		$role = Role::find_by_role('user');
 
 		if(is_null($role)) {
@@ -83,7 +82,6 @@ class User extends \HXPHP\System\Model
 		$callbackObj->status = false;
 		$callbackObj->code = null;
 		$callbackObj->tentativas_restantes = null;
-
 		$user = self::find_by_username($post['username']);
 
 		if(!is_null($user)) {

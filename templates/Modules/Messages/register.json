@@ -7,7 +7,7 @@
     	"cadastro-realizado": {
     		"style": "success",
             "title": "Cadastro realizado!",
-            "message": "O novo usuário foi cadastrado no sistema."
+            "message": "Seja bem vindo %s! Aproveite as funcionalidades do SIDE."
     	}
     }
 }
