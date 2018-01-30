@@ -4,7 +4,18 @@
 </div>
 
 <div class="container">
-      
+  
+  <div class="col xs-12">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> Atenção!</h3>
+      </div>
+      <div class="panel-body text-center">
+        Todos os campos com o <span style="color: red;">*</span> são obrigatórios.
+      </div>
+    </div>
+  </div>    
+
   <div class="col-xs-12 col-sm-4">
     <div class="thumbnail text-center">
       <img src="" alt="" class="img-responsive" style="width: 30%; height: 30%; padding: 10px 0;">
@@ -16,49 +27,51 @@
   </div>
 
   <div class="col-xs-12 col-sm-8">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-warning"></i> Atenção!</h3>
-      </div>
-      <div class="panel-body text-center">
-        Todos os campos com o <span style="color: red;">*</span> são obrigatórios.
-      </div>
-    </div>
     <div class="thumbnail">
       <div class="caption">
-        <form id="" method="" action="" role="form" accept-charset="utf-8">
+
+        <form method="post" action="" role="form" accept-charset="utf-8" enctype="multipart/form-data">
+          <?php
+
+            $values = [
+                'name' => $view_user->name,
+                'username' => $view_user->username,
+                'email' => $view_user->email
+            ];
+
+          ?>
           <div class="form-group">
             <label for="name">Nome <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="name" value="">
+            <input type="text" class="form-control" id="name" value="<?php echo $values['name']; ?>">
           </div>
           <div class="form-group">
             <label for="username">Username <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="username" placeholder="">
+            <input type="text" class="form-control" id="username" value="<?php echo $values['username']; ?>">
           </div>
           <div class="form-group">
             <label for="email">E-mail <span style="color: red;">*</span></label>
-            <input type="email" class="form-control" id="email" placeholder="">
+            <input type="email" class="form-control" id="email" value="<?php echo $values['email']; ?>">
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="sexo">Sexo</label>
             <select class="form-control">
               <option>Masculino</option>
               <option>Feminino</option>
             </select>
-          </div>
-          <div class="form-group">
+          </div> -->
+          <!-- <div class="form-group">
             <label for="funcao">Função</label>
             <input type="text" class="form-control" id="funcao" placeholder="Administrador ou Funcionário">
-          </div>
+          </div> -->
           <hr>
-            <div class="form-group">
-              <label for="newPass">Nova Senha (Se quiser alterar a existente)</label>
-              <input type="password" class="form-control" id="newPass" placeholder="Nova Senha">
-            </div>
-            <div class="form-group">
-              <label for="conNewPass">Confirmar nova senha</label>
-              <input type="password" class="form-control" id="conNewPass" placeholder="Confirme sua nova senha">
-            </div>
+          <div class="form-group">
+            <label for="newPass">Nova Senha (Se quiser alterar a existente)</label>
+            <input type="password" class="form-control" id="newPass" placeholder="Nova Senha">
+          </div>
+          <div class="form-group">
+            <label for="conNewPass">Confirmar nova senha</label>
+            <input type="password" class="form-control" id="conNewPass" placeholder="Confirme sua nova senha">
+          </div>
           <!-- <hr>
           <div class="form-group">
             <label for="empresa">Empresa</label>
