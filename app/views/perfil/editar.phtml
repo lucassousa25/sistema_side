@@ -4,6 +4,8 @@
 </div>
 
 <div class="container">
+
+  <?php echo (isset($this->alert) ? $this->alert : ''); ?>
   
   <div class="col xs-12">
     <div class="panel panel-success">
@@ -30,7 +32,7 @@
     <div class="thumbnail">
       <div class="caption">
 
-        <form method="post" action="" role="form" accept-charset="utf-8" enctype="multipart/form-data">
+        <form method="post" action="<?php echo BASE . 'perfil/editar/'; ?>" role="form" accept-charset="utf-8" enctype="multipart/form-data">
           <?php
 
             $values = [
@@ -42,15 +44,15 @@
           ?>
           <div class="form-group">
             <label for="name">Nome <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="name" value="<?php echo $values['name']; ?>">
+            <input type="text" class="form-control" name="name" value="<?php echo $values['name']; ?>">
           </div>
           <div class="form-group">
             <label for="username">Username <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="username" value="<?php echo $values['username']; ?>">
+            <input type="text" class="form-control" name="username" value="<?php echo $values['username']; ?>">
           </div>
           <div class="form-group">
             <label for="email">E-mail <span style="color: red;">*</span></label>
-            <input type="email" class="form-control" id="email" value="<?php echo $values['email']; ?>">
+            <input type="email" class="form-control" name="email" value="<?php echo $values['email']; ?>">
           </div>
           <!-- <div class="form-group">
             <label for="sexo">Sexo</label>
@@ -66,11 +68,11 @@
           <hr>
           <div class="form-group">
             <label for="newPass">Nova Senha (Se quiser alterar a existente)</label>
-            <input type="password" class="form-control" id="newPass" placeholder="Nova Senha">
+            <input type="password" class="form-control" name="newPass" placeholder="Nova Senha">
           </div>
           <div class="form-group">
             <label for="conNewPass">Confirmar nova senha</label>
-            <input type="password" class="form-control" id="conNewPass" placeholder="Confirme sua nova senha">
+            <input type="password" class="form-control" name="conNewPass" placeholder="Confirme sua nova senha">
           </div>
           <!-- <hr>
           <div class="form-group">
