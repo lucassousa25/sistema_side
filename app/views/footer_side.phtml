@@ -13,6 +13,10 @@
         $(document).ready(function(){
           $('.real').mask('000.000.000.000.000,00', {reverse: true});
         });
+
+        $('#est_atual').keyup(function(){
+            $('#est_inicial').val($(this).val());
+        });
     </script>
   </body>
 </html>

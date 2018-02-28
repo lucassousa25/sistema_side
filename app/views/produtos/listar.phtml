@@ -4,6 +4,9 @@
 </div>
 
 <div class="container">
+
+  <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
   <div class="row">
     <div class="col-sm-6">
       <div class="btn-group" role="group">
@@ -48,15 +51,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>001</td><td>Descrição do produto</td><td>R$ 170,00</td><td>220</td><td>04/01/2018 14:42:00</td>
-            <td>
-              <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
-              <a href="alter-produto.html" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
-              <button type="button" class="btn btn-danger btn-xs" id="prd_01" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
-              <button type="button" class="btn side-primary-color btn-xs" id="prd_01" data-toggle="tooltip" data-placement="top" title="Movimentações"><span class="fa fa-exchange"></span></button>
-            </td>
-          </tr>
+          <?php 
+            if ($view_products) :
+              foreach ($view_products as $product) :
+          ?>
+              <tr>
+                <td><?php echo $product->internal_code; ?></td>
+                <td><?php echo $product->description; ?></td>
+                <td><?php echo $product->sell_value; ?></td>
+                <td class="text-center"><?php echo $product->est_atual; ?></td>
+                <td class="text-center"><?php echo strtotime($product->data_entrada); ?></td>
+                <td>
+                  <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
+                  <a href="alter-produto.html" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                  <button type="button" class="btn btn-danger btn-xs" id="prd_01" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
+                  <button type="button" class="btn side-primary-color btn-xs" id="prd_01" data-toggle="tooltip" data-placement="top" title="Movimentações"><span class="fa fa-exchange"></span></button>
+                </td>
+              </tr>
+          <?php
+              endforeach;
+            endif;
+          ?>
         </tbody>
       </table>  
     </div>
