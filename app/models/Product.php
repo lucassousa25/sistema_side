@@ -68,4 +68,36 @@ class Product extends \HXPHP\System\Model
 		}
 		return $callbackObj;
 	}
+
+	public static function listar($pagina)
+	{
+		if (!isset($pagina)) {
+			$pagina = 1;
+		}
+		
+		$exib_produtos = 10;
+		$first_prod = $pagina - 1; 
+		$first_prod = $first_prod * $exib_produtos;
+
+		$all_rgs = self::find('all');
+		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod));
+			
+		$total_registros = count($all_rgs); // verifica o número total de registros
+		$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas
+		
+		$anterior = $pagina - 1; 
+		$proximo = $pagina + 1;
+
+		$dados = [
+			'anterior' => $anterior,
+			'proximo' => $proximo,
+			'pagina' => $pagina,
+			'total_paginas' => $total_paginas,
+			'total_produtos' => $total_registros,
+			'primeiro_produto' => $first_prod,
+			'registros' => $sql
+		];
+
+		return $dados;
+	}
 }

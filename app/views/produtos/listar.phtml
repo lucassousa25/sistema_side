@@ -56,12 +56,12 @@
               foreach ($view_products as $product) :
           ?>
               <tr>
-                <td><?php echo $product->internal_code; ?></td>
-                <td><?php echo $product->description; ?></td>
-                <td><?php echo $product->sell_value; ?></td>
-                <td class="text-center"><?php echo $product->est_atual; ?></td>
-                <td class="text-center"><?php echo strtotime($product->data_entrada); ?></td>
-                <td>
+                <td class="col-sm-1"><?php echo $product->internal_code; ?></td>
+                <td class="col-sm-4"><?php echo $product->description; ?></td>
+                <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product->sell_value, 2, ',', '.'); ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product->est_atual; ?></td>
+                <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product->data_entrada)) . ' às ' .date('h:i', strtotime($product->data_entrada)); ?></td>
+                <td class="col-sm-2">
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="alter-produto.html" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                   <button type="button" class="btn btn-danger btn-xs" id="prd_01" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
@@ -88,28 +88,63 @@
           font-size: 10pt;
           border-radius: 5px;
       ">
-        Mostrando 1 a 10 de um total de 10
+        <?php 
+          echo 'Mostrando ' . $view_primeiro_produto . ' a ';
+          
+          if(($view_primeiro_produto + 9) > $view_total_produtos) :
+            echo $view_total_produtos;
+          else :
+            echo ($view_primeiro_produto + 9);
+          endif;
+
+          echo ' de um total de ' . $view_total_produtos; 
+        ?>
       </p>
     </div>
+
+    <?php if($view_total_paginas > 1) : ?>
+
     <div class="col-sm-7 pull-right text-right paginacao">
       <nav aria-label="Page navigation">
         <ul class="pagination">
-          <li class="disabled">
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo; Anterior</span>
-            </a>
-          </li>
-          <li class="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">Próximo &raquo;</span>
-            </a>
-          </li>
+
+          <?php if($view_anterior > 0) : ?>
+            <li>
+              <a href="<?php echo BASE; ?>produtos/listar/<?php echo $view_anterior; ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo; Anterior</span>
+              </a>
+            </li>
+          <?php else : ?>
+            <li class="disabled">
+                <span aria-hidden="true">&laquo; Anterior</span>
+            </li>
+          <?php endif; ?>
+
+          <?php if($view_anterior > 0) : ?>
+            <li><a href="<?php echo BASE; ?>produtos/listar/<?php echo $view_anterior; ?>"><?php echo $view_anterior; ?></a></li>
+          <?php endif; ?>
+          
+      
+          <li class="active"><a href="<?php echo BASE; ?>produtos/listar/<?php echo $view_pagina; ?>"><?php echo $view_pagina; ?></a></li>
+          
+          <?php if($view_pagina < $view_total_paginas) : ?>
+            <li><a href="<?php echo BASE; ?>produtos/listar/<?php echo $view_proximo; ?>"><?php echo $view_proximo; ?></a></li>
+            <li>
+              <a href="<?php echo BASE; ?>produtos/listar/<?php echo $view_proximo; ?>" aria-label="Next">
+                <span aria-hidden="true">Próximo &raquo;</span>
+              </a>
+            </li>
+          <?php else : ?>
+            <li class="disabled">
+                <span aria-hidden="true">Próximo &raquo;</span>
+            </li>
+          <?php endif; ?>
+
         </ul>
       </nav>
     </div>
+
+    <?php endif; ?>
   </div>
 
 </div>

@@ -25,10 +25,32 @@ class ProdutosController extends \HXPHP\System\Controller
 				->setTitle('SIDE | Produtos');
 	}
 
-	public function indexAction()
+	public function indexAction($pagina = 1)
 	{
-		$this->view->setVar('products', Product::all())
-				->setFile('listar');
+		$get = $pagina;
+
+		if(!empty($get)) {
+			$listarProduto = Product::listar($get);
+
+			$anterior = $listarProduto['anterior'];
+			$proximo = $listarProduto['proximo'];
+			$pagina = $listarProduto['pagina'];
+			$total_paginas = $listarProduto['total_paginas'];
+			$total_produtos = $listarProduto['total_produtos'];
+			$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
+			$products = $listarProduto['registros'];
+
+			$this->view->setVars([
+					'products' => $products,
+					'anterior' => $anterior,
+					'proximo' => $proximo,
+					'pagina' => $pagina,
+					'total_paginas' => $total_paginas,
+					'total_produtos' => $total_produtos,
+					'primeiro_produto' => $primeiro_produto
+					])
+					->setFile('listar');
+		}
 	}
 
 	public function cadastrarAction()
@@ -56,7 +78,7 @@ class ProdutosController extends \HXPHP\System\Controller
 			}
 			else {
 				$this->view->setVar('products', Product::all())
-							->setFile('listar');
+							->setFile('listar'); # Redirecinando para página de listagem
 
 				$this->load('Helpers\Alert', array(
 					'success',
@@ -68,11 +90,35 @@ class ProdutosController extends \HXPHP\System\Controller
 
 	public function cadastrarProdutoAction()
 	{
-		$this->view->setFile('cadastrar')
-				->setHeader('header_side')
-				->setFooter('footer_side')
-				->setTemplate(true)
-				->setTitle('SIDE | Produtos');
+		$this->view->setFile('cadastrar');
+	}
+
+	public function listarAction($pagina = 1)
+	{
+		$get = $pagina;
+
+		if(!empty($get)) {
+			$listarProduto = Product::listar($get);
+
+			$anterior = $listarProduto['anterior'];
+			$proximo = $listarProduto['proximo'];
+			$pagina = $listarProduto['pagina'];
+			$total_paginas = $listarProduto['total_paginas'];
+			$total_produtos = $listarProduto['total_produtos'];
+			$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
+			$products = $listarProduto['registros'];
+
+			$this->view->setVars([
+					'products' => $products,
+					'anterior' => $anterior,
+					'proximo' => $proximo,
+					'pagina' => $pagina,
+					'total_paginas' => $total_paginas,
+					'total_produtos' => $total_produtos,
+					'primeiro_produto' => $primeiro_produto
+					])
+					->setFile('listar');
+		}
 	}
 }
 
