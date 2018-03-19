@@ -408,3 +408,22 @@ footer .footer-internal {
     bottom: 0;
     width: 100%;
 }
+
+#modalImport .modal-header{
+    background-color: #17A589;
+    color: #fff;
+}
+
+#modalImport .modal-box {
+    text-align: center;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background: #eee;
+    width: 70%;
+    font-size: 10pt;
+}
+
+#modalImport .modal-box p {
+    margin-top: 10px;
+}

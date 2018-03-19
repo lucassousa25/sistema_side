@@ -6,6 +6,8 @@
 <div class="container">
 
   <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+  
+  <?php $this->partial('modal-import'); ?>
 
   <div class="row">
     <div class="col-sm-6">
@@ -17,7 +19,7 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Importar de uma planilha</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#modalImport">Importar de uma planilha</a></li>
             <li><a href="#">Exportar Produtos</a></li>
           </ul>
         </div>
