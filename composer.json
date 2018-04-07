@@ -1,7 +1,8 @@
 {
     "name": "Bruno/hxphp",
     "require": {
-        "php-activerecord/php-activerecord": "dev-master"
+        "php-activerecord/php-activerecord": "dev-master",
+        "phpclasses/simple-xlsx": ">=0.7.6"
     },
     "authors": [
         {
@@ -21,5 +22,15 @@
     "config": {
         "discard-changes": "stash",    
         "preferred-install": "dist"    
-    }
+    },
+    "repositories":
+    [
+        {
+            "type": "composer",
+            "url": "https:\/\/www.phpclasses.org\/"
+        },
+        {
+            "packagist": false
+        }
+    ]
 }

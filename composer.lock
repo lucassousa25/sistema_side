@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "52cb45e5fcc8ce254c06947cdbe7a771",
+    "content-hash": "0a87aace0a57ae4cae0ce45b052ee403",
     "packages": [
         {
             "name": "php-activerecord/php-activerecord",
@@ -45,6 +45,22 @@
                 "orm"
             ],
             "time": "2017-06-19T20:32:00+00:00"
+        },
+        {
+            "name": "phpclasses/simple-xlsx",
+            "version": "0.7.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://www.phpclasses.org/install/package/simple-xlsx.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "simplexlsx.class.php"
+                ]
+            }
         }
     ],
     "packages-dev": [],
