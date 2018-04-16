@@ -2,6 +2,9 @@
 
 class ProdutosController extends \HXPHP\System\Controller
 {
+
+	static private $matriz;
+
 	public function __construct($configs)
 	{
 		parent::__construct($configs);
@@ -155,13 +158,36 @@ class ProdutosController extends \HXPHP\System\Controller
 			$this->view->setVars([
 					'titulo' => $titulo,
 					'dados' => $matriz,
-					'colunas' => $colunas
+					'colunas' => $colunas,
+					'linhas' => $linhas
 					])
 					->setFile('planilha');
+
+			self::$matriz = $matriz;
 
 		}catch(Exception $erro){
 			echo 'Erro: Não foi possível fazer o tratamento da planilha (' . $erro->getMessage() . ')';
 		}
+	}
+
+	private function capturaMatriz(array $matriz)
+	{
+		return $matriz;
+	}
+
+	public function inserirDadosPlanilhaAction()
+	{
+		$this->view->setFile('planilha');
+		
+		
+
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		$post = $this->request->post();
+
+		var_dump($post);
+
+		die();
 	}
 }
 
