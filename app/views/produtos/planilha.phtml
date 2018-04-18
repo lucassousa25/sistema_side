@@ -14,19 +14,22 @@
       		style="border-collapse: collapse; width: 100%; overflow-x: auto; display: block; overflow-y: scroll;">
         <thead style="display: block;">
         	<tr>
-        	  <form action="<?php echo BASE . 'produtos/inserirDadosPlanilha/'; ?>" method="post" accept-charset="utf-8">	
+        	  <form action="<?php echo BASE . 'produtos/inserirDadosPlanilha/'; ?>" method="post" accept-charset="utf-8">
+
+        	  <input type="hidden" name="total_colunas" value="<?php echo $view_colunas; ?>">
+        	  <input type="hidden" name="total_linhas" value="<?php echo $view_linhas; ?>">
+
         	  <?php for ($i=0; $i < $view_colunas; $i++): ?>
         		<td style="min-width: 150px; height: 25px; width: 20%;">
         			<select name="<?php echo 'select'. $i; ?>" class="form-control">
-        			  <option value="none" selected>Selecione uma opção para a coluna</option>
-        			  <option value="codigo">Código</option>
-        			  <option value="desc">Descrição</option>
-        			  <option value="data_entrada">Data de Entrada</option>
-        			  <option value="estoque_atual">Estoque</option>
-        			  <option value="estoque_inicial">Est. Inicial</option>
-        			  <option value="estoque_minimo">Est. Mínimo</option>
-        			  <option value="valor_venda">Valor de Venda</option>
         			  <option value="none">Não importar coluna</option>
+        			  <option value="descricao">Descrição *</option>
+        			  <option value="codigo_interno">Código</option>
+        			  <option value="custo">Custo</option>
+        			  <option value="valor_venda">Valor de Venda *</option>
+        			  <option value="estoque_atual">Estoque*</option>
+        			  <option value="estoque_minimo">Est. Mínimo *</option>
+        			  <option value="estoque_maximo">Est. Máximo</option>        			  
         			</select>
         		</td>
         	  <?php endfor; ?>       	  	
@@ -49,14 +52,15 @@
             if ($view_dados) :
               $coluna = 0; ## Setando coluna
               $linhas = 0;
-              
+              $matrizOriginal = array();
+
               foreach ($view_dados as $linha) :
           ?>
               <tr>
               	<?php while ($coluna < $view_colunas): ?>
                 	<td class="" style="min-width: 150px; height: 25px; width: 20%;">
 		            	<?php echo $linha[$coluna]; ?>
-		            	<input type="hidden" name="<?php echo $view_titulo[$coluna] . $linhas; ?>" value="<?php echo $linha[$coluna]; ?>">	
+		            	<?php $matrizOriginal[$linhas][$coluna] = $linha[$coluna]; ?>
                 	</td>
             	<?php $coluna++; ?>
             	<?php endwhile; ?>
@@ -66,8 +70,9 @@
           	  if ($coluna == $view_colunas)
           	  	 $coluna = 0; ## Se chegar na ultima coluna zera.
               endforeach;
-            endif;
+              $this->session->set('dadosPlanilha', $matrizOriginal); //Criando sessão com array de dados
           ?>
+          <?php endif; ?>
         </tbody>
       </table>  
     </div>

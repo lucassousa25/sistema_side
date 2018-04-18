@@ -3,8 +3,6 @@
 class ProdutosController extends \HXPHP\System\Controller
 {
 
-	static private $matriz;
-
 	public function __construct($configs)
 	{
 		parent::__construct($configs);
@@ -16,44 +14,45 @@ class ProdutosController extends \HXPHP\System\Controller
 			true
 		);
 
+		$this->load('Storage\Session');
+
 		$this->auth->redirectCheck(false); //Configuração de redirecionamento de páginas (private/public)
 
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
-		$this->view->setVar('user', $user)
+		$listarProduto = Product::listar();
+
+		$anterior = $listarProduto['anterior'];
+		$proximo = $listarProduto['proximo'];
+		$pagina = $listarProduto['pagina'];
+		$total_paginas = $listarProduto['total_paginas'];
+		$total_produtos = $listarProduto['total_produtos'];
+		$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
+		$products = $listarProduto['registros'];
+
+		$this->view->setVars([
+						'user' => $user,
+						'products' => $products,
+						'anterior' => $anterior,
+						'proximo' => $proximo,
+						'pagina' => $pagina,
+						'total_paginas' => $total_paginas,
+						'total_produtos' => $total_produtos,
+						'primeiro_produto' => $primeiro_produto
+					])
 				->setHeader('header_side')
 				->setFooter('footer_side')
 				->setTemplate(true)
 				->setTitle('SIDE | Produtos');
+
+
+
 	}
 
 	public function indexAction($pagina = 1)
 	{
-		$get = $pagina;
-
-		if(!empty($get)) {
-			$listarProduto = Product::listar($get);
-
-			$anterior = $listarProduto['anterior'];
-			$proximo = $listarProduto['proximo'];
-			$pagina = $listarProduto['pagina'];
-			$total_paginas = $listarProduto['total_paginas'];
-			$total_produtos = $listarProduto['total_produtos'];
-			$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
-			$products = $listarProduto['registros'];
-
-			$this->view->setVars([
-					'products' => $products,
-					'anterior' => $anterior,
-					'proximo' => $proximo,
-					'pagina' => $pagina,
-					'total_paginas' => $total_paginas,
-					'total_produtos' => $total_produtos,
-					'primeiro_produto' => $primeiro_produto
-					])
-					->setFile('listar');
-		}
+		
 	}
 
 	public function cadastrarAction()
@@ -163,31 +162,41 @@ class ProdutosController extends \HXPHP\System\Controller
 					])
 					->setFile('planilha');
 
-			self::$matriz = $matriz;
-
 		}catch(Exception $erro){
 			echo 'Erro: Não foi possível fazer o tratamento da planilha (' . $erro->getMessage() . ')';
 		}
 	}
 
-	private function capturaMatriz(array $matriz)
-	{
-		return $matriz;
-	}
-
 	public function inserirDadosPlanilhaAction()
 	{
 		$this->view->setFile('planilha');
-		
-		
 
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		$post = $this->request->post();
 
-		var_dump($post);
+		$nomeTitulo = array();
 
-		die();
+		for ($i=0; $i < $post['total_colunas']; $i++) :
+			$nomeTitulo[$i] = $post['select' . $i];
+		endfor;
+
+		$matrizOriginal = $this->session->get('dadosPlanilha'); // Capturando Sessão com array de dados
+
+		$inserirDados = Product::inserirDadosPlanilha($post, $nomeTitulo, $matrizOriginal, $user_id);
+
+		if ($inserirDados->status === false) {
+			
+		}
+		else {
+			$this->view->setVar('products', Product::all())
+						->setFile('listar'); # Redirecinando para página de listagem
+
+			$this->load('Helpers\Alert', array(
+				'success',
+				'Foram cadastrados ' . $inserirDados->products_quantity . ' com sucesso!'
+			));
+		}
 	}
 }
 

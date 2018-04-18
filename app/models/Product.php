@@ -69,7 +69,106 @@ class Product extends \HXPHP\System\Model
 		return $callbackObj;
 	}
 
-	public static function listar($pagina)
+
+	public static function inserirDadosPlanilha(array $post, array $nomeTitulo, array $matrizOriginal, $user_id)
+	{
+		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
+		$callbackObj->user = null;
+		$callbackObj->status = false;
+		$callbackObj->errors = array(); // Array com mensagens de erro
+		$callbackObj->products_quantity = null; // armazenando quantidade de produtos para retorno no controller
+
+		$user_id_array = [
+			'user_id' => $user_id // Transformando user_id em array
+		];
+
+		$data_entrada = [
+			'data_entrada' => date('Y-m-d h:i:s') // Capturando data atual do sistema
+		];
+
+		$matrizAux = array(); // Definindo matriz auxiliar de dados
+
+		for ($i=0; $i < $post['total_colunas']; $i++) { 
+			for ($j=0; $j < ($post['total_linhas'] - 1); $j++) { 
+				if($nomeTitulo[$i] == "descricao") {
+					$matrizAux[$j][0] = $matrizOriginal[$j][$i];
+				}
+				if($nomeTitulo[$i] == "codigo_interno") {
+					$matrizAux[$j][1] = $matrizOriginal[$j][$i];
+				}
+				if($nomeTitulo[$i] == "custo") {
+					$matrizAux[$j][2] = $matrizOriginal[$j][$i];
+				}
+				if($nomeTitulo[$i] == "valor_venda") {
+					$matrizAux[$j][3] = $matrizOriginal[$j][$i];
+				}
+				if($nomeTitulo[$i] == "estoque_minimo") {
+					$matrizAux[$j][5] = $matrizOriginal[$j][$i];
+				}
+				if($nomeTitulo[$i] == "estoque_atual") {
+					$matrizAux[$j][4] = $matrizOriginal[$j][$i]; // Armazenando no estoque inicial
+					$matrizAux[$j][6] = $matrizOriginal[$j][$i];
+				}
+			}
+		}
+
+		### Foreach de inserção de dados na banco ###
+		foreach ($matrizAux as $linha) :
+			
+			uksort($linha, 'strnatcmp'); // Ordenando linha por ordem numérica
+
+			// Array com chaves-título 
+			$linhaChaves = [
+				'description' => null,
+				'internal_code' => null,
+				'cost' => null,
+				'sell_value' => null,
+				'est_inicial' => null,
+				'est_minimo' => null,
+				'est_maximo' => null,
+				'est_atual' => null
+			];
+
+			if(!empty($linha[0])) 
+				$linhaChaves['description'] = $linha[0];
+			if(!empty($linha[1]))
+				$linhaChaves['internal_code'] = $linha[1];
+			if(!empty($linha[2]))
+				$linhaChaves['cost'] = $linha[2];
+			if(!empty($linha[3]))
+				$linhaChaves['sell_value'] = $linha[3];
+			if(!empty($linha[4]))
+				$linhaChaves['est_inicial'] = $linha[4];
+			if(!empty($linha[5]))
+				$linhaChaves['est_minimo'] = $linha[5];
+			if(!empty($linha[6]))
+				$linhaChaves['est_atual'] = $linha[6];
+				
+
+			$linhaDados = array_merge($user_id_array, $linhaChaves, $data_entrada);
+			
+			$cadastrar = self::create($linhaDados);
+
+			if($cadastrar->is_valid()) {
+				$callbackObj->user = $cadastrar;
+				$callbackObj->status = true;
+				$callbackObj->products_quantity += 1;
+			}
+
+			$errors = $cadastrar->errors->get_raw_errors(); 
+			
+			// foreach ($errors as $field => $message) {
+			// 	array_push($callbackObj->errors, $message[0]);
+			// 	return $callbackObj;
+			// }
+		endforeach;
+		
+		return $callbackObj;
+
+	}
+
+
+	public static function listar($pagina = 1)
 	{
 		if (!isset($pagina)) {
 			$pagina = 1;
