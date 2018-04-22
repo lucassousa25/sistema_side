@@ -76,7 +76,8 @@ class Product extends \HXPHP\System\Model
 		$callbackObj->user = null;
 		$callbackObj->status = false;
 		$callbackObj->errors = array(); // Array com mensagens de erro
-		$callbackObj->products_quantity = null; // armazenando quantidade de produtos para retorno no controller
+		$callbackObj->products_quantity = null; // armazena a quantidade de produtos cadastrados para retorno no controller
+		$callbackObj->products_quantity_errors = null; // armazena quantidade de produtos com falha no cadastrp para retorno no controller
 
 		$user_id_array = [
 			'user_id' => $user_id // Transformando user_id em array
@@ -112,10 +113,12 @@ class Product extends \HXPHP\System\Model
 			}
 		}
 
+		
+
 		### Foreach de inserção de dados na banco ###
 		foreach ($matrizAux as $linha) :
 			
-			uksort($linha, 'strnatcmp'); // Ordenando linha por ordem numérica
+			uksort($linha, 'strnatcmp'); // Reordenando linha por ordem numérica
 
 			// Array com chaves-título 
 			$linhaChaves = [
@@ -129,40 +132,90 @@ class Product extends \HXPHP\System\Model
 				'est_atual' => null
 			];
 
-			if(!empty($linha[0])) 
-				$linhaChaves['description'] = $linha[0];
-			if(!empty($linha[1]))
-				$linhaChaves['internal_code'] = $linha[1];
-			if(!empty($linha[2]))
-				$linhaChaves['cost'] = $linha[2];
-			if(!empty($linha[3]))
-				$linhaChaves['sell_value'] = $linha[3];
-			if(!empty($linha[4]))
-				$linhaChaves['est_inicial'] = $linha[4];
-			if(!empty($linha[5]))
-				$linhaChaves['est_minimo'] = $linha[5];
-			if(!empty($linha[6]))
-				$linhaChaves['est_atual'] = $linha[6];
+			if (isset($linha[0])) {
+				if(!empty($linha[0]) && is_string($linha[0])) {
+					$linhaChaves['description'] = $linha[0];
+				} else {
+					if(!in_array('O campo descrição não pode ser um valor numérico.', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo descrição não pode ser um valor numérico.');
+				}
+			}
+
+			if (isset($linha[1])) {
+				if(!empty($linha[1]) && is_integer($linha[1])) {
+					$linhaChaves['internal_code'] = $linha[1];
+				} else {
+					if(!in_array('O campo Código precisa ser um valor inteiro!', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo Código precisa ser um valor inteiro!');
+				}
+			}
+
+			if (isset($linha[2])) {
+				if(!empty($linha[2]) && is_float($linha[2])) {
+					$linhaChaves['cost'] = $linha[2];
+				} else {
+					if(!in_array('O campo Custo precisa ser um valor real!', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo Custo precisa ser um valor real!');
+				}
+			}
+
+			if (isset($linha[3])) {
+				if(!empty($linha[3]) && is_float($linha[3])) {
+					$linhaChaves['sell_value'] = $linha[3];
+				} else {
+					if(!in_array('O campo Valor precisa ser um valor real!', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo Valor precisa ser um valor real!');
+				}
+			}
+
+			if (isset($linha[4])) {
+				if(!empty($linha[4]) && is_numeric($linha[4])) {
+					$linhaChaves['est_inicial'] = $linha[4];
 				
+				}
+			}
+
+			if (isset($linha[5])) {
+				if(!empty($linha[5]) && is_numeric($linha[5])) {
+					$linhaChaves['est_minimo'] = $linha[5];
+				} else {
+					if(!in_array('O campo Estoque mínimo precisa ser um valor numérico!', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo Estoque mínimo precisa ser um valor numérico!');
+				}
+			}
+
+			if (isset($linha[6])) {
+				if(!empty($linha[6]) && is_numeric($linha[6])) {
+					$linhaChaves['est_atual'] = $linha[6];
+				} else {
+					if(!in_array('O campo Estoque precisa ser um valor numérico!', $callbackObj->errors))
+						array_push($callbackObj->errors, 'O campo Estoque precisa ser um valor numérico!');
+				}
+			}
+
 
 			$linhaDados = array_merge($user_id_array, $linhaChaves, $data_entrada);
 			
 			$cadastrar = self::create($linhaDados);
 
-			if($cadastrar->is_valid()) {
+			if($cadastrar->is_valid()) :
+
 				$callbackObj->user = $cadastrar;
 				$callbackObj->status = true;
 				$callbackObj->products_quantity += 1;
-			}
+			else :
 
-			$errors = $cadastrar->errors->get_raw_errors(); 
-			
-			// foreach ($errors as $field => $message) {
-			// 	array_push($callbackObj->errors, $message[0]);
-			// 	return $callbackObj;
-			// }
+				$errors = $cadastrar->errors->get_raw_errors(); 
+
+				foreach ($errors as $field => $message) {
+					if(!in_array($message[0], $callbackObj->errors))
+						array_push($callbackObj->errors, $message[0]);
+				}
+
+				$callbackObj->products_quantity_errors += 1;
+			endif;
 		endforeach;
-		
+
 		return $callbackObj;
 
 	}
