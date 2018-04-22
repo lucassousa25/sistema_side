@@ -125,7 +125,9 @@ class ProdutosController extends \HXPHP\System\Controller
 
 	public function ImportarPlanilhaAction()
 	{
-		$file = $_FILES['file'];
+		if (isset($_FILES['file']))
+			$file = $_FILES['file'];
+		
 		$linhas = null;
 		$colunas = null;
 		$planilha = null;
@@ -133,37 +135,41 @@ class ProdutosController extends \HXPHP\System\Controller
 		if(!empty($file) && isset($file) && file_exists($file['tmp_name'])) {
 			$planilha = new SimpleXLSX($file['tmp_name']);
 			list($colunas, $linhas) = $planilha->dimension();
+			try{
+				$matriz = array();
+				$titulo = array();
+
+				foreach($planilha->rows() as $linha => $valor):
+					if ($linha == 0){
+						$titulo = $valor;
+					}
+					if ($linha >= 1):
+
+						$matriz[$linha-1] = $valor;
+						
+					endif;
+				endforeach;
+
+				$this->view->setVars([
+						'titulo' => $titulo,
+						'dados' => $matriz,
+						'colunas' => $colunas,
+						'linhas' => $linhas
+						])
+						->setFile('planilha');
+
+			}
+			catch(Exception $erro){
+				echo 'Erro: Não foi possível fazer o tratamento da planilha (' . $erro->getMessage() . ')';
+			}
 		}
 		else {
-			echo 'Arquivo não encontrado!';
-			exit();
-		}
+			$this->load('Helpers\Alert', array(
+				'warning',
+				'Planilha não encontrada. Por favor tente novamente!'
+			));
 
-		try{
-			$matriz = array();
-			$titulo = array();
-
-			foreach($planilha->rows() as $linha => $valor):
-				if ($linha == 0){
-					$titulo = $valor;
-				}
-				if ($linha >= 1):
-
-					$matriz[$linha-1] = $valor;
-					
-				endif;
-			endforeach;
-
-			$this->view->setVars([
-					'titulo' => $titulo,
-					'dados' => $matriz,
-					'colunas' => $colunas,
-					'linhas' => $linhas
-					])
-					->setFile('planilha');
-
-		}catch(Exception $erro){
-			echo 'Erro: Não foi possível fazer o tratamento da planilha (' . $erro->getMessage() . ')';
+			$this->view->setFile('listar');
 		}
 	}
 
