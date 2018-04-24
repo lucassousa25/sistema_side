@@ -78,8 +78,7 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				$this->view->setVar('products', Product::all())
-							->setFile('listar'); # Redirecinando para página de listagem
+				$this->view->setFile('listar'); # Redirecinando para página de listagem
 
 				$this->load('Helpers\Alert', array(
 					'success',
