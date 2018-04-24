@@ -50,6 +50,11 @@ class Product extends \HXPHP\System\Model
 			'data_entrada' => date('Y-m-d h:i:s')
 		];
 
+		$post['cost'] = str_replace(',', '.', $post['cost']);
+		$post['cost'] = floatval($post['cost']);
+		$post['sell_value'] = str_replace(',', '.', $post['sell_value']);
+		$post['sell_value'] = floatval($post['sell_value']);
+
 		$post = array_merge($user_id_array, $post, $data_entrada);
 
 		$cadastrar = self::create($post);

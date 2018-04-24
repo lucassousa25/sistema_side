@@ -60,8 +60,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		$this->view->setFile('cadastrar');
 		
 		$this->request->setCustomFilters(array(
-			'cost' => FILTER_SANITIZE_NUMBER_FLOAT,
-			'sell_value' => FILTER_SANITIZE_NUMBER_FLOAT
+			
 		));
 
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
