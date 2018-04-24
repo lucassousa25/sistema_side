@@ -1,0 +1,78 @@
+<div class="breadcrumb-custom">
+  <i class="fa fa-barcode"></i> Venda
+  <span class="location" style="float: right;">Home > Produtos > Venda</span>
+</div>
+
+<div class="container">
+
+  <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
+  <div class="row">
+  	<div style="background: #fff; width: 90%; padding: 10px 20px; box-shadow: 0 0 5px #bbb; border-radius: 5px; margin: 0 auto;">
+	  	<form action="" method="post" class="form-horizontal">
+	  		<div class="form-group">
+		    <label class="col-sm-2 control-label">Produto</label>
+		    <div class="col-sm-10">
+		      <p class="form-control-static"><?php echo $view_description; ?></p>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Preço (Unid.)</label>
+		    <div class="col-sm-10">
+		      <p class="form-control-static"><?php echo 'R$ ' . number_format($view_sell_value_unit, 2, ',', '.'); ?></p>
+		      <input type="hidden" id="preco_unid" class="calc" value="<?php echo $view_sell_value_unit; ?>">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Estoque</label>
+		    <div class="col-sm-10">
+		      <input type="number" id="est_atual" name="est_atual" class="form-control" value="<?php echo $view_est_atual; ?>" readonly>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Quantidade</label>
+		    <div class="col-sm-10">
+		      <input type="number" id="quantidade" name="quantity" class="form-control calc" placeholder="Digite a quantidade de produtos..." value="1" onchange="javascript:atualizaCampos()" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Total</label>
+		    <div class="col-sm-10">
+		      <input type="text" id="total_preco" class="form-control calc" value="<?php echo number_format($view_sell_value_unit, 2, ',', '.'); ?>" disabled>
+		      <span class="help-block">O valor acima está em <i>reais</i> (R$)</span>
+		    </div>
+		  </div>
+		  <div class="button-group text-right">
+		  	<a href="#" class="btn btn-danger">Cancelar <i class="fa fa-remove"></i></a>
+		  	<button type="submit" class="btn side-primary-color">Salvar <i class="fa fa-check"></i></button>
+		  </div>
+	  	</form>
+  	</div>
+  </div>
+
+</div>
+
+<script type="text/javascript">    
+
+        function atualizaCampos() {
+        	var quantidade = parseInt($('#quantidade').val());
+        	var est_atual = parseInt(<?php echo $view_est_atual; ?>);
+        	var preco_unid = parseFloat($('#preco_unid').val().replace(".", "").replace(",", ".")) || 0.00;
+        	
+        	//O total 
+        	var estoque = est_atual - quantidade;
+        	var total = quantidade * preco_unid;
+
+        	$('#est_atual').val(estoque);
+        	$('#total_preco').val(number_format(total,2, ',', '.'));
+        }
+
+        function number_format( number, decimals, dec_point, thousands_sep ) {
+            var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
+            var d = dec_point == undefined ? "," : dec_point;
+            var t = thousands_sep == undefined ? "." : thousands_sep, s = n < 0 ? "-" : "";
+            var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+            return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+        }
+
+</script>
