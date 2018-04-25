@@ -9,7 +9,7 @@ class Product extends \HXPHP\System\Model
 			'message' => 'A descrição é um campo Obrigatório!'
 		),
 		array(
-			'sell_value',
+			'value',
 			'message' => 'O valor de venda é um campo Obrigatório!'
 		),
 		array(
@@ -38,7 +38,7 @@ class Product extends \HXPHP\System\Model
 		$callbackObj->errors = array();
 		$callbackObj->product_description = null; // armazenando nome do produto para retorno no controller
 
-		// user_id | desription | internal_code | cost | sell_value | est_inicial | est_minimo | est_maximo
+		// user_id | description | internal_code | cost | value | est_inicial | est_minimo | est_maximo
 		// est_atual | data_entrada | provider
 
 		$user_id_array = [
@@ -47,13 +47,13 @@ class Product extends \HXPHP\System\Model
 
 
 		$data_entrada = [
-			'data_entrada' => date('Y-m-d h:i:s')
+			'data_entrada' => date('Y-m-d H:i:s')
 		];
 
 		$post['cost'] = str_replace(',', '.', $post['cost']);
 		$post['cost'] = floatval($post['cost']);
-		$post['sell_value'] = str_replace(',', '.', $post['sell_value']);
-		$post['sell_value'] = floatval($post['sell_value']);
+		$post['value'] = str_replace(',', '.', $post['value']);
+		$post['value'] = floatval($post['value']);
 
 		$post = array_merge($user_id_array, $post, $data_entrada);
 
@@ -130,7 +130,7 @@ class Product extends \HXPHP\System\Model
 				'description' => null,
 				'internal_code' => null,
 				'cost' => null,
-				'sell_value' => null,
+				'value' => null,
 				'est_inicial' => null,
 				'est_minimo' => null,
 				'est_maximo' => null,
@@ -166,7 +166,7 @@ class Product extends \HXPHP\System\Model
 
 			if (isset($linha[3])) {
 				if(!empty($linha[3]) && is_float($linha[3])) {
-					$linhaChaves['sell_value'] = $linha[3];
+					$linhaChaves['value'] = $linha[3];
 				} else {
 					if(!in_array('O campo Valor precisa ser um valor real!', $callbackObj->errors))
 						array_push($callbackObj->errors, 'O campo Valor precisa ser um valor real!');

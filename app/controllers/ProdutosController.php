@@ -21,6 +21,11 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
+		$this->view->setVar('user', $user);
+	}
+
+	public function indexAction()
+	{
 		$listarProduto = Product::listar();
 
 		$anterior = $listarProduto['anterior'];
@@ -45,14 +50,7 @@ class ProdutosController extends \HXPHP\System\Controller
 				->setFooter('footer_side')
 				->setTemplate(true)
 				->setTitle('SIDE | Produtos');
-
-
-
-	}
-
-	public function indexAction()
-	{
-		$this->view->setFile('listar');
+				->setFile('listar');
 	}
 
 	public function cadastrarAction()
@@ -78,7 +76,8 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				$this->view->setFile('listar'); # Redirecinando para página de listagem
+				$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0')))
+							->setFile('listar'); # Redirecinando para página de listagem
 
 				$this->load('Helpers\Alert', array(
 					'success',
@@ -213,7 +212,8 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			endif;
 
-			$this->view->setFile('listar'); # Redirecinando para página de listagem
+			$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0')))
+					->setFile('listar'); # Redirecinando para página de listagem
 		}
 		else {
 			$this->load('Helpers\Alert', array(

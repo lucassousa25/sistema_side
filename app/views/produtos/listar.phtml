@@ -60,7 +60,7 @@
               <tr>
                 <td class="col-sm-1"><?php echo $product->internal_code; ?></td>
                 <td class="col-sm-4"><?php echo $product->description; ?></td>
-                <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product->sell_value, 2, ',', '.'); ?></td>
+                <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product->value, 2, ',', '.'); ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product->est_atual; ?></td>
                 <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product->data_entrada)) . ' às ' .date('h:i', strtotime($product->data_entrada)); ?></td>
                 <td class="col-sm-2">
@@ -71,7 +71,7 @@
                   <form action="<?php echo BASE . 'venda/venda/'; ?>" method="post" accept-charset="utf-8">
                     <input type="hidden" name="id" value="<?php echo $product->id; ?>">
                     <input type="hidden" name="descricao" value="<?php echo $product->description; ?>">
-                    <input type="hidden" name="valor_venda" value="<?php echo $product->sell_value; ?>">
+                    <input type="hidden" name="valor_produto" value="<?php echo $product->value; ?>">
                     <input type="hidden" name="est_atual" value="<?php echo $product->est_atual; ?>">
                     <button type="submit" class="btn btn-warning btn-xs" id="" data-toggle="tooltip" data-placement="top" title="Vender"><span class="fa fa-money"></span></button>
                   </form>  
