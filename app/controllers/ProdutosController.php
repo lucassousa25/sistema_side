@@ -21,11 +21,6 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
-		$this->view->setVar('user', $user);
-	}
-
-	public function indexAction()
-	{
 		$listarProduto = Product::listar();
 
 		$anterior = $listarProduto['anterior'];
@@ -50,7 +45,12 @@ class ProdutosController extends \HXPHP\System\Controller
 				->setFooter('footer_side')
 				->setTemplate(true)
 				->setTitle('SIDE | Produtos');
-				->setFile('listar');
+
+	}
+
+	public function indexAction()
+	{
+		$this->view->setFile('listar');
 	}
 
 	public function cadastrarAction()
@@ -206,14 +206,16 @@ class ProdutosController extends \HXPHP\System\Controller
 			if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors)) :
 				$this->load('Helpers\Alert', array(
 					'info',
-					'Foram cadastrados ' . $inserirDados->products_quantity . ' com sucesso!\n' .
-					'Total de ' . $inserirDados->products_quantity_errors . ' produtos não cadastrados. Verifique os erros abaixo:',
+					'Foram cadastrados ' . $inserirDados->products_quantity . 'produto(s) com sucesso!\n' .
+					'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
 					$inserirDados->errors
 				));
 			endif;
 
 			$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0')))
 					->setFile('listar'); # Redirecinando para página de listagem
+
+			self::listarAction();
 		}
 		else {
 			$this->load('Helpers\Alert', array(
