@@ -69,7 +69,7 @@ class Sell extends \HXPHP\System\Model
 				if ($consultaProdutos[$j]->id == $consulta[$i]->product_id) {
 					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
 					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
-					$array_tabela[$i]['value'] = $consultaProdutos[$j]->sell_value;
+					$array_tabela[$i]['value'] = $consultaProdutos[$j]->value;
 					$array_tabela[$i]['quantity'] = $consulta[$i]->quantity;
 					$array_tabela[$i]['total'] = $consulta[$i]->total;
 					$array_tabela[$i]['date_sell'] = $consulta[$i]->date_sell;

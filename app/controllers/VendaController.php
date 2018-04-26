@@ -96,7 +96,26 @@ class VendaController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				$this->view->setFile('listar'); # Redirecionando para página de listagem
+				$listarVenda = Sell::listar();
+
+				$anterior = $listarVenda['anterior'];
+				$proximo = $listarVenda['proximo'];
+				$pagina = $listarVenda['pagina'];
+				$total_paginas = $listarVenda['total_paginas'];
+				$total_vendas = $listarVenda['total_vendas'];
+				$primeira_venda = $listarVenda['primeira_venda'] + 1;
+				$registros = $listarVenda['registros'];
+
+				$this->view->setVars([
+								'vendas' => $registros,
+								'anterior' => $anterior,
+								'proximo' => $proximo,
+								'pagina' => $pagina,
+								'total_paginas' => $total_paginas,
+								'total_vendas' => $total_vendas,
+								'primeira_venda' => $primeira_venda
+							])
+						->setFile('listar'); # Redirecionando para página de listagem
 
 				$this->load('Helpers\Alert', array(
 					'success',
