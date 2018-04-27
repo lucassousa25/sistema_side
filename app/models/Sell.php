@@ -30,6 +30,13 @@ class Sell extends \HXPHP\System\Model
 		if($cadastrar_venda->is_valid()) {
 			$callbackObj->user = $cadastrar_venda;
 			$callbackObj->status = true;
+
+			$product = Product::find_by_id($post['product_id']);
+			
+			$product->est_atual -= $array_venda['quantity'];
+
+			$product->save(false);
+
 			return $callbackObj;
 		}
 
@@ -66,13 +73,13 @@ class Sell extends \HXPHP\System\Model
 
 		for ($i=0; $i < $total_registros; $i++) {
 			for ($j=0; $j < $total_produtos; $j++) { 
-				if ($consultaProdutos[$j]->id == $consulta[$i]->product_id) {
+				if ($consultaProdutos[$j]->id == $all_rgs[$i]->product_id) {
 					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
 					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
 					$array_tabela[$i]['value'] = $consultaProdutos[$j]->value;
-					$array_tabela[$i]['quantity'] = $consulta[$i]->quantity;
-					$array_tabela[$i]['total'] = $consulta[$i]->total;
-					$array_tabela[$i]['date_sell'] = $consulta[$i]->date_sell;
+					$array_tabela[$i]['quantity'] = $all_rgs[$i]->quantity;
+					$array_tabela[$i]['total'] = $all_rgs[$i]->total;
+					$array_tabela[$i]['date_sell'] = $all_rgs[$i]->date_sell;
 				}
 			 } 
 		}

@@ -23,4 +23,11 @@ class IndicadoresController extends \HXPHP\System\Controller
 	{
 		
 	}
+
+	public function geraIndicadorAction(int $product_id = 1)
+	{
+		if (intval($product_id)) {
+			Indicator::gerarIndicadores($product_id);
+		}
+	}
 }
