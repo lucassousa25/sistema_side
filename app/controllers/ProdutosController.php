@@ -76,8 +76,7 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0', 'conditions' => array('user_id' => $user_id))))
-							->setFile('listar'); # Redirecinando para página de listagem
+				self::listarAction();
 
 				$this->load('Helpers\Alert', array(
 					'success',

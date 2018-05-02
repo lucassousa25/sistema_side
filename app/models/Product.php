@@ -22,14 +22,6 @@ class Product extends \HXPHP\System\Model
 		)
 	);
 
-	// Validando exclusividades dos campos (phpActiveRecord)
-	static $validates_uniqueness_of = array(
-        array(
-       		'description', 
-       		'message' => 'Já existe um produto com essa descrição.'
-       	)
-    );
-
 	public static function cadastrar(array $post, $user_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
@@ -57,21 +49,35 @@ class Product extends \HXPHP\System\Model
 
 		$post = array_merge($user_id_array, $post, $data_entrada);
 
-		$cadastrar = self::create($post);
+		$validations = self::find_by_user_id_and_description($user_id, $post['description']);
 
-		if($cadastrar->is_valid()) {
-			$callbackObj->user = $cadastrar;
-			$callbackObj->status = true;
-			$callbackObj->product_description = $post['description'];
+		if(is_null($validations)) {
+			$cadastrar = self::create($post);
+			
+			if ($cadastrar->is_valid()) {
+				$callbackObj->user = $cadastrar;
+				$callbackObj->status = true;
+				$callbackObj->product_description = $post['description'];
+				return $callbackObj;
+			}
+
+			$errors = $cadastrar->errors->get_raw_errors();
+		
+			foreach ($errors as $field => $message) {
+				array_push($callbackObj->errors, $message[0]);
+			}
+
 			return $callbackObj;
 		}
-
-		$errors = $cadastrar->errors->get_raw_errors(); 
-		
-		foreach ($errors as $field => $message) {
-			array_push($callbackObj->errors, $message[0]);
+		else {
+			$errors = array('description' => array('0' => 'Já existe um produto com descrição.'));
+			
+			foreach ($errors as $field => $message) {
+				array_push($callbackObj->errors, $message[0]);
+			}
+			return $callbackObj;
 		}
-		return $callbackObj;
+		
 	}
 
 
@@ -200,25 +206,37 @@ class Product extends \HXPHP\System\Model
 
 
 			$linhaDados = array_merge($user_id_array, $linhaChaves, $data_entrada);
-			
-			$cadastrar = self::create($linhaDados);
 
-			if($cadastrar->is_valid()) :
+			$validations = self::find_by_user_id_and_description($user_id, $linhaDados['description']);
 
-				$callbackObj->user = $cadastrar;
-				$callbackObj->status = true;
-				$callbackObj->products_quantity += 1;
-			else :
+			if(is_null($validations)) {
+				$cadastrar = self::create($linhaDados);
 
-				$errors = $cadastrar->errors->get_raw_errors(); 
+				if($cadastrar->is_valid()) :
+					$callbackObj->user = $cadastrar;
+					$callbackObj->status = true;
+					$callbackObj->products_quantity += 1;
+				else :
+					$errors = $cadastrar->errors->get_raw_errors(); 
 
+					foreach ($errors as $field => $message) {
+						if(!in_array($message[0], $callbackObj->errors))
+							array_push($callbackObj->errors, $message[0]);
+					}
+
+					$callbackObj->products_quantity_errors += 1;
+				endif;
+			}
+			else {
+				$errors = array('description' => array('0' => 'Já existe um produto com descrição.'));
+				
 				foreach ($errors as $field => $message) {
 					if(!in_array($message[0], $callbackObj->errors))
 						array_push($callbackObj->errors, $message[0]);
 				}
 
 				$callbackObj->products_quantity_errors += 1;
-			endif;
+			}
 		endforeach;
 
 		return $callbackObj;
