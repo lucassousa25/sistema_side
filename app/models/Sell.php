@@ -2,7 +2,7 @@
 
 class Sell extends \HXPHP\System\Model
 {
-	public function cadastrar(array $post, $user_id)
+	public static function cadastrar(array $post, $user_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
 		$callbackObj->user = null;
