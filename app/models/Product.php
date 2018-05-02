@@ -226,7 +226,7 @@ class Product extends \HXPHP\System\Model
 	}
 
 
-	public static function listar($pagina = 1)
+	public static function listar($user_id, $pagina = 1)
 	{
 		if (!isset($pagina)) {
 			$pagina = 1;
@@ -236,8 +236,8 @@ class Product extends \HXPHP\System\Model
 		$first_prod = $pagina - 1; 
 		$first_prod = $first_prod * $exib_produtos;
 
-		$all_rgs = self::find('all');
-		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id)));
+		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id)));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas

@@ -21,7 +21,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
-		$listarProduto = Product::listar();
+		$listarProduto = Product::listar($user_id);
 
 		$anterior = $listarProduto['anterior'];
 		$proximo = $listarProduto['proximo'];
@@ -76,7 +76,7 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0')))
+				$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0', 'conditions' => array('user_id' => $user_id))))
 							->setFile('listar'); # Redirecinando para página de listagem
 
 				$this->load('Helpers\Alert', array(
@@ -96,8 +96,10 @@ class ProdutosController extends \HXPHP\System\Controller
 	{
 		$get = $pagina;
 
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
 		if(!empty($get)) {
-			$listarProduto = Product::listar($get);
+			$listarProduto = Product::listar($user_id, $get);
 
 			$anterior = $listarProduto['anterior'];
 			$proximo = $listarProduto['proximo'];
@@ -211,9 +213,6 @@ class ProdutosController extends \HXPHP\System\Controller
 					$inserirDados->errors
 				));
 			endif;
-
-			$this->view->setVar('products', Product::find('all', array('limit' => '10', 'offset' => '0')))
-					->setFile('listar'); # Redirecinando para página de listagem
 
 			self::listarAction();
 		}

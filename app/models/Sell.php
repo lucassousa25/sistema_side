@@ -15,7 +15,7 @@ class Sell extends \HXPHP\System\Model
 		$valor_produto = str_replace(',', '.', $post['valor_produto']);
 		$valor_produto = floatval($valor_produto);
 
-		$total_venda = $quantidade * $valor_produto;
+		$total_venda = str_replace(',', '.', $quantidade * $valor_produto);
 
 		$array_venda = [
 			'user_id' => $user_id,
