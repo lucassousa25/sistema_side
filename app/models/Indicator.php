@@ -46,10 +46,6 @@ class Indicator extends \HXPHP\System\Model
 			else {
 				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ',');
 			}
-			
-			var_dump(date('d'));
-			var_dump($mediaEstoque);
-			die();
 
 			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ',');
 
