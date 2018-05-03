@@ -46,7 +46,7 @@
               foreach ($view_vendas as $venda) :
           ?>
               <tr class="text-center">
-                <td class="col-sm-1"><?php $venda['codigo_interno']; ?></td>
+                <td class="col-sm-1"><?php echo $venda['codigo_interno']; ?></td>
                 <td class="col-sm-4"><?php echo $venda['description']; ?></td>
                 <td class="col-sm-2"><?php echo 'R$ ' . number_format($venda['value'], 2, ',', '.'); ?></td>
                 <td class="col-sm-1"><?php echo $venda['quantity']; ?></td>

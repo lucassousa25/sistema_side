@@ -38,7 +38,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="visao-geral.html">
+                        <a class="navbar-brand" href="<?php $this->printRelativeURL('home', false); ?>">
                           Brand Logo
                         </a>
                     </div>
@@ -62,9 +62,9 @@
                             <li class="dropdown">
                                 <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="" class="img-responsive img-thumbnail img-circle"> <?php echo $view_user->name; ?></a>
                                 <ul class="dropdown-menu dropdown-block" role="menu">
-                                    <li><a href="<?php echo BASE . 'perfil/editar'; ?>">Editar perfil</a></li>
+                                    <li><a href="<?php $this->printRelativeURL('perfil', false); ?>/editar">Editar perfil</a></li>
                                     <li><a href="#">Configurações</a></li>
-                                    <li><a href="<?php echo BASE . 'login/sair';  ?>">Sair</a></li>
+                                    <li><a href="<?php $this->printRelativeURL('login', false); ?>/sair">Sair</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -78,7 +78,7 @@
             <aside id="sidebar">
                 <ul id="sidemenu" class="sidebar-nav">
                     <li>
-                        <a href="<?php echo BASE . 'home';  ?>">
+                        <a href="<?php $this->printRelativeURL('home', false); ?>">
                             <span class="sidebar-icon"><i class="fa fa-home"></i></span>
                             <span class="sidebar-title">Home</span>
                         </a>
@@ -90,11 +90,11 @@
                             <b class="caret"></b>
                         </a>
                         <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-                            <li><a href="<?php echo BASE . 'produtos/listar'; ?>"><i class="fa fa-caret-right"></i>Gerenciar Produtos</a></li>
+                            <li><a href="<?php $this->printRelativeURL('produtos', false); ?>"><i class="fa fa-caret-right"></i>Gerenciar Produtos</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="<?php $this->printRelativeURL('venda', false); ?>">
                             <span class="sidebar-icon"><i class="fa fa-shopping-bag"></i></span>
                             <span class="sidebar-title">Vendas</span>
                         </a>
