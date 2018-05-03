@@ -130,7 +130,7 @@ class VendaController extends \HXPHP\System\Controller
 					'A venda foi registrada no sistema!'
 				));
 
-				$this->view->setFile('listar');
+				self::listarAction();
 			}
 		}
 	}

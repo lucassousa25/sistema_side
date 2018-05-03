@@ -254,8 +254,8 @@ class Product extends \HXPHP\System\Model
 		$first_prod = $pagina - 1; 
 		$first_prod = $first_prod * $exib_produtos;
 
-		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id)));
-		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id)));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'data_entrada desc'));
+		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'data_entrada desc'));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas
