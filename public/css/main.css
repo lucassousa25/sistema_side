@@ -316,7 +316,7 @@ form .form-group textarea:hover {
     text-indent: 7px;
     margin-right: 10px;
     color: #fff;
-    float: left;
+    /*float: left;*/
 }
 
 #sidebar-wrapper .sidebar-nav li a .caret {

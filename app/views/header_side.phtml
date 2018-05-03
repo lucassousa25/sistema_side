@@ -39,7 +39,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a class="navbar-brand" href="<?php $this->printRelativeURL('home', false); ?>">
-                          Brand Logo
+                          SIDE
                         </a>
                     </div>
                     <div id="navbar-collapse" class="collapse navbar-collapse">
@@ -84,14 +84,18 @@
                         </a>
                     </li>
                     <li>
-                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
+                        <a href="<?php $this->printRelativeURL('produtos', false); ?>">
+                            <span class="sidebar-icon"><i class="fa fa-barcode"></i></span>
+                            <span class="sidebar-title">Produtos</span>
+                        </a>
+                        <!-- <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
                             <span class="sidebar-icon"><i class="fa fa-barcode"></i></span>
                             <span class="sidebar-title">Produtos</span>
                             <b class="caret"></b>
                         </a>
                         <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
                             <li><a href="<?php $this->printRelativeURL('produtos', false); ?>"><i class="fa fa-caret-right"></i>Gerenciar Produtos</a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <li>
                         <a href="<?php $this->printRelativeURL('venda', false); ?>">
