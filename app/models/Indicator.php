@@ -2,7 +2,7 @@
 
 class Indicator extends \HXPHP\System\Model
 {
-	public static function gerarIndicadores(int $product_id)
+	public static function gerarIndicadores($product_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
 		$callbackObj->user = null;
@@ -32,12 +32,38 @@ class Indicator extends \HXPHP\System\Model
 					$totalVendas += $linha->quantity;
 			}
 			
+
 			$mediaEstoque = (($product->est_inicial + $product->est_atual) / 2);
-			$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ',');
+
+			if ($totalVendas == 0 || $mediaEstoque == 0) {
+				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto nesse mês.'));
+		
+				foreach ($errors as $field => $message) {
+					array_push($callbackObj->errors, $message[0]);
+				}
+				return $callbackObj;
+			}
+			else {
+				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ',');
+			}
 			
+			var_dump(date('d'));
+			var_dump($mediaEstoque);
+			die();
 
 			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ',');
-			$coberturaEstoque = number_format(($product->est_atual / $mediaVendas), 2, ',', '.');
+
+			if ($mediaVendas == 0 || $product->est_atual == 0) {
+				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto.'));
+		
+				foreach ($errors as $field => $message) {
+					array_push($callbackObj->errors, $message[0]);
+				}
+				return $callbackObj;
+			}
+			else {
+				$coberturaEstoque = number_format(($product->est_atual / $mediaVendas), 2, ',', '.');
+			}
 			
 
 			$array_indicator = [
@@ -52,8 +78,8 @@ class Indicator extends \HXPHP\System\Model
 				$array_indicator['description'] = 'Giro de Estoque';
 				$array_indicator['value'] = $giroEstoque;
 				$array_indicator['date_insert'] = $dateInsert;
-
-				$registrarGiro = self::create($array_indicator);
+				
+				$registrarGiro = self::create($array_indicator);	
 			}
 
 

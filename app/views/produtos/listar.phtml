@@ -67,7 +67,7 @@
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
-                  <a href="<?php echo BASE; ?>indicadores/geraIndicador/<?php echo $product->id; ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar Indicadores"><i class="fa fa-line-chart"></i></a>
+                  <a href="<?php echo BASE; ?>indicadores/geraIndicador/<?php echo intval($product->id); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar Indicadores"><i class="fa fa-line-chart"></i></a>
                   <form action="<?php echo BASE . 'venda/venda/'; ?>" method="post" accept-charset="utf-8">
                     <input type="hidden" name="id" value="<?php echo $product->id; ?>">
                     <input type="hidden" name="descricao" value="<?php echo $product->description; ?>">
