@@ -48,21 +48,19 @@ class Sell extends \HXPHP\System\Model
 		return $callbackObj;
 	}
 
-	public static function listar($pagina = 1)
+	public static function listar($user_id = null, $pagina = 1)
 	{
-		if (!isset($pagina)) {
-			$pagina = 1;
-		}
-		
+
 		$exib_vendas = 10;
 		$primeiro_registro = $pagina - 1; 
 		$primeiro_registro = $primeiro_registro * $exib_vendas;
 
-		$all_rgs = self::find('all');
-		$consulta = self::find('all', array('limit' => $exib_vendas, 'offset' => $primeiro_registro));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_sell desc'));
+		$consulta = self::find('all', array('limit' => $exib_vendas, 'offset' => $primeiro_registro, 'conditions' => array('user_id' => $user_id), 'order' => 'date_sell desc'));
 		$consultaProdutos = Product::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros [Vendas]
+		$total_registros_por_pagina = count($consulta); // verifica o número total de registros [Vendas]
 		$total_produtos = count($consultaProdutos); // verifica o número total de registros [Produtos]
 		$total_paginas = ceil($total_registros / $exib_vendas); // verifica o número total de páginas
 		
@@ -71,15 +69,15 @@ class Sell extends \HXPHP\System\Model
 		
 		$array_tabela = array();
 
-		for ($i=0; $i < $total_registros; $i++) {
+		for ($i=0; $i < $total_registros_por_pagina; $i++) {
 			for ($j=0; $j < $total_produtos; $j++) { 
-				if ($consultaProdutos[$j]->id == $all_rgs[$i]->product_id) {
+				if ($consultaProdutos[$j]->id == $consulta[$i]->product_id) {
 					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
 					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
 					$array_tabela[$i]['value'] = $consultaProdutos[$j]->value;
-					$array_tabela[$i]['quantity'] = $all_rgs[$i]->quantity;
-					$array_tabela[$i]['total'] = $all_rgs[$i]->total;
-					$array_tabela[$i]['date_sell'] = $all_rgs[$i]->date_sell;
+					$array_tabela[$i]['quantity'] = $consulta[$i]->quantity;
+					$array_tabela[$i]['total'] = $consulta[$i]->total;
+					$array_tabela[$i]['date_sell'] = $consulta[$i]->date_sell;
 				}
 			 } 
 		}
