@@ -78,27 +78,20 @@ class VendaController extends \HXPHP\System\Controller
 				->setFile('listar');
 	}
 
-	public function vendaAction()
+	public function vendaAction($product_id = null)
 	{
-		$this->view->setFile('listar');
-		
-		$this->request->setCustomFilters(array(
-			'id' => FILTER_SANITIZE_NUMBER_INT,
-			'est_atual' => FILTER_SANITIZE_NUMBER_INT
-		));
+		if (!is_null($product_id)) {
+			$product = Product::find_by_id($product_id);
 
-		$post = $this->request->post();
+			$this->view->setVars([
+					'product_id' => $product->id,
+					'description' => $product->description,
+					'sell_value_unit' => $product->value,
+					'est_atual' => $product->est_atual
+					])
+					->setFile('venda');
+		}
 
-		$post['valor_produto'] = str_replace(',', '.', $post['valor_produto']);
-		$post['valor_produto'] = floatval($post['valor_produto']);
-
-		$this->view->setVars([
-				'product_id' => $post['id'],
-				'description' => $post['descricao'],
-				'sell_value_unit' => $post['valor_produto'],
-				'est_atual' => $post['est_atual']
-				])
-				->setFile('venda');
 	}
 
 	public function registraVendaAction()
