@@ -10,18 +10,11 @@
   <?php $this->partial('modal-import'); ?>
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <div class="btn-group" role="group">
-        <a href="<?php $this->printRelativeURL('cadastrarProduto', true); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Adicionar produto</a>
+        <a href="<?php $this->printRelativeURL('cadastrarProduto', true); ?>" class="btn btn-default"><i class="fa fa-plus-circle"></i> Adicionar produto</a>
         <div class="btn-group" role="group">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-wrench"></span> Mais ações
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#" data-toggle="modal" data-target="#modalImport">Importar de uma planilha</a></li>
-            <li><a href="#">Exportar Produtos</a></li>
-          </ul>
+            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modalImport"><i class="fa fa-file-excel-o"></i> Importar (Planilha)</a>
         </div>
       </div>
     </div>
@@ -58,8 +51,8 @@
               foreach ($view_products as $product) :
           ?>
               <tr>
-                <td class="col-sm-1"><?php echo $product->internal_code; ?></td>
-                <td class="col-sm-4"><?php echo $product->description; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product->internal_code; ?></td>
+                <td class="col-sm-4 text-center"><?php echo $product->description; ?></td>
                 <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product->value, 2, ',', '.'); ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product->est_atual; ?></td>
                 <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product->data_entrada)) . ' às ' .date('h:i', strtotime($product->data_entrada)); ?></td>
