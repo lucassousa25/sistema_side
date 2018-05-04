@@ -21,6 +21,8 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
+		Product::atualizaEstoque($user_id);
+
 		$listarProduto = Product::listar($user_id);
 
 		$anterior = $listarProduto['anterior'];

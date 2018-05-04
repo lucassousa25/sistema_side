@@ -220,7 +220,7 @@ class Product extends \HXPHP\System\Model
 					$errors = $cadastrar->errors->get_raw_errors(); 
 
 					foreach ($errors as $field => $message) {
-						if(!in_array($message[0], $callbackObj->errors))
+						if(!in_array($message[0], $callbackObj->errors) && empty($callbackObj->errors))
 							array_push($callbackObj->errors, $message[0]);
 					}
 
@@ -228,7 +228,7 @@ class Product extends \HXPHP\System\Model
 				endif;
 			}
 			else {
-				$errors = array('description' => array('0' => 'Já existe um produto com descrição.'));
+				$errors = array('description' => array('0' => 'Já existe um produto com essa descrição.'));
 				
 				foreach ($errors as $field => $message) {
 					if(!in_array($message[0], $callbackObj->errors))
@@ -281,8 +281,16 @@ class Product extends \HXPHP\System\Model
 		$products = self::find('all', array('conditions' => array('user_id' => $user_id)));
 
 		if (date('d') == '01') {
-			
-			
+			foreach($products as $product) :
+
+				if ($product->est_inicial != $product->est_atual) {
+
+					$product->est_inicial = $product->est_atual;
+					$product->save(false);
+
+				}
+
+			endforeach;			
 		}
 	}
 }
