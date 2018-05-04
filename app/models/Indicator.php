@@ -59,7 +59,7 @@ class Indicator extends \HXPHP\System\Model
 				return $callbackObj;
 			}
 			else {
-				$coberturaEstoque = number_format(($diasNoMes / $giroEstoque), 2, ',', '.');
+				$coberturaEstoque = ($diasNoMes / $giroEstoque);
 			}
 
 			$array_indicator = [

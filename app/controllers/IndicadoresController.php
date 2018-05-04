@@ -84,8 +84,8 @@ class IndicadoresController extends \HXPHP\System\Controller
 				$this->load('Helpers\Alert', array(
 					'info',
 					'Verifique as informações abaixo:',
-					'Giro de Estoque: O estoque girou ' . $registrarIndicadores->indicators['giro_estoque'] . 'vez(es).' .
-					'\n Cobertura de Estoque: O Estoque cobrirá ' . $registrarIndicadores->indicators['cobertura_estoque'] . ' dias.'
+					'Giro de Estoque: O estoque girou ' . $registrarIndicadores->indicators['giro_estoque'] . ' vez(es).' .
+					'\n Cobertura de Estoque: O Estoque cobrirá ' . $registrarIndicadores->indicators['cobertura_estoque'] . ' dia(s).'
 				));
 			}
 		}
