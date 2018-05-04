@@ -48,8 +48,9 @@ class Indicator extends \HXPHP\System\Model
 			}
 
 			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ',');
+			$diasNoMes = cal_days_in_month(0, date('m'), date('y'));
 
-			if ($mediaVendas == 0 || $product->est_atual == 0) {
+			if ($mediaVendas == 0 || $giroEstoque == 0) {
 				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto.'));
 		
 				foreach ($errors as $field => $message) {
@@ -58,9 +59,8 @@ class Indicator extends \HXPHP\System\Model
 				return $callbackObj;
 			}
 			else {
-				$coberturaEstoque = number_format(($product->est_atual / $mediaVendas), 2, ',', '.');
+				$coberturaEstoque = number_format(($diasNoMes / $giroEstoque), 2, ',', '.');
 			}
-			
 
 			$array_indicator = [
 				'product_id'  => null,

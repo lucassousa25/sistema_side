@@ -276,12 +276,13 @@ class Product extends \HXPHP\System\Model
 		return $dados;
 	}
 
-	// public static function atualizaEstoque($user_id)
-	// {
-	// 	$products = self::find('all', array('conditions' => array('user_id' => $user_id)));
+	public static function atualizaEstoque($user_id)
+	{
+		$products = self::find('all', array('conditions' => array('user_id' => $user_id)));
 
-	// 	if (date('d') == '01') {
+		if (date('d') == '01') {
 			
-	// 	}
-	// }
+			
+		}
+	}
 }
