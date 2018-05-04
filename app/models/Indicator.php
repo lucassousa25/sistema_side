@@ -78,7 +78,6 @@ class Indicator extends \HXPHP\System\Model
 				$registrarGiro = self::create($array_indicator);	
 			}
 
-
 			if (!empty($coberturaEstoque)) {
 				$array_indicator['product_id'] = $product_id;
 				$array_indicator['description'] = 'Cobertura de Estoque';

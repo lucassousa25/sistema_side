@@ -82,8 +82,9 @@ class IndicadoresController extends \HXPHP\System\Controller
 
 				## Exibindo alert com informações dos indicadores ##
 				$this->load('Helpers\Alert', array(
-					'success',
-					'Giro de Estoque: O estoque girou ' . $registrarIndicadores->indicators['giro_estoque'] . 
+					'info',
+					'Verifique as informações abaixo:',
+					'Giro de Estoque: O estoque girou ' . $registrarIndicadores->indicators['giro_estoque'] . 'vez(es).' .
 					'\n Cobertura de Estoque: O Estoque cobrirá ' . $registrarIndicadores->indicators['cobertura_estoque'] . ' dias.'
 				));
 			}
