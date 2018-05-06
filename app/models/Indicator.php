@@ -12,7 +12,7 @@ class Indicator extends \HXPHP\System\Model
 
 		$product = Product::find($product_id);
 		$sell = Sell::all(array('conditions' => array('product_id' => $product_id)));
-
+		
 		if (!is_null($sell)) {
 
 			$totalVendas = null;
@@ -24,6 +24,10 @@ class Indicator extends \HXPHP\System\Model
 			// Variaveis de inserção no Banco
 			$registrarGiro = null;
 			$registrarCobertura = null;
+
+			// Variaveis de Atualização do banco
+			$product_indicator_exists_giro = self::find_by_product_id_and_description($product_id, 'Giro de Estoque');
+			$product_indicator_exists_cobertura = self::find_by_product_id_and_description($product_id, 'Cobertura de Estoque');
 
 			$dateInsert = date('Y-m-d H:i:s');
 
@@ -74,8 +78,17 @@ class Indicator extends \HXPHP\System\Model
 				$array_indicator['description'] = 'Giro de Estoque';
 				$array_indicator['value'] = $giroEstoque;
 				$array_indicator['date_insert'] = $dateInsert;
+
+				if (!is_null($product_indicator_exists_giro)) {
+					$product_indicator_exists_giro->value = $giroEstoque;
+					$product_indicator_exists_giro->date_insert = $dateInsert;
+					
+					$atualizarGiro = $product_indicator_exists_giro->save(false);
+				}
+				else {
+					$registrarGiro = self::create($array_indicator);	
+				}
 				
-				$registrarGiro = self::create($array_indicator);	
 			}
 
 			if (!empty($coberturaEstoque)) {
@@ -84,11 +97,27 @@ class Indicator extends \HXPHP\System\Model
 				$array_indicator['value'] = intval($coberturaEstoque);
 				$array_indicator['date_insert'] = $dateInsert;
 
-				$registrarCobertura = self::create($array_indicator);
+				if (!is_null($product_indicator_exists_cobertura)) {
+					$product_indicator_exists_cobertura->value = intval($coberturaEstoque);
+					$product_indicator_exists_cobertura->date_insert = $dateInsert;
+					
+					$atualizarCobertura = $product_indicator_exists_cobertura->save(false);
+				}
+				else {
+					$registrarCobertura = self::create($array_indicator);
+				}
+
 			}
 
-			if($registrarGiro->is_valid() && $registrarCobertura->is_valid()) {
-				$callbackObj->user = $coberturaEstoque;
+			if(!is_null($registrarGiro) && !is_null($registrarCobertura)) {
+				//$callbackObj->user = $coberturaEstoque;
+				$callbackObj->status = true;
+				$callbackObj->indicators['giro_estoque'] = $giroEstoque;
+				$callbackObj->indicators['cobertura_estoque'] = intval($coberturaEstoque);
+
+				return $callbackObj;
+			}
+			elseif (!is_null($product_indicator_exists_giro) && !is_null($product_indicator_exists_cobertura)) {
 				$callbackObj->status = true;
 				$callbackObj->indicators['giro_estoque'] = $giroEstoque;
 				$callbackObj->indicators['cobertura_estoque'] = intval($coberturaEstoque);
