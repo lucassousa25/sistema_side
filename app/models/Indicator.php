@@ -15,6 +15,7 @@ class Indicator extends \HXPHP\System\Model
 		
 		if (!is_null($sell)) {
 
+			// Variaveis parâmetros e indicadores
 			$totalVendas = null;
 			$mediaEstoque = null;
 			$mediaVendas = null;
@@ -32,8 +33,9 @@ class Indicator extends \HXPHP\System\Model
 			$dateInsert = date('Y-m-d H:i:s');
 
 			foreach ($sell as $linha) {
-				if (date_format($linha->date_sell, 'm') == date('m')) // Verifica se está no mês atual
+				if (date_format($linha->date_sell, 'm') == date('m')) { // Verifica se está no mês atual
 					$totalVendas += $linha->quantity;
+				} 
 			}
 			
 
@@ -79,7 +81,7 @@ class Indicator extends \HXPHP\System\Model
 				$array_indicator['value'] = $giroEstoque;
 				$array_indicator['date_insert'] = $dateInsert;
 
-				if (!is_null($product_indicator_exists_giro)) {
+				if (!is_null($product_indicator_exists_giro) && (date_format($product_indicator_exists_giro->date_insert, 'm') == date('m')) && (date_format($product_indicator_exists_giro->date_insert, 'y') == date('y'))) {
 					$product_indicator_exists_giro->value = $giroEstoque;
 					$product_indicator_exists_giro->date_insert = $dateInsert;
 					
@@ -97,7 +99,7 @@ class Indicator extends \HXPHP\System\Model
 				$array_indicator['value'] = intval($coberturaEstoque);
 				$array_indicator['date_insert'] = $dateInsert;
 
-				if (!is_null($product_indicator_exists_cobertura)) {
+				if (!is_null($product_indicator_exists_cobertura) && (date_format($product_indicator_exists_cobertura->date_insert, 'm') == date('m')) && (date_format($product_indicator_exists_cobertura->date_insert, 'y') == date('y'))) {
 					$product_indicator_exists_cobertura->value = intval($coberturaEstoque);
 					$product_indicator_exists_cobertura->date_insert = $dateInsert;
 					
