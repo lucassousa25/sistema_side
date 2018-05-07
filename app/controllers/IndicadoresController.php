@@ -90,4 +90,32 @@ class IndicadoresController extends \HXPHP\System\Controller
 			}
 		}
 	}
+
+	public function listarAction($pagina = 1)
+	{
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		if(!empty($pagina)) {
+			$listarProduto = Indicator::listar($user_id, $pagina);
+
+			$anterior = $listarProduto['anterior'];
+			$proximo = $listarProduto['proximo'];
+			$pagina = $listarProduto['pagina'];
+			$total_paginas = $listarProduto['total_paginas'];
+			$total_produtos = $listarProduto['total_produtos'];
+			$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
+			$products = $listarProduto['registros'];
+
+			$this->view->setVars([
+					'products' => $products,
+					'anterior' => $anterior,
+					'proximo' => $proximo,
+					'pagina' => $pagina,
+					'total_paginas' => $total_paginas,
+					'total_produtos' => $total_produtos,
+					'primeiro_produto' => $primeiro_produto
+					])
+					->setFile('listar');
+		}
+	}
 }

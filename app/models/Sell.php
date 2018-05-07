@@ -60,7 +60,7 @@ class Sell extends \HXPHP\System\Model
 		$consultaProdutos = Product::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros [Vendas]
-		$total_registros_por_pagina = count($consulta); // verifica o número total de registros [Vendas]
+		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Vendas]
 		$total_produtos = count($consultaProdutos); // verifica o número total de registros [Produtos]
 		$total_paginas = ceil($total_registros / $exib_vendas); // verifica o número total de páginas
 		

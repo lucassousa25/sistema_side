@@ -139,7 +139,54 @@ class Indicator extends \HXPHP\System\Model
 			echo "não há vendas registradas desse produto!";
 			die();
 		}
+	}
 
+	public static function listar($user_id, $pagina = 1)
+	{
+		if (!isset($pagina)) {
+			$pagina = 1;
+		}
 		
+		$exib_limit = 10;
+		$first_indicator = $pagina - 1; 
+		$first_indicator = $first_indicator * $exib_limit;
+
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
+		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
+		$consultaProdutos = Product::find('all');
+			
+		$total_registros = count($all_rgs); // verifica o número total de registros
+		$total_registros_por_pagina = count($all_rgs_by_page); // verifica o número total de registros
+		$total_produtos = count($consultaProdutos); // verifica o número total de registros [Produtos]
+		$total_paginas = ceil($total_registros / $exib_limit); // verifica o número total de páginas
+		
+		$anterior = $pagina - 1; 
+		$proximo = $pagina + 1;
+
+		$array_tabela = array();
+
+		for ($i=0; $i < $total_registros_por_pagina; $i++) {
+			for ($j=0; $j < $total_produtos; $j++) { 
+				if ($consultaProdutos[$j]->id == $all_rgs_by_page[$i]->product_id) {
+					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
+					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
+					$array_tabela[$i]['giro_estoque'] = $all_rgs_by_page[$i]->giro_estoque;
+					$array_tabela[$i]['cobertura_estoque'] = $all_rgs_by_page[$i]->cobertura_estoque;
+					$array_tabela[$i]['date_insert'] = $all_rgs_by_page[$i]->date_insert;
+				}
+			 } 
+		}
+
+		$dados = [
+			'anterior' => $anterior,
+			'proximo' => $proximo,
+			'pagina' => $pagina,
+			'total_paginas' => $total_paginas,
+			'total_produtos' => $total_registros,
+			'primeiro_produto' => $first_indicator,
+			'registros' => $array_tabela
+		];
+
+		return $dados;
 	}
 }
