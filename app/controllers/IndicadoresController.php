@@ -18,7 +18,18 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
-		$this->view->setVar('user', $user)
+		$listarIndicadores = Indicator::listar($user_id);
+
+		$this->view->setVars([
+						'user' => $user,
+						'products' => $listarIndicadores['registros'],
+						'anterior' => $listarIndicadores['anterior'],
+						'proximo' => $listarIndicadores['proximo'],
+						'pagina' => $pagina = $listarIndicadores['pagina'],
+						'total_paginas' => $listarIndicadores['total_paginas'],
+						'total_produtos' => $listarIndicadores['total_produtos'],
+						'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1
+					])
 				->setHeader('header_side')
 				->setFooter('footer_side')
 				->setTemplate(true)
@@ -35,7 +46,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if (is_numeric($product_id)) {
-			$registrarIndicadores = Indicator::gerarIndicadores($product_id);
+			$registrarIndicadores = Indicator::gerarIndicadores($user_id, $product_id);
 
 			if ($registrarIndicadores->status === false) {
 				$this->load('Helpers\Alert', array(
@@ -96,15 +107,15 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if(!empty($pagina)) {
-			$listarProduto = Indicator::listar($user_id, $pagina);
+			$listarIndicadores = Indicator::listar($user_id, $pagina);
 
-			$anterior = $listarProduto['anterior'];
-			$proximo = $listarProduto['proximo'];
-			$pagina = $listarProduto['pagina'];
-			$total_paginas = $listarProduto['total_paginas'];
-			$total_produtos = $listarProduto['total_produtos'];
-			$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
-			$products = $listarProduto['registros'];
+			$anterior = $listarIndicadores['anterior'];
+			$proximo = $listarIndicadores['proximo'];
+			$pagina = $listarIndicadores['pagina'];
+			$total_paginas = $listarIndicadores['total_paginas'];
+			$total_produtos = $listarIndicadores['total_produtos'];
+			$primeiro_produto = $listarIndicadores['primeiro_produto'] + 1;
+			$products = $listarIndicadores['registros'];
 
 			$this->view->setVars([
 					'products' => $products,
