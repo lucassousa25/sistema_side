@@ -5,18 +5,16 @@ class Indicator extends \HXPHP\System\Model
 	public static function gerarIndicadores($user_id, $product_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
-		$callbackObj->user = null;
 		$callbackObj->status = false;
 		$callbackObj->errors = array();
 		$callbackObj->indicators = array();
-
 
 		$product = Product::find($product_id);
 		$sell = Sell::all(array('conditions' => array('product_id' => $product_id)));
 		
 		if (!is_null($sell)) {
 
-			// Variaveis parâmetros e indicadores
+			// Variaveis de parâmetros e indicadores
 			$totalVendas = null;
 			$mediaEstoque = null;
 			$mediaVendas = null;
@@ -29,15 +27,14 @@ class Indicator extends \HXPHP\System\Model
 			// Variaveis de Atualização do banco
 			$product_indicator_exists = self::find_by_product_id($product_id);
 
-			$dateInsert = date('Y-m-d H:i:s');
+			$dateInsert = date('Y-m-d H:i:s'); // Capturando data atual do sistema para validações e inserção
 
 			foreach ($sell as $linha) {
 				if (date_format($linha->date_sell, 'm') == date('m')) { // Verifica se está no mês atual
-					$totalVendas += $linha->quantity;
+					$totalVendas += $linha->quantity; // Acumula o total de itens vendidos no mês
 				} 
 			}
 			
-
 			$mediaEstoque = (($product->est_inicial + $product->est_atual) / 2);
 
 			if ($totalVendas == 0 || $mediaEstoque == 0) {
@@ -49,11 +46,11 @@ class Indicator extends \HXPHP\System\Model
 				return $callbackObj;
 			}
 			else {
-				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ',');
+				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ','); // Fazendo cálculo do giro de estoque
 			}
 
-			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ',');
-			$diasNoMes = cal_days_in_month(0, date('m'), date('y'));
+			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ','); // Calcula a média de vendas feita no mês
+			$diasNoMes = cal_days_in_month(0, date('m'), date('y')); // Captura a quantidade de dias do mês atual
 
 			if ($mediaVendas == 0 || $giroEstoque == 0) {
 				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto.'));
@@ -64,9 +61,10 @@ class Indicator extends \HXPHP\System\Model
 				return $callbackObj;
 			}
 			else {
-				$coberturaEstoque = ($diasNoMes / $giroEstoque);
+				$coberturaEstoque = ($diasNoMes / $giroEstoque); // Fazendo cálculo da cobertura de estoque
 			}
 
+			// Montando array de inserção
 			$array_indicators = [
 				'product_id'  => null,
 				'user_id'  => null,
@@ -87,16 +85,15 @@ class Indicator extends \HXPHP\System\Model
 					$product_indicator_exists->cobertura_estoque = $coberturaEstoque;
 					$product_indicator_exists->date_insert = $dateInsert;
 					
-					$atualizarIndicadores = $product_indicator_exists->save(false);
+					$atualizarIndicadores = $product_indicator_exists->save(false); // Atualizando dado atual no Banco
 				}
 				else {
-					$registrarIndicadores = self::create($array_indicators);	
+					$registrarIndicadores = self::create($array_indicators); // Inserindo dado no Banco 
 				}
 				
 			}
 
 			if(!is_null($registrarIndicadores)) {
-				//$callbackObj->user = $coberturaEstoque;
 				$callbackObj->status = true;
 				$callbackObj->indicators['giro_estoque'] = $giroEstoque;
 				$callbackObj->indicators['cobertura_estoque'] = intval($coberturaEstoque);

@@ -11,10 +11,10 @@
     <div class="table-responsive">
 
       <table class="table table-striped table-condensed table-bordered table-prod"
-      		style="border-collapse: collapse; width: 100%; overflow-x: auto; display: block; overflow-y: scroll;">
+      		style="border-collapse: collapse; width: 100%; overflow-x: auto; display: block;">
         <thead style="display: block;">
         	<tr>
-        	  <form action="<?php echo BASE . 'produtos/inserirDadosPlanilha/'; ?>" method="post" accept-charset="utf-8">
+        	  <form action="<?php $this->printRelativeURL('produtos', false); ?>/inserirDadosPlanilha/" method="post" accept-charset="utf-8">
 
         	  <input type="hidden" name="total_colunas" value="<?php echo $view_colunas; ?>">
         	  <input type="hidden" name="total_linhas" value="<?php echo $view_linhas; ?>">
@@ -36,18 +36,17 @@
         	  
         	</tr>
         	<tr>
-	          <?php foreach ($view_titulo as $linha) : ?>
-				<th class="text-center" style="min-width: 150px; height: 25px; width: 20%;">
-					<b><?php echo $linha; ?></b>
-				</th>
-	          <?php endforeach; ?>
-			</tr>
+    	      <?php foreach ($view_titulo as $linha) : ?>
+    				<th class="text-center" style="min-width: 150px; height: 25px; width: 20%;">
+    					<b><?php echo $linha; ?></b>
+    				</th>
+    	      <?php endforeach; ?>
+			    </tr>
         </thead>
-      </table>
       
-      <table class="table table-striped table-condensed table-bordered table-prod"
-      		style="border-collapse: collapse; width: 100%; overflow-x: hidden; display: block;">
-        <tbody style="display: block; overflow-y: auto; overflow-x: auto; height: 250px;">
+      <!-- <table class="table table-striped table-condensed table-bordered table-prod"
+      		style="border-collapse: collapse; width: 100%; overflow-x: hidden; display: block;"> -->
+        <tbody style="display: inline-block; overflow-x: auto; height: 300px;">
           <?php 
             if ($view_dados) :
               $coluna = 0; ## Setando coluna
@@ -58,7 +57,7 @@
           ?>
               <tr>
               	<?php while ($coluna < $view_colunas): ?>
-                	<td class="text-center" style="min-width: 150px; height: 25px; width: 20%;">
+                	<td class="text-center" style="min-width: 150px; height: 25px; width: 30%; vertical-align: middle;">
 		            	<?php echo $linha[$coluna]; ?>
 		            	<?php $matrizOriginal[$linhas][$coluna] = $linha[$coluna]; ?>
                 	</td>
