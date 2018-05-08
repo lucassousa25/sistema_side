@@ -55,7 +55,7 @@
                 <td class="col-sm-4 text-center"><?php echo $product->description; ?></td>
                 <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product->value, 2, ',', '.'); ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product->est_atual; ?></td>
-                <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product->data_entrada)) . ' às ' .date('h:i', strtotime($product->data_entrada)); ?></td>
+                <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product->date_insert)) . ' às ' .date('h:i', strtotime($product->date_insert)); ?></td>
                 <td class="col-sm-2">
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
