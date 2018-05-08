@@ -195,7 +195,7 @@ class ProdutosController extends \HXPHP\System\Controller
 			if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors)) :
 				$this->load('Helpers\Alert', array(
 					'success',
-					'Foram cadastrados ' . $inserirDados->products_quantity . ' com sucesso!'
+					'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!'
 				));
 			endif;
 			if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors)) :
@@ -209,7 +209,7 @@ class ProdutosController extends \HXPHP\System\Controller
 			if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors)) :
 				$this->load('Helpers\Alert', array(
 					'info',
-					'Foram cadastrados ' . $inserirDados->products_quantity . 'produto(s) com sucesso!\n' .
+					'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
 					'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
 					$inserirDados->errors
 				));
