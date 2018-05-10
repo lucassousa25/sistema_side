@@ -9,10 +9,11 @@
         <h4>Envie sua planilha para o SIDE</h4>
         <p>Selecione arquivo Excel (.xlsx) com os dados dos seus produtos.</p>
         
-        <form action="<?php echo BASE; ?>produtos/importarPlanilha" method="post" enctype="multipart/form-data">
+        <form action="<?php echo BASE; ?>produtos/importarPlanilha" method="post" enctype="multipart/form-data"">
 
         <div class="modal-box">
-          <input type="file" name="file" class="btn side-primary-color" />
+          <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+          <input type="file" name="file" class="btn side-primary-color" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
           <p>(Até <b>500</b> itens na tabela ou <b>1 mb</b> no tamanho do arquivo)</p>
         </div>
       </div>
@@ -26,3 +27,11 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script type="text/javascript">
+  function apagarDocument() {
+    <?php 
+      unlink(ROOT_PATH . 'public/uploads/sheets/' . end(scandir(ROOT_PATH . 'public/uploads/sheets')));
+    ?>
+  }
+</script>
