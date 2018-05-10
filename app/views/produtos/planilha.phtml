@@ -11,7 +11,7 @@
     <div class="table-responsive">
 
       <table class="table table-striped table-condensed table-bordered table-prod"
-      		style="border-collapse: collapse; width: 100%; overflow-x: auto; display: block;">
+      		style="border-collapse: collapse; width: auto; overflow-x: auto; display: block; table-layout: fixed;">
         <thead style="display: block;">
         	<tr>
         	  <form action="<?php $this->printRelativeURL('produtos', false); ?>/inserirDadosPlanilha/" method="post" accept-charset="utf-8">
@@ -20,7 +20,7 @@
         	  <input type="hidden" name="total_linhas" value="<?php echo $view_linhas; ?>">
 
         	  <?php for ($i=0; $i < $view_colunas; $i++): ?>
-        		<td style="min-width: 150px; height: 25px; width: 20%;">
+        		<td style="min-width: 180px; height: 25px; width: 180px;">
         			<select name="<?php echo 'select'. $i; ?>" class="form-control">
         			  <option value="none">Não importar coluna</option>
         			  <option value="descricao">Descrição *</option>
@@ -37,7 +37,7 @@
         	</tr>
         	<tr>
     	      <?php foreach ($view_titulo as $linha) : ?>
-    				<th class="text-center" style="min-width: 150px; height: 25px; width: 20%;">
+    				<th class="text-center" style="min-width: 180px; height: 30px; width: 180px;">
     					<b><?php echo $linha; ?></b>
     				</th>
     	      <?php endforeach; ?>
@@ -54,10 +54,10 @@
               $matrizOriginal = array();
 
               foreach ($view_dados as $linha) :
-          ?>
+          ?>  
               <tr>
               	<?php while ($coluna < $view_colunas): ?>
-                	<td class="text-center" style="min-width: 150px; height: 25px; width: 30%; vertical-align: middle;">
+                	<td class="text-center" style="padding: 5px; height: 50px; min-height: 50px; column-width: 160px; min-width: 180px; vertical-align: middle; overflow-x: auto;">
 		            	<?php echo $linha[$coluna]; ?>
 		            	<?php $matrizOriginal[$linhas][$coluna] = $linha[$coluna]; ?>
                 	</td>

@@ -133,7 +133,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		$planilha = null;
 
 		if(!empty($file) && isset($file) && file_exists($file['tmp_name'])) {
-			$planilha = new SimpleXLSX($file['tmp_name']);
+			$planilha = SimpleXLSX::parse($file['tmp_name']);
 			list($colunas, $linhas) = $planilha->dimension();
 			try{
 				$matriz = array();
