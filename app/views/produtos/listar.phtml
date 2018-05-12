@@ -53,15 +53,15 @@
               <tr>
                 <td class="col-sm-1 text-center"><?php echo $product['internal_code']; ?></td>
                 <td class="col-sm-4 text-center"><?php echo $product['description']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product['value'], 2, ',', '.'); ?></td>
-                <td class="col-sm-1 text-center"><?php echo $product['current_stock']; ?></td>
+                <td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($product['valor'], 2, ',', '.'); ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['estoque_atual']; ?></td>
                 <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product['date_insert'])) . ' às ' .date('h:i', strtotime($product['date_insert'])); ?></td>
                 <td class="col-sm-2">
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
-                  <a href="<?php $this->printRelativeURL('Indicadores', false); ?>/geraIndicador/<?php echo intval($product->id); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar Indicadores"><i class="fa fa-line-chart"></i></a>
-                  <a href="<?php $this->printRelativeURL('venda', false); ?>/venda/<?php echo intval($product->id); ?>" class="btn btn-warning btn-xs" title="Vender/Saída"><i class="fa fa-dollar"></i><i class="fa fa-dollar"></i></a>  
+                  <a href="<?php $this->printRelativeURL('Indicadores', false); ?>/geraIndicador/<?php echo intval($product['id']); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar Indicadores"><i class="fa fa-line-chart"></i></a>
+                  <a href="<?php $this->printRelativeURL('venda', false); ?>/venda/<?php echo intval($product['id']); ?>" class="btn btn-warning btn-xs" title="Vender/Saída"><i class="fa fa-dollar"></i><i class="fa fa-dollar"></i></a>  
 
                 </td>
               </tr>

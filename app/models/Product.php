@@ -22,10 +22,10 @@ class Product extends \HXPHP\System\Model
 
 		$data_entrada = date('Y-m-d H:i:s');
 
-		$post['cost'] = str_replace(',', '.', $post['cost']);
-		$post['cost'] = floatval($post['cost']);
-		$post['value'] = str_replace(',', '.', $post['value']);
-		$post['value'] = floatval($post['value']);
+		$post['custo'] = str_replace(',', '.', $post['custo']);
+		$post['custo'] = floatval($post['custo']);
+		$post['valor'] = str_replace(',', '.', $post['valor']);
+		$post['valor'] = floatval($post['valor']);
 		
 		$array_product_insert = [
 			'user_id' => $user_id,
@@ -37,12 +37,14 @@ class Product extends \HXPHP\System\Model
 
 		$array_product_parameters = [
 			'product_id' => null,
-			'current_stock' => $post['current_stock'],
-			'value' => $post['value'],
-			'cost' => $post['cost'],
-			'lead_time' => $post['tempo_reposicao'],
+			'estoque_atual' => $post['estoque_atual'],
+			'estoque_medio' => $post['estoque_medio'],
+			'valor' => $post['valor'],
+			'custo' => $post['custo'],
+			'tempo_reposicao' => $post['tempo_reposicao'],
 			'demanda_mensal' => $post['demanda_mensal'],
-			'freq_compra_mensal' => $post['frequencia_compra'],
+			'freq_compra_mensal' => $post['freq_compra_mensal'],
+			'total_vendas' => $post['total_vendas'],
 			'date' => date('Y-m-d')
 		];
 
@@ -273,10 +275,11 @@ class Product extends \HXPHP\System\Model
 		for ($i=0; $i < $total_registros_por_pagina; $i++) {
 			for ($j=0; $j < $total_parametros; $j++) { 
 				if ($parametros[$j]->product_id == $consulta[$i]->id) {
+					$array_tabela[$i]['id'] = $consulta[$i]->id;
 					$array_tabela[$i]['internal_code'] = $consulta[$i]->internal_code;
 					$array_tabela[$i]['description'] = $consulta[$i]->description;
-					$array_tabela[$i]['value'] = $parametros[$j]->value;
-					$array_tabela[$i]['current_stock'] = $parametros[$j]->current_stock;
+					$array_tabela[$i]['valor'] = $parametros[$j]->valor;
+					$array_tabela[$i]['estoque_atual'] = $parametros[$j]->estoque_atual;
 					$array_tabela[$i]['date_insert'] = $consulta[$i]->date_insert;
 				}
 			 } 

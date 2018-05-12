@@ -5,15 +5,15 @@ class Parameter extends \HXPHP\System\Model
 	// Validando a presença dos campos (phpActiveRecord) 
 	static $validates_presence_of = array(
 		array(
-			'current_stock',
+			'estoque_atual',
 			'message' => 'O Estoque é um campo Obrigatório!'
 		),
 		array(
-			'value',
+			'valor',
 			'message' => 'O Preço é um campo Obrigatório!'
 		),
 		array(
-			'lead_time',
+			'tempo_reposicao',
 			'message' => 'O Tempo de reposição é um campo Obrigatório!'
 		),
 		array(
