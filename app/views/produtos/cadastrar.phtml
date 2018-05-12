@@ -16,108 +16,84 @@
       </div>
   </div>
 
-  <form action="<?php echo BASE . 'produtos/cadastrar/'; ?>" accept-charset="utf-8" role="form" method="post">
+  <form action="<?php $this->printRelativeURL('produtos', false); ?>/cadastrar/" accept-charset="utf-8" role="form" method="post">
     <div class="col-xs-12 container-form">
       <h4>Dados</h4>
       <div class="row">
-        <div class="form-group col-sm-4 col-md-4">
+        <div class="form-group col-sm-4">
+          <label>Código Interno</label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="internal_code" class="form-control">
+        </div>
+        <div class="form-group col-sm-4">
           <label>Descrição <span style="color: red;">*</span></label>
           <label data-toggle="tooltip" data-placement="top" title="Informe o nome do produto"><span class="fa fa-exclamation-circle"></span></label>
           <input type="text" name="description" class="form-control" required="required">
         </div>
         <div class="form-group col-sm-4 col-md-4">
-          <label>Código Interno</label>
+          <label>Unidade</label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="internal_code" class="form-control" required="required">
-        </div>
-        <!-- <div class="form-group col-sm-4 col-md-4">
-          <label>Categoria</label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <select class="form-control">
-            <option>Alimentos</option>
-            <option>Bebidas</option>
-            <option>Eletrônicos</option>
-            <option>Informática</option>
-            <option>Outros</option>
+          <select class="form-control" name="unity">
+            <option value="UN (Unidade)">UN (Unidade)</option>
+            <option value="MT (Metro)">MT (Metro)</option>
+            <option value="CM (Centimetro)">CM (Centímetro)</option>
+            <option value="KG (Kilograma)">KG (Kilograma)</option>
+            <option value="GM (Grama)">GM (Grama)</option>
           </select>
-        </div> -->
+        </div>
       </div>
 
       <div class="row">
-        <div class="form-group col-sm-4 col-md-4">
-          <label>Valor de Custo</label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="text" name="cost" class="form-control real" required="required" placeholder="0,00">
-        </div>
-        <div class="form-group col-sm-4 col-md-4 col-md-offset-4 col-md-pull-4">
-          <label>Valor de Venda <span style="color: red;">*</span></label>
+        <div class="form-group col-sm-4">
+          <label>Preço (Valor) <span style="color: red;">*</span></label>
           <label><span class="fa fa-exclamation-circle"></span></label>
           <input type="text" name="value" class="form-control real" required="required" placeholder="0,00">
         </div>
+        <div class="form-group col-sm-4">
+          <label>Custo <span style="color: red;">*</span></label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="cost" class="form-control real" required="required" placeholder="0,00">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Estoque <span style="color: red;">*</span></label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="current_stock" min="0" class="form-control" required="required">
+        </div>
       </div>
 
       <hr>
       
-        <h4>Estoque</h4>
+      <h4>Parâmetros</h4>
       <div class="row">
-        <!-- <div class="form-group col-sm-3 col-md-3">
-          <label>Movimenta estoque</label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <select class="form-control">
-            <option>Não</option>
-            <option>Sim</option>
-          </select>
-        </div> -->
-        <div class="form-group col-sm-3">
-          <label>Estoque inicial <span style="color: red;">*</span></label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" id="est_inicial" name="est_inicial" class="form-control" readonly>
+        <div class="col-sm-12">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><i class="fa fa-exclamation-circle"></i> Os parâmetros abaixo são usados para cálculo dos indicadores.</p>
+          </div>
         </div>
-        <div class="form-group col-sm-3">
-          <label>Estoque mínimo <span style="color: red;">*</span></label>
+        <div class="form-group col-sm-4">
+          <label>Tempo de reposição <span style="color: red;">*</span></label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="est_minimo" class="form-control" required="required">
+          <input type="number" name="tempo_reposicao" class="form-control" required="required">
         </div>
-        <div class="form-group col-sm-3">
-          <label>Estoque máximo</label>
+        <div class="form-group col-sm-4">
+          <label>Demanda mensal <span style="color: red;">*</span></label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="est_maximo" class="form-control" required="required">
+          <input type="number" name="demanda_mensal" class="form-control" required="required">
         </div>
-        <div class="form-group col-sm-3">
-          <label>Estoque atual</label>
+        <div class="form-group col-sm-4">
+          <label>Frequência de Compra <span style="color: red;">*</span></label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" id="est_atual" name="est_atual" class="form-control" required="required">
+          <input type="number" name="frequencia_compra" class="form-control" required="required">
         </div>
       </div>
       
       <hr>
-
-      <!-- <h4>Fornecedor</h4>
-
-      <div class="row">
-        <div class="form-group col-sm-12 col-md-12">
-          <label>Vincule fornecedor</label>
-          <label data-toggle="tooltip" data-placement="top" title="Vincule um fornecedor ao produto"><span class="fa fa-exclamation-circle"></span></label>
-          <select class="form-control">
-            <option>Fornecedor 01</option>
-            <option>Fornecedor 02</option>
-            <option>Fornecedor 03</option>
-            <option>Fornecedor 04</option>
-            <option>...</option>
-          </select>
-        </div>
-        <div class="col-sm-12 col-md-12">
-          <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Adicionar novo fornecedor</button>
-        </div>
-        </div>
-
-        <hr> -->
         
-        <div class="col-sm-12 col-md-12 text-right">
-          <button type="button" class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</button>
-          <button type="submit" class="btn side-primary-color"><span class="fa fa-check"></span> Cadastrar</button>
-        </div>
-
+      <div class="col-sm-12 text-right">
+        <button type="button" class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</button>
+        <button type="submit" class="btn side-primary-color"><span class="fa fa-check"></span> Cadastrar</button>
+      </div>
     </div>
   </form>
 

@@ -7,18 +7,6 @@ class Product extends \HXPHP\System\Model
 		array(
 			'description',
 			'message' => 'A descrição é um campo Obrigatório!'
-		),
-		array(
-			'value',
-			'message' => 'O valor de venda é um campo Obrigatório!'
-		),
-		array(
-			'est_minimo',
-			'message' => 'O estoque mínimo é um campo Obrigatório!'
-		),
-		array(
-			'est_atual',
-			'message' => 'O estoque atual é um campo Obrigatório!'
 		)
 	);
 
@@ -30,31 +18,45 @@ class Product extends \HXPHP\System\Model
 		$callbackObj->errors = array();
 		$callbackObj->product_description = null; // armazenando nome do produto para retorno no controller
 
-		// user_id | description | internal_code | cost | value | est_inicial | est_minimo | est_maximo
-		// est_atual | data_entrada | provider
+		// user_id | internal_code | description | unity | date_insert
 
-		$user_id_array = [
-			'user_id' => $user_id
-		];
-
-
-		$data_entrada = [
-			'date_insert' => date('Y-m-d H:i:s')
-		];
+		$data_entrada = date('Y-m-d H:i:s');
 
 		$post['cost'] = str_replace(',', '.', $post['cost']);
 		$post['cost'] = floatval($post['cost']);
 		$post['value'] = str_replace(',', '.', $post['value']);
 		$post['value'] = floatval($post['value']);
+		
+		$array_product_insert = [
+			'user_id' => $user_id,
+			'internal_code' => $post['internal_code'],
+			'description' => $post['description'],
+			'unity' => $post['unity'],
+			'date_insert' => $data_entrada
+		];
 
-		$post = array_merge($user_id_array, $post, $data_entrada);
+		$array_product_parameters = [
+			'product_id' => null,
+			'current_stock' => $post['current_stock'],
+			'value' => $post['value'],
+			'cost' => $post['cost'],
+			'lead_time' => $post['tempo_reposicao'],
+			'demanda_mensal' => $post['demanda_mensal'],
+			'freq_compra_mensal' => $post['frequencia_compra'],
+			'date' => date('Y-m-d')
+		];
+
 
 		$validations = self::find_by_user_id_and_description($user_id, $post['description']);
 
 		if(is_null($validations)) {
-			$cadastrar = self::create($post);
+			$cadastrar = self::create($array_product_insert);
+			$product = self::find_by_user_id_and_description($user_id, $post['description']);
+			$array_product_parameters['product_id'] = $product->id;
+
+			$cadastrarParametros = Parameter::create($array_product_parameters);
 			
-			if ($cadastrar->is_valid()) {
+			if ($cadastrar->is_valid() && $cadastrarParametros->is_valid()) {
 				$callbackObj->user = $cadastrar;
 				$callbackObj->status = true;
 				$callbackObj->product_description = $post['description'];
