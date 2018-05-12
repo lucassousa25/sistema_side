@@ -257,13 +257,30 @@ class Product extends \HXPHP\System\Model
 		$first_prod = $first_prod * $exib_produtos;
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
-		$sql 	 = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
+		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
+		$parametros = Parameter::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
+		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Vendas]
+		$total_parametros = count($parametros); // verifica o número total de registros [Produtos]
 		$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas
 		
 		$anterior = $pagina - 1; 
 		$proximo = $pagina + 1;
+
+		$array_tabela = array();
+
+		for ($i=0; $i < $total_registros_por_pagina; $i++) {
+			for ($j=0; $j < $total_parametros; $j++) { 
+				if ($parametros[$j]->product_id == $consulta[$i]->id) {
+					$array_tabela[$i]['internal_code'] = $consulta[$i]->internal_code;
+					$array_tabela[$i]['description'] = $consulta[$i]->description;
+					$array_tabela[$i]['value'] = $parametros[$j]->value;
+					$array_tabela[$i]['current_stock'] = $parametros[$j]->current_stock;
+					$array_tabela[$i]['date_insert'] = $consulta[$i]->date_insert;
+				}
+			 } 
+		}
 
 		$dados = [
 			'anterior' => $anterior,
@@ -272,7 +289,7 @@ class Product extends \HXPHP\System\Model
 			'total_paginas' => $total_paginas,
 			'total_produtos' => $total_registros,
 			'primeiro_produto' => $first_prod,
-			'registros' => $sql
+			'registros' => $array_tabela
 		];
 
 		return $dados;
