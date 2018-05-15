@@ -13,7 +13,6 @@ class Product extends \HXPHP\System\Model
 	public static function cadastrar(array $post, $user_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
-		$callbackObj->user = null;
 		$callbackObj->status = false;
 		$callbackObj->errors = array();
 		$callbackObj->product_description = null; // armazenando nome do produto para retorno no controller
@@ -22,11 +21,15 @@ class Product extends \HXPHP\System\Model
 
 		$data_entrada = date('Y-m-d H:i:s');
 
-		$post['custo'] = str_replace(',', '.', $post['custo']);
-		$post['custo'] = floatval($post['custo']);
-		$post['valor'] = str_replace(',', '.', $post['valor']);
-		$post['valor'] = floatval($post['valor']);
+		if (!empty($post['custo'])) {
+			$post['custo'] = str_replace(',', '.', $post['custo']);
+			$post['custo'] = floatval($post['custo']);
+		}
+		else {
+			$post['custo'] = null;
+		}
 		
+
 		$array_product_insert = [
 			'user_id' => $user_id,
 			'internal_code' => $post['internal_code'],
@@ -38,16 +41,14 @@ class Product extends \HXPHP\System\Model
 		$array_product_parameters = [
 			'product_id' => null,
 			'estoque_atual' => $post['estoque_atual'],
-			'estoque_medio' => $post['estoque_medio'],
-			'valor' => $post['valor'],
 			'custo' => $post['custo'],
 			'tempo_reposicao' => $post['tempo_reposicao'],
-			'demanda_mensal' => $post['demanda_mensal'],
-			'freq_compra_mensal' => $post['freq_compra_mensal'],
+			'demanda_media' => $post['demanda_media'],
+			'freq_compra' => $post['freq_compra'],
+			'quantidade_vendida' => $post['quantidade_vendida'],
 			'total_vendas' => $post['total_vendas'],
 			'date' => date('Y-m-d')
 		];
-
 
 		$validations = self::find_by_user_id_and_description($user_id, $post['description']);
 
@@ -59,7 +60,6 @@ class Product extends \HXPHP\System\Model
 			$cadastrarParametros = Parameter::create($array_product_parameters);
 			
 			if ($cadastrar->is_valid() && $cadastrarParametros->is_valid()) {
-				$callbackObj->user = $cadastrar;
 				$callbackObj->status = true;
 				$callbackObj->product_description = $post['description'];
 				return $callbackObj;
@@ -541,7 +541,7 @@ class Product extends \HXPHP\System\Model
 					$array_tabela[$i]['id'] = $consulta[$i]->id;
 					$array_tabela[$i]['internal_code'] = $consulta[$i]->internal_code;
 					$array_tabela[$i]['description'] = $consulta[$i]->description;
-					$array_tabela[$i]['valor'] = $parametros[$j]->valor;
+					$array_tabela[$i]['unity'] = $consulta[$i]->unity;
 					$array_tabela[$i]['estoque_atual'] = $parametros[$j]->estoque_atual;
 					$array_tabela[$i]['date_insert'] = $consulta[$i]->date_insert;
 				}

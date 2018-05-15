@@ -45,17 +45,12 @@
 
       <div class="row">
         <div class="form-group col-sm-4">
-          <label>Preço (Valor)</label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="text" name="valor" class="form-control real" required="required" placeholder="0,00">
-        </div>
-        <div class="form-group col-sm-4">
           <label>Custo</label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="text" name="custo" class="form-control real" required="required" placeholder="0,00">
+          <input type="text" name="custo" class="form-control real" placeholder="0,00">
         </div>
         <div class="form-group col-sm-4">
-          <label>Estoque</label>
+          <label>Estoque <span style="color: red;">*</span></label>
           <label><span class="fa fa-exclamation-circle"></span></label>
           <input type="number" name="estoque_atual" min="0" class="form-control" required="required">
         </div>
@@ -77,29 +72,29 @@
           </div>
         </div>
         <div class="form-group col-sm-4">
-          <label>Estoque médio </label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="estoque_medio" class="form-control" required="required">
-        </div>
-        <div class="form-group col-sm-4">
           <label>Tempo de reposição </label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="tempo_reposicao" class="form-control" required="required">
+          <input type="number" name="tempo_reposicao" class="form-control">
         </div>
         <div class="form-group col-sm-4">
-          <label>Demanda mensal </label>
+          <label>Demanda média </label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="demanda_mensal" class="form-control" required="required">
+          <input type="number" name="demanda_media" class="form-control">
         </div>
         <div class="form-group col-sm-4">
           <label>Frequência de Compra </label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="freq_compra_mensal" class="form-control" required="required">
+          <input type="number" name="freq_compra" class="form-control">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Quantidade vendida <span style="color: red;">*</span></label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="quantidade_vendida" class="form-control" required="required">
         </div>
         <div class="form-group col-sm-4">
           <label>Total de vendas </label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="number" name="total_vendas" class="form-control" required="required">
+          <input type="text" name="total_vendas" class="form-control real" placeholder="0,00">
         </div>
       </div>
       
