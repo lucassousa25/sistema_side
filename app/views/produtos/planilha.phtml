@@ -6,14 +6,17 @@
 <div class="container">
 
   <?php echo (isset($this->alert) ? $this->alert : ''); ?>
-
   <div class="row">
     <h3>Informe o que é cada coluna da sua planilha...</h3>
     <p>Informe o tipo de conteúdo de cada coluna para que o sistema importe corretamente.</p>
-    <div class="alert alert-info alert-dismissible" role="alert">
+    <div class="alert alert-warning alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4>Atenção! <i class="fa fa-warning"></i></h4>
-      <p>Os valores marcados (*) são obrigatórios para importação. Por favor preencha os valores!</p>
+      <ul>
+        <li>Os valores marcados (*) são obrigatórios para importação. Por favor preencha os valores!</li>
+        <li>Selecione o mês referente ao seu arquivo.</li>
+      </ul>
+      
     </div>
   </div>
 
@@ -21,7 +24,8 @@
     <div class="table-responsive">
 
       <form action="<?php $this->printRelativeURL('produtos', false); ?>/inserirDadosPlanilha/" method="post" accept-charset="utf-8">
-        <div class="col-sm-4 col-xs-12 pull-right">
+
+        <div class="col-sm-4 col-xs-12 pull-right" style="margin-bottom: 15px;">
           <select name="data" id="data" class="form-control">
             <option value="null">Selecione mês</option>
             <?php
@@ -58,14 +62,14 @@
             			  <option value="codigo_interno">Código</option>
                     <option value="descricao">Descrição *</option>
                     <option value="unidade">Unidade</option>
-            			  <option value="preco">Preço *</option>
+            			  <option value="preco">Preço</option>
                     <option value="custo">Custo</option>
-                    <option value="estoque_atual">Estoque *</option>              
-                    <option value="estoque_medio">Estoque Médio *</option>              
-                    <option value="tempo_reposicao">Tempo de Reposição *</option>              
-                    <option value="demanda_mensal">Demanda Média Mensal *</option>              
-                    <option value="freq_compra_mensal">Frequência de Compras Mensal *</option>              
-            			  <option value="total_vendas">Total de vendas no Mês *</option>       			  
+                    <option value="estoque_atual">Estoque</option>              
+                    <option value="estoque_medio">Estoque Médio</option>              
+                    <option value="tempo_reposicao">Tempo de Reposição</option>              
+                    <option value="demanda_mensal">Demanda Média</option>              
+                    <option value="freq_compra_mensal">Frequência de Compras</option>              
+            			  <option value="total_vendas">Total de vendas*</option>       			  
             			</select>
             		</td>
             	  <?php endfor; ?>       	  	
