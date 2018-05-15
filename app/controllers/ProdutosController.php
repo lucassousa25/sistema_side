@@ -311,8 +311,9 @@ class ProdutosController extends \HXPHP\System\Controller
 			
 			if ($nomeTitulo[$i] != 'none')
 				$nomeTituloBool = true;
+
 		endfor;
-		
+
 		$matrizOriginal = $this->session->get('dadosPlanilha'); // Capturando Sessão com array de dados
 		if (isset($post) && !empty($post)) {
 
@@ -326,86 +327,99 @@ class ProdutosController extends \HXPHP\System\Controller
 			}
 			else {
 				if ($nomeTituloBool == true) {
-					$inserirDados = Product::inserirDadosPlanilha($post, $nomeTitulo, $matrizOriginal, $user_id);
-					
-					if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
+
+					if (!in_array('descricao', $nomeTitulo) || !in_array('estoque_atual', $nomeTitulo) || !in_array('quantidade_vendida', $nomeTitulo)) {
 						$this->load('Helpers\Alert', array(
-							'success',
-							'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!'
-						));
-
-						$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-						unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
-						self::listarAction();
-					endif;
-
-					if (is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'success',
-							$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!'
-						));
-
-						$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-						unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
-						self::listarAction();
-					endif;
-
-					if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'success',
-							'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
-							$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!'
-						));
-
-						$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-						unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
-						self::listarAction();
-					endif;
-					
-					if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'info',
-							'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
-							$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!\n' .
-							'Total de ' . $inserirDados->products_quantity_errors . ' produtos não cadastrados. Verifique os erros abaixo:',
-							$inserirDados->errors
+							'warning',
+							'Você precisa selecionar os valores obrigatórios!'
 						));
 
 						self::tratarPlanilhaAction();
-					endif;
+					}
+					else {
 
-					if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'info',
-							'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
-							'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
-							$inserirDados->errors
-						));
+						$inserirDados = Product::inserirDadosPlanilha($post, $nomeTitulo, $matrizOriginal, $user_id);
+						
+						if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'success',
+								'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!'
+							));
 
-						self::tratarPlanilhaAction();
-					endif;
+							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
+							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							self::listarAction();
+						endif;
 
-					if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'error',
-							'Não foram cadastrados produtos!\n' .
-							'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
-							$inserirDados->errors
-						));
+						if (is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'success',
+								$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!'
+							));
 
-						self::tratarPlanilhaAction();
-					endif;
+							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
+							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							self::listarAction();
+						endif;
 
-					if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
-						$this->load('Helpers\Alert', array(
-							'info',
-							'Foram atualizados ' . $inserirDados->products_quantity_updated . ' produto(s) com sucesso!\n' .
-							'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
-							$inserirDados->errors
-						));
+						if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'success',
+								'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
+								$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!'
+							));
 
-						self::tratarPlanilhaAction();
-					endif;
+							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
+							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							self::listarAction();
+						endif;
+						
+						if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'info',
+								'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
+								$inserirDados->products_quantity_updated . ' produto(s) foram atualizados com sucesso!\n' .
+								'Total de ' . $inserirDados->products_quantity_errors . ' produtos não cadastrados. Verifique os erros abaixo:',
+								$inserirDados->errors
+							));
+
+							self::tratarPlanilhaAction();
+						endif;
+
+						if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'info',
+								'Foram cadastrados ' . $inserirDados->products_quantity . ' produto(s) com sucesso!\n' .
+								'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
+								$inserirDados->errors
+							));
+
+							self::tratarPlanilhaAction();
+						endif;
+
+						if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'error',
+								'Não foram cadastrados produtos!\n' .
+								'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
+								$inserirDados->errors
+							));
+
+							self::tratarPlanilhaAction();
+						endif;
+
+						if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
+							$this->load('Helpers\Alert', array(
+								'info',
+								'Foram atualizados ' . $inserirDados->products_quantity_updated . ' produto(s) com sucesso!\n' .
+								'Total de ' . $inserirDados->products_quantity_errors . ' produto(s) não cadastrados. Verifique os erros abaixo:',
+								$inserirDados->errors
+							));
+
+							self::tratarPlanilhaAction();
+						endif;
+					}
+
 				}
 				else {
 					$this->load('Helpers\Alert', array(

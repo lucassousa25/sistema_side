@@ -114,26 +114,23 @@ class Product extends \HXPHP\System\Model
 				if($nomeTitulo[$i] == "estoque_atual") {
 					$matrizParameters[$j][0] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "estoque_medio") {
+				if($nomeTitulo[$i] == "custo") {
 					$matrizParameters[$j][1] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "preco") {
+				if($nomeTitulo[$i] == "tempo_reposicao") {
 					$matrizParameters[$j][2] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "custo") {
+				if($nomeTitulo[$i] == "demanda_media") {
 					$matrizParameters[$j][3] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "tempo_reposicao") {
+				if($nomeTitulo[$i] == "freq_compra") {
 					$matrizParameters[$j][4] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "demanda_mensal") {
+				if($nomeTitulo[$i] == "quantidade_vendida") {
 					$matrizParameters[$j][5] = $matrizOriginal[$j][$i];
 				}
-				if($nomeTitulo[$i] == "freq_compra_mensal") {
-					$matrizParameters[$j][6] = $matrizOriginal[$j][$i];
-				}
 				if($nomeTitulo[$i] == "total_vendas") {
-					$matrizParameters[$j][7] = $matrizOriginal[$j][$i];
+					$matrizParameters[$j][6] = $matrizOriginal[$j][$i];
 				}
 			}
 		}
@@ -155,12 +152,11 @@ class Product extends \HXPHP\System\Model
 			$parametrosProduto = [
 				'product_id' => null,
 				'estoque_atual' => null,
-				'estoque_medio' => null,
-				'valor' => null,
 				'custo' => null,
 				'tempo_reposicao' => null,
-				'demanda_mensal' => null,
-				'freq_compra_mensal' => null,
+				'demanda_media' => null,
+				'freq_compra' => null,
+				'quantidade_vendida' => null,
 				'total_vendas' => null,
 				'date' => $post['data']
 			];
@@ -215,71 +211,62 @@ class Product extends \HXPHP\System\Model
 					if(!empty($matrizParameters[$linhaNum][0]) && is_numeric($matrizParameters[$linhaNum][0])) {
 						$parametrosProduto['estoque_atual'] = $matrizParameters[$linhaNum][0];
 					}else {
-						if(!in_array('A coluna de Estoque Atual precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Estoque Atual precisa ter valores numéricos!');
+						if(!in_array('A coluna de Estoque Atual precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Estoque Atual precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][1])) {
 					if(!empty($matrizParameters[$linhaNum][1]) && is_numeric($matrizParameters[$linhaNum][1])) {
-						$parametrosProduto['estoque_medio'] = $matrizParameters[$linhaNum][1];
+						$parametrosProduto['custo'] = $matrizParameters[$linhaNum][1];
 					}else {
-						if(!in_array('A coluna de Estoque Médio precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Estoque Médio precisa ter valores numéricos!');
+						if(!in_array('A coluna de Custo precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Custo precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][2])) {
 					if(!empty($matrizParameters[$linhaNum][2]) && is_numeric($matrizParameters[$linhaNum][2])) {
-						$parametrosProduto['valor'] = $matrizParameters[$linhaNum][2];
+						$parametrosProduto['tempo_reposicao'] = $matrizParameters[$linhaNum][2];
 					}else {
-						if(!in_array('A coluna de Preço precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Preço precisa ter valores numéricos!');
+						if(!in_array('A coluna de Tempo de Reposição precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Tempo de Reposição precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][3])) {
 					if(!empty($matrizParameters[$linhaNum][3]) && is_numeric($matrizParameters[$linhaNum][3])) {
-						$parametrosProduto['custo'] = $matrizParameters[$linhaNum][3];
+						$parametrosProduto['demanda_media'] = $matrizParameters[$linhaNum][3];
 					}else {
-						if(!in_array('A coluna de Custo precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Custo precisa ter valores numéricos!');
+						if(!in_array('A coluna de Demanda Média precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Demanda Média precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][4])) {
 					if(!empty($matrizParameters[$linhaNum][4]) && is_numeric($matrizParameters[$linhaNum][4])) {
-						$parametrosProduto['tempo_reposicao'] = $matrizParameters[$linhaNum][4];
+						$parametrosProduto['freq_compra'] = $matrizParameters[$linhaNum][4];
 					}else {
-						if(!in_array('A coluna de Tempo de Reposição precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Tempo de Reposição precisa ter valores numéricos!');
+						if(!in_array('A coluna de Frequência de compras precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Frequência de compras precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][5])) {
 					if(!empty($matrizParameters[$linhaNum][5]) && is_numeric($matrizParameters[$linhaNum][5])) {
-						$parametrosProduto['demanda_mensal'] = $matrizParameters[$linhaNum][5];
+						$parametrosProduto['quantidade_vendida'] = $matrizParameters[$linhaNum][5];
 					}else {
-						if(!in_array('A coluna de Demanda Média precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Demanda Média precisa ter valores numéricos!');
+						if(!in_array('A coluna de Quantidade vendida precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Quantidade vendida precisa conter valores numéricos!');
 					}
 				}
 
 				if (isset($matrizParameters[$linhaNum][6])) {
 					if(!empty($matrizParameters[$linhaNum][6]) && is_numeric($matrizParameters[$linhaNum][6])) {
-						$parametrosProduto['freq_compra_mensal'] = $matrizParameters[$linhaNum][6];
+						$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][6];
 					}else {
-						if(!in_array('A coluna de Frequência de compras precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Frequência de compras precisa ter valores numéricos!');
-					}
-				}
-
-				if (isset($matrizParameters[$linhaNum][7])) {
-					if(!empty($matrizParameters[$linhaNum][7]) && is_numeric($matrizParameters[$linhaNum][7])) {
-						$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][7];
-					}else {
-						if(!in_array('A coluna de Total de Vendas precisa ter valores numéricos!', $callbackObj->errors))
-							array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa ter valores numéricos!');
+						if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors))
+							array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
 					}
 				}
 				
@@ -323,61 +310,52 @@ class Product extends \HXPHP\System\Model
 
 					if (isset($matrizParameters[$linhaNum][1])) {
 						if(!empty($matrizParameters[$linhaNum][1]) && is_numeric($matrizParameters[$linhaNum][1])) {
-							$parametrosProduto['estoque_medio'] = $matrizParameters[$linhaNum][1];
-						}else {
-							if(!in_array('A coluna de Estoque Médio precisa conter valores numéricos!', $callbackObj->errors))
-								array_push($callbackObj->errors, 'A coluna de Estoque Médio precisa conter valores numéricos!');
-						}
-					}
-
-					if (isset($matrizParameters[$linhaNum][2])) {
-						if(!empty($matrizParameters[$linhaNum][2]) && is_numeric($matrizParameters[$linhaNum][2])) {
-							$parametrosProduto['valor'] = $matrizParameters[$linhaNum][2];
-						}else {
-							if(!in_array('A coluna de Preço precisa conter valores numéricos!', $callbackObj->errors))
-								array_push($callbackObj->errors, 'A coluna de Preço precisa conter valores numéricos!');
-						}
-					}
-
-					if (isset($matrizParameters[$linhaNum][3])) {
-						if(!empty($matrizParameters[$linhaNum][3]) && is_numeric($matrizParameters[$linhaNum][3])) {
-							$parametrosProduto['custo'] = $matrizParameters[$linhaNum][3];
+							$parametrosProduto['custo'] = $matrizParameters[$linhaNum][1];
 						}else {
 							if(!in_array('A coluna de Custo precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Custo precisa conter valores numéricos!');
 						}
 					}
 
-					if (isset($matrizParameters[$linhaNum][4])) {
-						if(!empty($matrizParameters[$linhaNum][4]) && is_numeric($matrizParameters[$linhaNum][4])) {
-							$parametrosProduto['tempo_reposicao'] = $matrizParameters[$linhaNum][4];
+					if (isset($matrizParameters[$linhaNum][2])) {
+						if(!empty($matrizParameters[$linhaNum][2]) && is_numeric($matrizParameters[$linhaNum][2])) {
+							$parametrosProduto['tempo_reposicao'] = $matrizParameters[$linhaNum][2];
 						}else {
 							if(!in_array('A coluna de Tempo de Reposição precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Tempo de Reposição precisa conter valores numéricos!');
 						}
 					}
 
-					if (isset($matrizParameters[$linhaNum][5])) {
-						if(!empty($matrizParameters[$linhaNum][5]) && is_numeric($matrizParameters[$linhaNum][5])) {
-							$parametrosProduto['demanda_mensal'] = $matrizParameters[$linhaNum][5];
+					if (isset($matrizParameters[$linhaNum][3])) {
+						if(!empty($matrizParameters[$linhaNum][3]) && is_numeric($matrizParameters[$linhaNum][3])) {
+							$parametrosProduto['demanda_media'] = $matrizParameters[$linhaNum][3];
 						}else {
 							if(!in_array('A coluna de Demanda Média precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Demanda Média precisa conter valores numéricos!');
 						}
 					}
 
-					if (isset($matrizParameters[$linhaNum][6])) {
-						if(!empty($matrizParameters[$linhaNum][6]) && is_numeric($matrizParameters[$linhaNum][6])) {
-							$parametrosProduto['freq_compra_mensal'] = $matrizParameters[$linhaNum][6];
+					if (isset($matrizParameters[$linhaNum][4])) {
+						if(!empty($matrizParameters[$linhaNum][4]) && is_numeric($matrizParameters[$linhaNum][4])) {
+							$parametrosProduto['freq_compra'] = $matrizParameters[$linhaNum][4];
 						}else {
 							if(!in_array('A coluna de Frequência de compras precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Frequência de compras precisa conter valores numéricos!');
 						}
 					}
 
-					if (isset($matrizParameters[$linhaNum][7])) {
-						if(!empty($matrizParameters[$linhaNum][7]) && is_numeric($matrizParameters[$linhaNum][7])) {
-							$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][7];
+					if (isset($matrizParameters[$linhaNum][5])) {
+						if(!empty($matrizParameters[$linhaNum][5]) && is_numeric($matrizParameters[$linhaNum][5])) {
+							$parametrosProduto['quantidade_vendida'] = $matrizParameters[$linhaNum][5];
+						}else {
+							if(!in_array('A coluna de Quantidade vendida precisa conter valores numéricos!', $callbackObj->errors))
+								array_push($callbackObj->errors, 'A coluna de Quantidade vendida precisa conter valores numéricos!');
+						}
+					}
+
+					if (isset($matrizParameters[$linhaNum][6])) {
+						if(!empty($matrizParameters[$linhaNum][6]) && is_numeric($matrizParameters[$linhaNum][6])) {
+							$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][6];
 						}else {
 							if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
@@ -399,7 +377,6 @@ class Product extends \HXPHP\System\Model
 						else :
 							if(!in_array('A coluna de Estoque Atual precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Estoque Atual precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
 							endif;
 						endif;
 					else :
@@ -408,89 +385,68 @@ class Product extends \HXPHP\System\Model
 
 					if(!empty($matrizParameters[$linhaNum][1])) :
 						if (is_numeric($matrizParameters[$linhaNum][1])) :
-							$parametrosByProduto->estoque_medio = $matrizParameters[$linhaNum][1];
-						else :
-							if(!in_array('A coluna de Estoque Médio precisa conter valores numéricos!', $callbackObj->errors)) :
-								array_push($callbackObj->errors, 'A coluna de Estoque Médio precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
-							endif;
-						endif;
-					else :
-						$parametrosByProduto->estoque_medio = null;
-					endif;
-
-					if(!empty($matrizParameters[$linhaNum][2])) :
-						if (is_numeric($matrizParameters[$linhaNum][2])) :
-							$parametrosByProduto->valor = $matrizParameters[$linhaNum][2];
-						else :
-							if(!in_array('A coluna de Preço precisa conter valores numéricos!', $callbackObj->errors)) :
-								array_push($callbackObj->errors, 'A coluna de Preço precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
-							endif;
-						endif;
-					else :
-						$parametrosByProduto->valor = null;
-					endif;
-
-					if(!empty($matrizParameters[$linhaNum][3])) :
-						if (is_numeric($matrizParameters[$linhaNum][3])) :
-							$parametrosByProduto->custo = $matrizParameters[$linhaNum][3];
+							$parametrosByProduto->custo = $matrizParameters[$linhaNum][1];
 						else :
 							if(!in_array('A coluna de Custo precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Custo precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
 							endif;
 						endif;
 					else :
 						$parametrosByProduto->custo = null;
 					endif;
 
-					if(!empty($matrizParameters[$linhaNum][4])) :
-						if (is_numeric($matrizParameters[$linhaNum][4])) :
-							$parametrosByProduto->tempo_reposicao = $matrizParameters[$linhaNum][4];
+					if(!empty($matrizParameters[$linhaNum][2])) :
+						if (is_numeric($matrizParameters[$linhaNum][2])) :
+							$parametrosByProduto->tempo_reposicao = $matrizParameters[$linhaNum][2];
 						else :
 							if(!in_array('A coluna de Tempo de Reposição precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Tempo de Reposição precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
 							endif;
 						endif;
 					else :
 						$parametrosByProduto->tempo_reposicao = null;
 					endif;
 
-					if(!empty($matrizParameters[$linhaNum][5])) :
-						if (is_numeric($matrizParameters[$linhaNum][5])) :
-							$parametrosByProduto->demanda_mensal = $matrizParameters[$linhaNum][5];
+					if(!empty($matrizParameters[$linhaNum][3])) :
+						if (is_numeric($matrizParameters[$linhaNum][3])) :
+							$parametrosByProduto->demanda_media = $matrizParameters[$linhaNum][3];
 						else :
 							if(!in_array('A coluna de Demanda Média precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Demanda Média precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
 							endif;
 						endif;
 					else :
-						$parametrosByProduto->demanda_mensal = null;
+						$parametrosByProduto->demanda_media = null;
+					endif;
+
+					if(!empty($matrizParameters[$linhaNum][4])) :
+						if (is_numeric($matrizParameters[$linhaNum][4])) :
+							$parametrosByProduto->freq_compra = $matrizParameters[$linhaNum][4];
+						else :
+							if(!in_array('A coluna de Frequência de Compras precisa conter valores numéricos!', $callbackObj->errors)) :
+								array_push($callbackObj->errors, 'A coluna de Frequência de Compras precisa conter valores numéricos!');
+							endif;
+						endif;
+					else :
+						$parametrosByProduto->freq_compra = null;
+					endif;
+
+					if(!empty($matrizParameters[$linhaNum][5])) :
+						if (is_numeric($matrizParameters[$linhaNum][5])) :
+							$parametrosByProduto->quantidade_vendida = $matrizParameters[$linhaNum][5];
+						else :
+							if(!in_array('A coluna de Quantidade vendida precisa conter valores numéricos!', $callbackObj->errors)) :
+								array_push($callbackObj->errors, 'A coluna de Quantidade vendida precisa conter valores numéricos!');
+							endif;
+						endif;
 					endif;
 
 					if(!empty($matrizParameters[$linhaNum][6])) :
 						if (is_numeric($matrizParameters[$linhaNum][6])) :
-							$parametrosByProduto->freq_compra_mensal = $matrizParameters[$linhaNum][6];
-						else :
-							if(!in_array('A coluna de Frequência de Compras precisa conter valores numéricos!', $callbackObj->errors)) :
-								array_push($callbackObj->errors, 'A coluna de Frequência de Compras precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
-							endif;
-						endif;
-					else :
-						$parametrosByProduto->freq_compra_mensal = null;
-					endif;
-
-					if(!empty($matrizParameters[$linhaNum][7])) :
-						if (is_numeric($matrizParameters[$linhaNum][7])) :
-							$parametrosByProduto->total_vendas = $matrizParameters[$linhaNum][7];
+							$parametrosByProduto->total_vendas = $matrizParameters[$linhaNum][6];
 						else :
 							if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
-								$callbackObj->products_quantity_errors += 1;
 							endif;
 						endif;
 					else :
