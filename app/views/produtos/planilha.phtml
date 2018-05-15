@@ -57,7 +57,7 @@
 
             	  <?php for ($i=0; $i < $view_colunas; $i++): ?>
             		<td style="min-width: 180px; height: 25px; width: 180px;">
-            			<select name="<?php echo 'select'. $i; ?>" id="<?php echo $i; ?>" class="form-control" onchange="optionValue(this.value, this.id)">
+            			<select name="<?php echo 'select'. $i; ?>" id="<?php echo $i; ?>" class="form-control select" onchange="optionValue(this.value, this.id)">
             			  <option value="none">Não importar coluna</option>
             			  <option value="codigo_interno">Código</option>
                     <option value="descricao">Descrição *</option>
@@ -134,10 +134,10 @@
   });
 
   function optionValue(opcao, coluna){
-    var col = document.getElementsByTagName("select");
+    var col = document.getElementsByClassName("select");
     
       for (var i = 0; i < col.length; i++) {
-        var e = document.getElementsByTagName("select")[i].value;
+        var e = document.getElementsByClassName("select")[i].value;
 
         if(coluna != i) {
           if(opcao == e) {
@@ -150,7 +150,7 @@
               closeOnConfirm: true
             });
 
-            document.getElementsByTagName("select")[coluna].value = "none";
+            document.getElementsByClassName("select")[coluna].value = "none";
           }
         }
       }
