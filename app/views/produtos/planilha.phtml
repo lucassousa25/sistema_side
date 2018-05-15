@@ -57,7 +57,7 @@
 
             	  <?php for ($i=0; $i < $view_colunas; $i++): ?>
             		<td style="min-width: 180px; height: 25px; width: 180px;">
-            			<select name="<?php echo 'select'. $i; ?>" id="<?php echo $i; ?>" class="form-control" onclick="optionValue(this.value, this.id)">
+            			<select name="<?php echo 'select'. $i; ?>" id="<?php echo $i; ?>" class="form-control" onchange="optionValue(this.value, this.id)">
             			  <option value="none">Não importar coluna</option>
             			  <option value="codigo_interno">Código</option>
                     <option value="descricao">Descrição *</option>
@@ -135,49 +135,27 @@
     
   });
 
-  // function optionValue(opcao, coluna){
-  //   var col = document.getElementsByTagName("select");
+  function optionValue(opcao, coluna){
+    var col = document.getElementsByTagName("select");
     
-  //     for (var i = 0; i < col.length; i++) {
-  //       var e = document.getElementsByTagName("select")[i].value;
+      for (var i = 0; i < col.length; i++) {
+        var e = document.getElementsByTagName("select")[i].value;
 
-  //       if(coluna != i) {
-  //         if(opcao == e && opcao != "none") {
-  //           swal({
-  //             type: 'warning',
-  //             title: 'Atenção!',
-  //             text: "Já há uma coluna selecionada com esse valor.",
-  //             confirmButtonClass: "btn-warning",
-  //             confirmButtonText: "OK!",
-  //             closeOnConfirm: true
-  //           });
+        if(coluna != i) {
+          if(opcao == e) {
+            swal({
+              type: 'warning',
+              title: 'Atenção!',
+              text: "Já há uma coluna selecionada com esse valor.",
+              confirmButtonClass: "btn-warning",
+              confirmButtonText: "OK!",
+              closeOnConfirm: true
+            });
 
-  //           document.getElementsByTagName("select")[coluna].value = "none";
+            document.getElementsByTagName("select")[coluna].value = "none";
+          }
+        }
+      }
 
-  //           // $("select[name='select" + i +"']").change(function() {
-  //           //   $(this).css('background-color','white'),
-  //           //   $(this).css('color','#555')
-  //           // });
-  //         }
-  //       }
-  //       else {
-  //         if (document.getElementsByTagName("select")[coluna].value != "none") {
-  //           // $("select[name='select" + i +"']").click(function() {
-  //           //   $(this).css('background-color','green'),
-  //           //   $(this).css('color','white'),
-  //           //   $('option').css('background-color','white'),
-  //           //   $('option').css('color','#555')
-  //           // });   
-  //         }
-  //       }
-
-  //       if (opcao == 'none') {
-  //         // $("select[name='select" + i +"']").click(function() {
-  //         //   $(this).css('background-color','white'),
-  //         //   $(this).css('color','#555')
-  //         // });
-  //       }
-  //     }
-
-  // }
+  }
  </script>

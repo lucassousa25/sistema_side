@@ -123,7 +123,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		}
 	}
 
-	public function ImportarPlanilhaAction()
+	public function tratarPlanilhaAction()
 	{
 
 		if (isset($_FILES['file'])) {
@@ -322,7 +322,7 @@ class ProdutosController extends \HXPHP\System\Controller
 					'Você precisa escolher o mês referente a sua planilha!'
 				));
 
-				self::ImportarPlanilhaAction();
+				self::tratarPlanilhaAction();
 			}
 			else {
 				if ($nomeTituloBool == true) {
@@ -371,7 +371,7 @@ class ProdutosController extends \HXPHP\System\Controller
 							$inserirDados->errors
 						));
 
-						self::ImportarPlanilhaAction();
+						self::tratarPlanilhaAction();
 					endif;
 
 					if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
@@ -382,7 +382,7 @@ class ProdutosController extends \HXPHP\System\Controller
 							$inserirDados->errors
 						));
 
-						self::ImportarPlanilhaAction();
+						self::tratarPlanilhaAction();
 					endif;
 
 					if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && is_null($inserirDados->products_quantity_updated)) :
@@ -393,7 +393,7 @@ class ProdutosController extends \HXPHP\System\Controller
 							$inserirDados->errors
 						));
 
-						self::ImportarPlanilhaAction();
+						self::tratarPlanilhaAction();
 					endif;
 
 					if(is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
@@ -404,7 +404,7 @@ class ProdutosController extends \HXPHP\System\Controller
 							$inserirDados->errors
 						));
 
-						self::ImportarPlanilhaAction();
+						self::tratarPlanilhaAction();
 					endif;
 				}
 				else {
@@ -413,7 +413,7 @@ class ProdutosController extends \HXPHP\System\Controller
 						'Você não selecionou nenhuma coluna!'
 					));
 
-					self::ImportarPlanilhaAction();
+					self::tratarPlanilhaAction();
 				}
 			}
 
