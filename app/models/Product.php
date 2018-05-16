@@ -479,7 +479,7 @@ class Product extends \HXPHP\System\Model
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
 		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
-		$parametros = Parameter::find('all');
+		$parametros = Parameter::find('all', array('conditions' => array('date' => date('m/Y'))));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Vendas]
