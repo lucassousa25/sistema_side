@@ -105,13 +105,13 @@
 
           <?php if($view_anterior > 0) : ?>
             <li>
-              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_anterior; ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo; Anterior</span>
+              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1" aria-label="Previous">
+                <span aria-hidden="true">&laquo; Primeira</span>
               </a>
             </li>
           <?php else : ?>
             <li class="disabled">
-                <span aria-hidden="true">&laquo; Anterior</span>
+                <span aria-hidden="true">&laquo; Primeira</span>
             </li>
           <?php endif; ?>
 
@@ -125,13 +125,13 @@
           <?php if($view_pagina < $view_total_paginas) : ?>
             <li><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_proximo; ?>"><?php echo $view_proximo; ?></a></li>
             <li>
-              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_proximo; ?>" aria-label="Next">
-                <span aria-hidden="true">Próximo &raquo;</span>
+              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_total_paginas; ?>" aria-label="Next">
+                <span aria-hidden="true">Última &raquo;</span>
               </a>
             </li>
           <?php else : ?>
             <li class="disabled">
-                <span aria-hidden="true">Próximo &raquo;</span>
+                <span aria-hidden="true">Última &raquo;</span>
             </li>
           <?php endif; ?>
 

@@ -59,45 +59,18 @@ class IndicadoresController extends \HXPHP\System\Controller
 				
 			}
 			else {
-				## Configurando para retorno a listagem de produtos ##
-				$user = User::find($user_id);
-
-				$listarProduto = Product::listar($user_id);
-
-				$anterior = $listarProduto['anterior'];
-				$proximo = $listarProduto['proximo'];
-				$pagina = $listarProduto['pagina'];
-				$total_paginas = $listarProduto['total_paginas'];
-				$total_produtos = $listarProduto['total_produtos'];
-				$primeiro_produto = ($listarProduto['primeiro_produto'] + 1);
-				$products = $listarProduto['registros'];
-
-				$this->view->setVars([
-								'user' => $user,
-								'products' => $products,
-								'anterior' => $anterior,
-								'proximo' => $proximo,
-								'pagina' => $pagina,
-								'total_paginas' => $total_paginas,
-								'total_produtos' => $total_produtos,
-								'primeiro_produto' => $primeiro_produto
-							])
-						->setHeader('header_side')
-						->setFooter('footer_side')
-						->setTemplate(true)
-						->setTitle('SIDE | Produtos')
-						->setPath('produtos')
-						->setFile('listar');
-				
-
-
 				## Exibindo alert com informações dos indicadores ##
 				$this->load('Helpers\Alert', array(
 					'info',
 					'Verifique as informações abaixo:',
 					'Giro de Estoque: O estoque girou ' . $registrarIndicadores->indicators['giro_estoque'] . ' vez(es).' .
-					'\n Cobertura de Estoque: O Estoque cobrirá ' . $registrarIndicadores->indicators['cobertura_estoque'] . ' dia(s).'
+					'\n Cobertura de Estoque: O Estoque cobrirá ' . $registrarIndicadores->indicators['cobertura_estoque'] . ' dia(s).' .
+					'\n Estoque Mínimo: ' . $registrarIndicadores->indicators['estoque_minimo'] .
+					'\n Ponto de Pedido: ' . $registrarIndicadores->indicators['ponto_reposicao'] .
+					'\n Lote de Reposição: ' . $registrarIndicadores->indicators['lote_reposicao']
 				));
+
+				self::listarAction();
 			}
 		}
 	}

@@ -32,8 +32,11 @@
           <tr>
             <th>Cód</th>
             <th>Descrição</th>
-            <th>Giro de Estoque (vezes)</th>
-            <th>Cobertura de Estoque (dias)</th>
+            <th>Giro de Estoque</th>
+            <th>Cobertura de Estoque</th>
+            <th>Estoque Mínimo</th>
+            <th>Ponto de Pedido</th>
+            <th>Lote de Reposição</th>
             <th>Data</th>
             <th>Ação</th>
           </tr>
@@ -46,10 +49,13 @@
               <tr>
                 <td class="col-sm-1"><?php echo $product['codigo_interno']; ?></td>
                 <td class="col-sm-3 text-center"><?php echo $product['description']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo number_format($product['giro_estoque'], 2, ',', '.'); ?></td>
-                <td class="col-sm-2 text-center"><?php echo $product['cobertura_estoque']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo date('d/m/Y', strtotime($product['date_insert'])) . ' às ' .date('h:i', strtotime($product['date_insert'])); ?></td>
-                <td class="col-sm-2">
+                <td class="col-sm-1 text-center"><?php echo $product['giro_estoque']; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['cobertura_estoque']; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['estoque_minimo']; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['ponto_reposicao']; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['lote_reposicao']; ?></td>
+                <td class="col-sm-2 text-center"><?php echo $product['date']; ?></td>
+                <td class="col-sm-1">
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">Calcular <span class="glyphicon glyphicon-edit"></span></a>
                 </td>
               </tr>

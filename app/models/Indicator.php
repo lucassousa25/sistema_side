@@ -10,109 +10,150 @@ class Indicator extends \HXPHP\System\Model
 		$callbackObj->indicators = array();
 
 		$product = Product::find($product_id);
-		$sell = Sell::all(array('conditions' => array('product_id' => $product_id)));
+		$parameters = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => date('m/Y'))));
 		
-		if (!is_null($sell)) {
+		if (!is_null($parameters)) {
 
-			// Variaveis de parâmetros e indicadores
-			$totalVendas = null;
-			$mediaEstoque = null;
-			$mediaVendas = null;
+			// Variaveis  (indicadores)
 			$giroEstoque = null;
 			$coberturaEstoque = null;
+			$estoqueMinimo = null;
+			$pontoDePedido = null;
+			$loteDeReposicao = null;
+
+			// Variaveis parâmetros
+			$totalVendas = null;
+			$mediaEstoque = null;
 
 			// Variaveis de inserção no Banco
 			$registrarIndicadores = null;
 
 			// Variaveis de Atualização do banco
-			$product_indicator_exists = self::find_by_product_id($product_id);
-
-			$dateInsert = date('Y-m-d H:i:s'); // Capturando data atual do sistema para validações e inserção
-
-			foreach ($sell as $linha) {
-				if (date_format($linha->date_sell, 'm') == date('m')) { // Verifica se está no mês atual
-					$totalVendas += $linha->quantity; // Acumula o total de itens vendidos no mês
-				} 
-			}
+			$product_indicator_exists = self::find_by_product_id_and_date($product_id, $parameters[0]->date);
 			
-			$mediaEstoque = (($product->est_inicial + $product->est_atual) / 2);
+			##########################################################
+			######## ------- Cálculos dos Indicadores ------- ########
+			##########################################################
 
-			if ($totalVendas == 0 || $mediaEstoque == 0) {
-				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto nesse mês.'));
-		
-				foreach ($errors as $field => $message) {
-					array_push($callbackObj->errors, $message[0]);
-				}
-				return $callbackObj;
+			### GIRO DE ESTOQUE ###
+			$totalVendas = $parameters[0]->quantidade_vendida;
+			$mediaEstoque = (($parameters[0]->estoque_atual + $parameters[0]->quantidade_vendida) / 2);
+
+			if ($totalVendas == null || $mediaEstoque == null) {
+				$callbackObj->errors = 'Não foram oferecidos os parametros necessários.';
+							
 			}
 			else {
 				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ','); // Fazendo cálculo do giro de estoque
 			}
 
-			$mediaVendas = number_format(($totalVendas / date('d')), 1, '.', ','); // Calcula a média de vendas feita no mês
-			$diasNoMes = cal_days_in_month(0, date('m'), date('y')); // Captura a quantidade de dias do mês atual
+			### COBERTURA DE ESTOQUE ###
+			$arrayData = explode('/', $parameters[0]->date);
+			$diasNoMes = cal_days_in_month(0, $arrayData[0], $arrayData[1]); // Captura a quantidade de dias do mês atual
 
-			if ($mediaVendas == 0 || $giroEstoque == 0) {
-				$errors = array('description' => array('0' => 'Não foi registradas vendas desse produto.'));
-		
-				foreach ($errors as $field => $message) {
-					array_push($callbackObj->errors, $message[0]);
-				}
-				return $callbackObj;
+			if ($giroEstoque == null) {
+				$callbackObj->errors = 'Não foram oferecidos os parametros necessários.';
 			}
 			else {
 				$coberturaEstoque = ($diasNoMes / $giroEstoque); // Fazendo cálculo da cobertura de estoque
 			}
 
+			### ESTOQUE MÍNIMO ###
+			if ($parameters[0]->demanda_media == null || $parameters[0]->tempo_reposicao == null) {
+				$callbackObj->errors = 'Não foram oferecidos os parametros necessários.';
+			}
+			else {
+				$estoqueMinimo = (($parameters[0]->demanda_media / $parameters[0]->tempo_reposicao) * $parameters[0]->tempo_reposicao); // Fazendo cálculo do estoque mínimo
+				$estoqueMinimo = number_format($estoqueMinimo, 2);
+			}
+
+			### PONTO DE REPOSIÇÃO ###
+			if ($estoqueMinimo == null || $estoqueMinimo == 0) {
+				$callbackObj->errors = 'Não foram oferecidos os parametros necessários.';
+			}
+			else {
+				$pontoDePedido = 2 * intval($estoqueMinimo);
+			}
+
+			### LOTE DE REPOSIÇÃO ###
+			if ($parameters[0]->demanda_media == null || $parameters[0]->freq_compra == null) {
+				$callbackObj->errors = 'Não foram oferecidos os parâmetros necessário.';
+			}
+			else {
+				$loteDeReposicao = ($parameters[0]->demanda_media / $parameters[0]->freq_compra);
+				$loteDeReposicao = number_format($loteDeReposicao, 2);
+			}
+
 			// Montando array de inserção
 			$array_indicators = [
-				'product_id'  => null,
-				'user_id'  => null,
-				'giro_estoque' => null,
-				'cobertura_estoque' => null,
-				'date_insert' => null	
+				'user_id'  => $user_id,
+				'product_id'  => $product_id,
+				'giro_estoque' => $giroEstoque,
+				'cobertura_estoque' => intval($coberturaEstoque),
+				'estoque_minimo' => $estoqueMinimo,
+				'ponto_reposicao' => $pontoDePedido,
+				'lote_reposicao' => $loteDeReposicao,
+				'date' => $parameters[0]->date	
 			];
 
-			if (!empty($giroEstoque) && !empty($coberturaEstoque)) {
-				$array_indicators['product_id'] = $product_id;
-				$array_indicators['user_id'] = $user_id;
-				$array_indicators['giro_estoque'] = $giroEstoque;
-				$array_indicators['cobertura_estoque'] = $coberturaEstoque;
-				$array_indicators['date_insert'] = $dateInsert;
-
-				if (!is_null($product_indicator_exists) && (date_format($product_indicator_exists->date_insert, 'm') == date('m')) && (date_format($product_indicator_exists->date_insert, 'y') == date('y'))) {
-					$product_indicator_exists->giro_estoque = $giroEstoque;
-					$product_indicator_exists->cobertura_estoque = $coberturaEstoque;
-					$product_indicator_exists->date_insert = $dateInsert;
-					
-					$atualizarIndicadores = $product_indicator_exists->save(false); // Atualizando dado atual no Banco
-				}
-				else {
-					$registrarIndicadores = self::create($array_indicators); // Inserindo dado no Banco 
-				}
+			if (!is_null($product_indicator_exists)) {
+				$product_indicator_exists->giro_estoque = $array_indicators['giro_estoque'];
+				$product_indicator_exists->cobertura_estoque = $array_indicators['cobertura_estoque'];
+				$product_indicator_exists->estoque_minimo = $array_indicators['estoque_minimo'];
+				$product_indicator_exists->ponto_reposicao = $array_indicators['ponto_reposicao'];
+				$product_indicator_exists->lote_reposicao = $array_indicators['lote_reposicao'];
 				
-			}
+				$atualizarIndicadores = $product_indicator_exists->save(false); // Atualizando dado atual no Banco
 
-			if(!is_null($registrarIndicadores)) {
 				$callbackObj->status = true;
-				$callbackObj->indicators['giro_estoque'] = $giroEstoque;
-				$callbackObj->indicators['cobertura_estoque'] = intval($coberturaEstoque);
+				$callbackObj->indicators['giro_estoque'] = $array_indicators['giro_estoque'];
+				$callbackObj->indicators['cobertura_estoque'] = $array_indicators['cobertura_estoque'];
 
-				return $callbackObj;
-			}
-			elseif (!is_null($product_indicator_exists)) {
-				$callbackObj->status = true;
-				$callbackObj->indicators['giro_estoque'] = $giroEstoque;
-				$callbackObj->indicators['cobertura_estoque'] = intval($coberturaEstoque);
+				if (!is_null($array_indicators['estoque_minimo'])) :
+					$callbackObj->indicators['estoque_minimo'] = $array_indicators['estoque_minimo'];
+				else :
+					$callbackObj->indicators['estoque_minimo'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
+
+				if (!is_null($array_indicators['ponto_reposicao'])) :
+					$callbackObj->indicators['ponto_reposicao'] = $array_indicators['ponto_reposicao'];
+				else :
+					$callbackObj->indicators['ponto_reposicao'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
+
+				if (!is_null($array_indicators['lote_reposicao'])) :
+					$callbackObj->indicators['lote_reposicao'] = $array_indicators['lote_reposicao'];
+				else :
+					$callbackObj->indicators['lote_reposicao'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
 
 				return $callbackObj;
 			}
 			else {
-				$errors = $cadastrar->errors->get_raw_errors(); 
-		
-				foreach ($errors as $field => $message) {
-					array_push($callbackObj->errors, $message[0]);
-				}
+				$registrarIndicadores = self::create($array_indicators); // Inserindo dado no Banco 
+
+				$callbackObj->status = true;
+				$callbackObj->indicators['giro_estoque'] = $array_indicators['giro_estoque'];
+				$callbackObj->indicators['cobertura_estoque'] = $array_indicators['cobertura_estoque'];
+				
+				if (!is_null($array_indicators['estoque_minimo'])) :
+					$callbackObj->indicators['estoque_minimo'] = $array_indicators['estoque_minimo'];
+				else :
+					$callbackObj->indicators['estoque_minimo'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
+
+				if (!is_null($array_indicators['ponto_reposicao'])) :
+					$callbackObj->indicators['ponto_reposicao'] = $array_indicators['ponto_reposicao'];
+				else :
+					$callbackObj->indicators['ponto_reposicao'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
+
+				if (!is_null($array_indicators['lote_reposicao'])) :
+					$callbackObj->indicators['lote_reposicao'] = $array_indicators['lote_reposicao'];
+				else :
+					$callbackObj->indicators['lote_reposicao'] = 'Não foram oferecidos os parâmetros necessário.';
+				endif;
+
 				return $callbackObj;
 			}
 
@@ -132,8 +173,8 @@ class Indicator extends \HXPHP\System\Model
 		$first_indicator = $pagina - 1; 
 		$first_indicator = $first_indicator * $exib_limit;
 
-		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
-		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
+		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
 		$consultaProdutos = Product::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
@@ -153,7 +194,10 @@ class Indicator extends \HXPHP\System\Model
 					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
 					$array_tabela[$i]['giro_estoque'] = $all_rgs_by_page[$i]->giro_estoque;
 					$array_tabela[$i]['cobertura_estoque'] = $all_rgs_by_page[$i]->cobertura_estoque;
-					$array_tabela[$i]['date_insert'] = $all_rgs_by_page[$i]->date_insert;
+					$array_tabela[$i]['estoque_minimo'] = $all_rgs_by_page[$i]->estoque_minimo;
+					$array_tabela[$i]['ponto_reposicao'] = $all_rgs_by_page[$i]->ponto_reposicao;
+					$array_tabela[$i]['lote_reposicao'] = $all_rgs_by_page[$i]->lote_reposicao;
+					$array_tabela[$i]['date'] = $all_rgs_by_page[$i]->date;
 				}
 			 } 
 		}

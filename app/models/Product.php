@@ -28,6 +28,18 @@ class Product extends \HXPHP\System\Model
 		else {
 			$post['custo'] = null;
 		}
+
+		if(empty($post['demanda_media']))
+			$post['demanda_media'] = null;
+
+		if(empty($post['tempo_reposicao']))
+			$post['tempo_reposicao'] = null;
+
+		if(empty($post['freq_compra']))
+			$post['freq_compra'] = null;
+
+		if(empty($post['total_vendas']))
+			$post['total_vendas'] = null;
 		
 
 		$array_product_insert = [
@@ -47,7 +59,7 @@ class Product extends \HXPHP\System\Model
 			'freq_compra' => $post['freq_compra'],
 			'quantidade_vendida' => $post['quantidade_vendida'],
 			'total_vendas' => $post['total_vendas'],
-			'date' => date('Y-m-d')
+			'date' => date('m/Y')
 		];
 
 		$validations = self::find_by_user_id_and_description($user_id, $post['description']);
@@ -479,7 +491,7 @@ class Product extends \HXPHP\System\Model
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
 		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
-		$parametros = Parameter::find('all', array('conditions' => array('date' => date('m/Y'))));
+		$parametros = Parameter::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Vendas]
