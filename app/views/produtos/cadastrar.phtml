@@ -73,7 +73,7 @@
         </div>
         <div class="form-group col-sm-4">
           <label>Tempo de reposição </label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
+          <label data-toggle="tooltip" data-placement="top" title="O tempo de reposição é o intervalo da emissão do pedido de compras relativo a algum produto até seu recebimento pela empresa. Ele é necessário para o cálculo do estoque mínimo."><span class="fa fa-exclamation-circle"></span></label>
           <input type="number" name="tempo_reposicao" class="form-control">
         </div>
         <div class="form-group col-sm-4">
@@ -83,17 +83,18 @@
         </div>
         <div class="form-group col-sm-4">
           <label>Frequência de Compra </label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
+          <label data-toggle="tooltip" data-placement="top" title="Informe a quantidade de vezes em que a
+compra do produto é realizada no mês."><span class="fa fa-exclamation-circle"></span></label>
           <input type="number" name="freq_compra" class="form-control">
         </div>
         <div class="form-group col-sm-4">
           <label>Quantidade vendida <span style="color: red;">*</span></label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
+          <label data-toggle="tooltip" data-placement="top" title="Insira a quantidade de vendas do produto de acordo com sua unidade por mês."><span class="fa fa-exclamation-circle"></span></label>
           <input type="number" name="quantidade_vendida" class="form-control" required="required">
         </div>
         <div class="form-group col-sm-4">
           <label>Total de vendas </label>
-          <label><span class="fa fa-exclamation-circle"></span></label>
+          <label data-toggle="tooltip" data-placement="top" title="Insira o acumúlo total de vendas do produto feita no mês em (R$)"><span class="fa fa-exclamation-circle"></span></label>
           <input type="text" name="total_vendas" class="form-control real" placeholder="0,00">
         </div>
       </div>
