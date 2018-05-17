@@ -17,8 +17,17 @@
             <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modalImport"><i class="fa fa-file-excel-o"></i> Importar (Planilha)</a>
         </div>
       </div>
+      <div class="btn-group">
+        <button type="button" class="btn side-primary-color dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gerar Indicadores <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <?php foreach($view_datas as $data) : ?>
+            <li><a href="#"><?php echo $data->date; ?></a></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
     </div>
-
     <div class="col-sm-4 pull-right">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Buscar por nome">
@@ -60,7 +69,7 @@
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
-                  <a href="<?php $this->printRelativeURL('Indicadores', false); ?>/geraIndicador/<?php echo intval($product['id']); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar Indicadores"><i class="fa fa-line-chart"></i></a> 
+                  <a href="<?php $this->printRelativeURL('Indicadores', false); ?>/geraIndicador/<?php echo intval($product['id']); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar indicadores do produto"><i class="fa fa-line-chart"></i></a> 
                 </td>
               </tr>
           <?php

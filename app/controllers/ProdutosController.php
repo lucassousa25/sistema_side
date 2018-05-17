@@ -21,27 +21,18 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
-		Product::atualizaEstoque($user_id);
-
 		$listarProduto = Product::listar($user_id);
-
-		$anterior = $listarProduto['anterior'];
-		$proximo = $listarProduto['proximo'];
-		$pagina = $listarProduto['pagina'];
-		$total_paginas = $listarProduto['total_paginas'];
-		$total_produtos = $listarProduto['total_produtos'];
-		$primeiro_produto = $listarProduto['primeiro_produto'] + 1;
-		$products = $listarProduto['registros'];
 
 		$this->view->setVars([
 						'user' => $user,
-						'products' => $products,
-						'anterior' => $anterior,
-						'proximo' => $proximo,
-						'pagina' => $pagina,
-						'total_paginas' => $total_paginas,
-						'total_produtos' => $total_produtos,
-						'primeiro_produto' => $primeiro_produto
+						'products' => $listarProduto['registros'],
+						'anterior' => $listarProduto['anterior'],
+						'proximo' => $listarProduto['proximo'],
+						'pagina' => $listarProduto['pagina'],
+						'total_paginas' => $listarProduto['total_paginas'],
+						'total_produtos' => $listarProduto['total_produtos'],
+						'primeiro_produto' => $listarProduto['primeiro_produto'] + 1,
+						'datas' => $listarProduto['datas']
 					])
 				->setHeader('header_side')
 				->setFooter('footer_side')

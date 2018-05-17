@@ -492,7 +492,8 @@ class Product extends \HXPHP\System\Model
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
 		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => 'date_insert desc'));
 		$parametros = Parameter::find('all');
-			
+		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT date'));
+
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Vendas]
 		$total_parametros = count($parametros); // verifica o número total de registros [Produtos]
@@ -523,27 +524,10 @@ class Product extends \HXPHP\System\Model
 			'total_paginas' => $total_paginas,
 			'total_produtos' => $total_registros,
 			'primeiro_produto' => $first_prod,
-			'registros' => $array_tabela
+			'registros' => $array_tabela,
+			'datas' => $parametrosData
 		];
 
 		return $dados;
-	}
-
-	public static function atualizaEstoque($user_id)
-	{
-		$products = self::find('all', array('conditions' => array('user_id' => $user_id)));
-
-		if (date('d') == '01') {
-			foreach($products as $product) :
-
-				if ($product->est_inicial != $product->est_atual) {
-
-					$product->est_inicial = $product->est_atual;
-					$product->save(false);
-
-				}
-
-			endforeach;			
-		}
 	}
 }
