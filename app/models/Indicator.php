@@ -2,7 +2,7 @@
 
 class Indicator extends \HXPHP\System\Model
 {
-	public static function gerarIndicadores($user_id, $product_id)
+	public static function gerarIndicadores($user_id, $product_id, $date)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
 		$callbackObj->status = false;
@@ -10,7 +10,7 @@ class Indicator extends \HXPHP\System\Model
 		$callbackObj->indicators = array();
 
 		$product = Product::find($product_id);
-		$parameters = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => date('m/Y'))));
+		$parameters = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => $date)));
 		
 		if (!is_null($parameters)) {
 
@@ -48,7 +48,7 @@ class Indicator extends \HXPHP\System\Model
 			}
 
 			### COBERTURA DE ESTOQUE ###
-			$arrayData = explode('/', $parameters[0]->date);
+			$arrayData = explode('-', $parameters[0]->date);
 			$diasNoMes = cal_days_in_month(0, $arrayData[0], $arrayData[1]); // Captura a quantidade de dias do mês atual
 
 			if ($giroEstoque == null) {
@@ -173,8 +173,8 @@ class Indicator extends \HXPHP\System\Model
 		$first_indicator = $pagina - 1; 
 		$first_indicator = $first_indicator * $exib_limit;
 
-		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
-		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date'));
+		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date'));
 		$consultaProdutos = Product::find('all');
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros

@@ -59,7 +59,7 @@ class Product extends \HXPHP\System\Model
 			'freq_compra' => $post['freq_compra'],
 			'quantidade_vendida' => $post['quantidade_vendida'],
 			'total_vendas' => $post['total_vendas'],
-			'date' => date('m/Y')
+			'date' => date('m-Y')
 		];
 
 		$validations = self::find_by_user_id_and_description($user_id, $post['description']);

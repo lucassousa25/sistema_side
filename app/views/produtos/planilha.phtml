@@ -33,12 +33,12 @@
                  
                 if ($i < date("Y")) {
                   for ($j=12; $j >= 01; $j--) {
-                    echo "<option value='" . date("$j/$i") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
+                    echo "<option value='" . date("$j-$i") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
                   }
                 }
                 else {
                   for ($j=date("m"); $j >= 01; $j--) { 
-                    echo "<option value='" . date("$j/$i") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
+                    echo "<option value='" . date("$j-$i") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
                   }
                 }
                    

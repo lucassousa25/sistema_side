@@ -41,12 +41,12 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$this->view->setFile('listar');
 	}
 
-	public function geraIndicadorAction($product_id = 1)
+	public function geraIndicadorAction($product_id = 1, $date = null)
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if (is_numeric($product_id)) {
-			$registrarIndicadores = Indicator::gerarIndicadores($user_id, $product_id);
+			$registrarIndicadores = Indicator::gerarIndicadores($user_id, $product_id, $date);
 
 			if ($registrarIndicadores->status === false) {
 				$this->load('Helpers\Alert', array(
@@ -72,6 +72,27 @@ class IndicadoresController extends \HXPHP\System\Controller
 
 				self::listarAction();
 			}
+		}
+	}
+
+	public function gerarTodosIndicadoresAction($date = null)
+	{
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		if (!is_null($date)) {
+			$allProductsDate = Parameter::all(array('conditions' => "date LIKE '$date'"));
+			
+			foreach ($allProductsDate as $linha) :
+				$registrarIndicadoresProduto = Indicator::gerarIndicadores($user_id, $linha->product_id, $date);
+			endforeach;
+
+			$this->load('Helpers\Alert', array(
+				'info',
+				'Verifique as informações abaixo:',
+				'A tabela exibe os indicadores gerado de cada produto. Os valores em branco significa falta de parâmetros necessários.'
+			));
+
+			self::listarAction();
 		}
 	}
 

@@ -23,7 +23,7 @@
         </button>
         <ul class="dropdown-menu">
           <?php foreach($view_datas as $data) : ?>
-            <li><a href="#"><?php echo $data->date; ?></a></li>
+            <li><a href="<?php $this->printRelativeURL('indicadores', false); ?>/gerarTodosIndicadores/<?php echo $data->date; ?>"><?php echo $data->date; ?></a></li>
           <?php endforeach; ?>
         </ul>
       </div>
@@ -69,7 +69,7 @@
                   <button type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Visulizar"><span class="glyphicon glyphicon-search"></span></button>
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Deletar"><span class="glyphicon glyphicon-remove"></span></button>
-                  <a href="<?php $this->printRelativeURL('Indicadores', false); ?>/geraIndicador/<?php echo intval($product['id']); ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar indicadores do produto"><i class="fa fa-line-chart"></i></a> 
+                  <a href="<?php $this->printRelativeURL('indicadores', false); ?>/geraIndicador/<?php echo intval($product['id']); ?>/<?php echo $view_datas[0]->date; ?>" class="btn side-primary-color btn-xs" id="prd_01" title="Gerar indicadores do produto"><i class="fa fa-line-chart"></i></a> 
                 </td>
               </tr>
           <?php
