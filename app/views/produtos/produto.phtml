@@ -7,6 +7,8 @@
 
   <?php echo (isset($this->alert) ? $this->alert : ''); ?>
 
+  <?php $this->partial('modal-giroestoque-grafico'); ?>
+
   <div class="row">
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -42,7 +44,7 @@
 	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
 	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->lote_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->lote_reposicao . ' ' . $view_produto->unity; endif; ?></li>
 
-	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?></li>
+	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?> <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalGiro"></button></li>
 	    	<li><strong>Cobertura de Estoque: </strong><?php echo $view_indicadores[0]->cobertura_estoque . ' dias.'; ?></li>
 	    </ul>
 	  </div>

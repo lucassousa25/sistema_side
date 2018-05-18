@@ -1,0 +1,27 @@
+<div class="modal fade" id="modalGiro" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Histórico do Giro de Estoque</h4>
+      </div>
+      <div class="modal-body">
+        <canvas id="historico-giro"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success">Enviar</button>
+
+        </form>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+  var ctx = document.getElementById("historico-giro");
+
+  var chartGraph = new Chart(ctx, {
+    type: 'line'
+  })
+</script>
