@@ -90,8 +90,8 @@ class ProdutosController extends \HXPHP\System\Controller
 
 		if (!is_null($product_id)) {
 			$getProduct = Product::find_by_id($product_id);
-			$getParametersProduct = Parameter::find_by_product_id($product_id);
-			$getIndicatorsProduct = Indicator::find_by_product_id($product_id);
+			$getParametersProduct = Parameter::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date'));
+			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date'));
 
 			$this->view->setVars([
 					'produto' => $getProduct,

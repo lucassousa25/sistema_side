@@ -26,20 +26,24 @@
 	  	  <h3>Parâmetros</h3>
 	  	</div>
 	  	<ul style="font-size: 14pt; line-height: 40px;">
-	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros->estoque_atual; ?></li>
-	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros->total_vendas)) : echo 'R$ ' . number_format($view_parametros->total_vendas / $view_parametros->quantidade_vendida, 2); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
-	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros->custo; endif; ?></li>
-	    	<li><strong>Tempo de reposição: </strong><?php echo $view_parametros->tempo_reposicao . ' dias.'; ?></li>
-	    	<li><strong>Quandidade vendida no mês: </strong><?php echo $view_parametros->quantidade_vendida . " $view_produto->unity"; ?></li>
-	    	<li><strong>Frequência de compras por mês: </strong><?php if(is_null($view_parametros->freq_compra)) : echo "<em>Sem registros</em>"; else : echo $view_parametros->freq_compra; endif; ?></li>
+	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros[0]->estoque_atual; ?></li>
+	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros[0]->total_vendas)) : echo 'R$ ' . number_format($view_parametros[0]->total_vendas / $view_parametros[0]->quantidade_vendida, 2); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
+	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros[0]->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->custo; endif; ?></li>
+	    	<li><strong>Tempo de reposição: </strong><?php echo $view_parametros[0]->tempo_reposicao . ' dias.'; ?></li>
+	    	<li><strong>Quandidade vendida no mês: </strong><?php echo $view_parametros[0]->quantidade_vendida . " $view_produto->unity"; ?></li>
+	    	<li><strong>Frequência de compras por mês: </strong><?php if(is_null($view_parametros[0]->freq_compra)) : echo "<em>Sem registros</em>"; else : echo $view_parametros[0]->freq_compra; endif; ?></li>
 	  	</ul>
 
 	  	<div class="page-header">
 	  	  <h3>Indicadores</h3>
 	  	</div>
 	  	<ul style="font-size: 14pt; line-height: 40px;">
-	    	<li><strong>Estoque Mínimo: </strong><?php echo $view_indicadores->estoque_minimo; ?></li>
-	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
+	    	<li><strong>Estoque Mínimo: </strong><?php echo $view_indicadores[0]->estoque_minimo; ?></li>
+	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
+	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->lote_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->lote_reposicao . ' ' . $view_produto->unity; endif; ?></li>
+
+	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?></li>
+	    	<li><strong>Cobertura de Estoque: </strong><?php echo $view_indicadores[0]->cobertura_estoque . ' dias.'; ?></li>
 	    </ul>
 	  </div>
 	</div>
