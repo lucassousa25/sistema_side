@@ -103,22 +103,14 @@ class IndicadoresController extends \HXPHP\System\Controller
 		if(!empty($pagina)) {
 			$listarIndicadores = Indicator::listar($user_id, $pagina);
 
-			$anterior = $listarIndicadores['anterior'];
-			$proximo = $listarIndicadores['proximo'];
-			$pagina = $listarIndicadores['pagina'];
-			$total_paginas = $listarIndicadores['total_paginas'];
-			$total_produtos = $listarIndicadores['total_produtos'];
-			$primeiro_produto = $listarIndicadores['primeiro_produto'] + 1;
-			$products = $listarIndicadores['registros'];
-
 			$this->view->setVars([
-					'products' => $products,
-					'anterior' => $anterior,
-					'proximo' => $proximo,
-					'pagina' => $pagina,
-					'total_paginas' => $total_paginas,
-					'total_produtos' => $total_produtos,
-					'primeiro_produto' => $primeiro_produto
+					'products' => $listarIndicadores['registros'],
+					'anterior' => $listarIndicadores['anterior'],
+					'proximo' => $listarIndicadores['proximo'],
+					'pagina' => $listarIndicadores['pagina'],
+					'total_paginas' => $listarIndicadores['total_paginas'],
+					'total_produtos' => $listarIndicadores['total_produtos'],
+					'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1
 					])
 					->setFile('listar');
 		}
