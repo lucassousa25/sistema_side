@@ -84,14 +84,30 @@ class ProdutosController extends \HXPHP\System\Controller
 		$this->view->setFile('cadastrar');
 	}
 
-	public function listarAction($pagina = 1)
+	public function visualizarProdutoAction($product_id = null)
 	{
-		$get = $pagina;
-
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
-		if(!empty($get)) {
-			$listarProduto = Product::listar($user_id, $get);
+		if (!is_null($product_id)) {
+			$getProduct = Product::find_by_id($product_id);
+			$getParametersProduct = Parameter::find_by_product_id($product_id);
+			$getIndicatorsProduct = Indicator::find_by_product_id($product_id);
+
+			$this->view->setVars([
+					'produto' => $getProduct,
+					'parametros' => $getParametersProduct,
+					'indicadores' => $getIndicatorsProduct
+					])
+					->setFile('produto');
+		}
+	}
+
+	public function listarAction($pagina = 1)
+	{
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		if(!empty($pagina)) {
+			$listarProduto = Product::listar($user_id, $pagina);
 
 			$anterior = $listarProduto['anterior'];
 			$proximo = $listarProduto['proximo'];
