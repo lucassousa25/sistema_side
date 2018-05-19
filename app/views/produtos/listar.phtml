@@ -21,9 +21,9 @@
         <button type="button" class="btn side-primary-color dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Gerar Indicadores <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" style="overflow-y: scroll; max-height: 38px;">
+        <ul class="dropdown-menu" style="overflow-y: scroll; max-height: 60px;">
           <?php foreach($view_datas as $data) : ?>
-            <li><a href="<?php $this->printRelativeURL('indicadores', false); ?>/gerarTodosIndicadores/<?php echo $data->date; ?>"><?php echo $data->date; ?></a></li>
+            <li><a href="<?php $this->printRelativeURL('indicadores', false); ?>/gerarTodosIndicadores/<?php echo $data->date; ?>"><?php echo strftime('%B/%Y', strtotime('01-'.$data->date)); ?></a></li>
           <?php endforeach; ?>
         </ul>
       </div>

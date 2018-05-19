@@ -54,7 +54,7 @@
                 <td class="col-sm-1 text-center"><?php echo $product['estoque_minimo']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['ponto_reposicao']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['lote_reposicao']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo $product['date']; ?></td>
+                <td class="col-sm-2 text-center"><?php echo strftime('%B/%Y', strtotime('01-'.$product['date'])); ?></td>
                 <td class="col-sm-1">
                   <a href="#" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">Calcular <span class="glyphicon glyphicon-edit"></span></a>
                 </td>
