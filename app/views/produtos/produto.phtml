@@ -7,7 +7,13 @@
 
   <?php echo (isset($this->alert) ? $this->alert : ''); ?>
 
-  <?php $this->partial('modal-giroestoque-grafico'); ?>
+  <?php $this->partial('modal-giroestoque-grafico', [
+  	'array_indicadores' => $view_indicadores
+  ]); ?>
+
+  <?php $this->partial('modal-coberturaestoque-grafico', [
+  	'array_indicadores' => $view_indicadores
+  ]); ?>
 
   <div class="row">
 	<div class="panel panel-default">
@@ -16,18 +22,18 @@
 	  </div>
 	  <div class="panel-body">
 	  	<div class="page-header">
-	  	  <h3>Dados</h3>
+	  	  <h3><i class="fa fa-cube"></i> Dados</h3>
 	  	</div>
-	    <ul style="font-size: 14pt; line-height: 40px;">
+	    <ul style="font-size: 13pt; line-height: 40px;">
 	    	<li><strong>Código: </strong><?php echo $view_produto->internal_code; ?></li>
 	    	<li><strong>Descrição: </strong><?php echo $view_produto->description; ?></li>
 	    	<li><strong>Unidade: </strong><?php echo $view_produto->unity; ?></li>
 	    </ul>
 
 	    <div class="page-header">
-	  	  <h3>Parâmetros</h3>
+	  	  <h3><i class="fa fa-cubes"></i> Parâmetros</h3>
 	  	</div>
-	  	<ul style="font-size: 14pt; line-height: 40px;">
+	  	<ul style="font-size: 13pt; line-height: 40px;">
 	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros[0]->estoque_atual; ?></li>
 	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros[0]->total_vendas)) : echo 'R$ ' . number_format($view_parametros[0]->total_vendas / $view_parametros[0]->quantidade_vendida, 2); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
 	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros[0]->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->custo; endif; ?></li>
@@ -37,15 +43,15 @@
 	  	</ul>
 
 	  	<div class="page-header">
-	  	  <h3>Indicadores</h3>
+	  	  <h3><i class="fa fa-line-chart"></i> Indicadores</h3>
 	  	</div>
-	  	<ul style="font-size: 14pt; line-height: 40px;">
+	  	<ul style="font-size: 13pt; line-height: 40px;">
 	    	<li><strong>Estoque Mínimo: </strong><?php echo $view_indicadores[0]->estoque_minimo; ?></li>
 	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
-	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->lote_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->lote_reposicao . ' ' . $view_produto->unity; endif; ?></li>
+	    	<li><strong>Lote de Reposição: </strong><?php if(is_null($view_indicadores[0]->lote_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->lote_reposicao . ' ' . $view_produto->unity; endif; ?></li>
 
-	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?> <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalGiro"></button></li>
-	    	<li><strong>Cobertura de Estoque: </strong><?php echo $view_indicadores[0]->cobertura_estoque . ' dias.'; ?></li>
+	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?> <span data-toggle="tooltip" data-placement="right" title="Pressione para visualizar o histórico do giro de estoque do produto"><button type="button" class="btn side-primary-color" data-toggle="modal" data-target="#modalGiro"><i class="fa fa-history"></i> Histórico</button></span></li>
+	    	<li><strong>Cobertura de Estoque: </strong><?php echo $view_indicadores[0]->cobertura_estoque . ' dias.'; ?> <span data-toggle="tooltip" data-placement="right" title="Pressione para visualizar o histórico da cobertura de estoque do produto"><button type="button" class="btn side-primary-color" data-toggle="modal" data-target="#modalCobertura"><i class="fa fa-history"></i> Histórico</button></span></li>
 	    </ul>
 	  </div>
 	</div>

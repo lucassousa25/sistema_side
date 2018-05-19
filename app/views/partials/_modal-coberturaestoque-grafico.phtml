@@ -1,16 +1,15 @@
-<div class="modal fade" id="modalGiro" tabindex="-1" role="dialog">
+<div class="modal fade" id="modalCobertura" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Histórico do Giro de Estoque</h4>
+        <h4 class="modal-title">Histórico da Cobertura de Estoque</h4>
       </div>
       <div class="modal-body">
-        <canvas id="historico-giro"></canvas>
+        <canvas id="historico-cobertura"></canvas>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-success">Enviar</button>
+        <button type="button" class="btn side-primary-color" data-dismiss="modal">OK</button>
   
         </form>
       </div>
@@ -19,7 +18,7 @@
 </div><!-- /.modal -->
 
 <script>
-  var ctx = document.getElementById("historico-giro");
+  var ctx = document.getElementById("historico-cobertura");
 
   var chartGraph = new Chart(ctx, {
     type: 'line',
@@ -44,10 +43,10 @@
             $view_array_indicadores = array_reverse($view_array_indicadores); 
             foreach ($view_array_indicadores as $linha) {
                 if ($linha == end($view_array_indicadores)) {
-                  echo number_format($linha->giro_estoque, 2);
+                  echo number_format($linha->cobertura_estoque, 2);
                 }
                 else {
-                  echo number_format($linha->giro_estoque, 2) . ",";
+                  echo number_format($linha->cobertura_estoque, 2) . ",";
                 }
             }
           ?>
