@@ -28,10 +28,10 @@
           $view_array_indicadores = array_reverse($view_array_indicadores); 
           foreach ($view_array_indicadores as $linha) {
               if ($linha == end($view_array_indicadores)) {
-                echo "'".$linha->date."'";
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'";
               }
               else {
-                echo "'".$linha->date."'" . ',';
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'" . ',';
               }
           }
         ?>
@@ -39,8 +39,7 @@
       datasets: [{
         label: 'Histórico da Cobertura',
         data: [
-          <?php
-            $view_array_indicadores = array_reverse($view_array_indicadores); 
+          <?php 
             foreach ($view_array_indicadores as $linha) {
                 if ($linha == end($view_array_indicadores)) {
                   echo number_format($linha->cobertura_estoque, 2);

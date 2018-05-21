@@ -10,7 +10,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn side-primary-color" data-dismiss="modal">OK</button>
-  
         </form>
       </div>
     </div><!-- /.modal-content -->
@@ -28,10 +27,10 @@
           $view_array_indicadores = array_reverse($view_array_indicadores); 
           foreach ($view_array_indicadores as $linha) {
               if ($linha == end($view_array_indicadores)) {
-                echo "'".$linha->date."'";
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'";
               }
               else {
-                echo "'".$linha->date."'" . ',';
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'" . ',';
               }
           }
         ?>
@@ -40,7 +39,7 @@
         label: 'Histórico do Giro',
         data: [
           <?php
-            $view_array_indicadores = array_reverse($view_array_indicadores); 
+             
             foreach ($view_array_indicadores as $linha) {
                 if ($linha == end($view_array_indicadores)) {
                   echo number_format($linha->giro_estoque, 2);

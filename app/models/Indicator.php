@@ -48,8 +48,8 @@ class Indicator extends \HXPHP\System\Model
 			}
 
 			### COBERTURA DE ESTOQUE ###
-			$arrayData = explode('-', $parameters[0]->date);
-			$diasNoMes = cal_days_in_month(0, $arrayData[0], $arrayData[1]); // Captura a quantidade de dias do mês atual
+			$arrayData = explode('-', strftime('%Y-%m-%d', strtotime($parameters[0]->date)));
+			$diasNoMes = cal_days_in_month(0, $arrayData[1], $arrayData[0]); // Captura a quantidade de dias do mês atual
 
 			if ($giroEstoque == null) {
 				$callbackObj->errors = 'Não foram oferecidos os parametros necessários.';

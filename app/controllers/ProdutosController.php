@@ -90,8 +90,9 @@ class ProdutosController extends \HXPHP\System\Controller
 
 		if (!is_null($product_id)) {
 			$getProduct = Product::find_by_id($product_id);
-			$getParametersProduct = Parameter::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date'));
-			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date'));
+			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
+			$getParametersProduct = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date))), 'order' => 'date'));
+			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date desc')); 
 
 			$this->view->setVars([
 					'produto' => $getProduct,
@@ -116,7 +117,8 @@ class ProdutosController extends \HXPHP\System\Controller
 					'pagina' => $listarProduto['pagina'],
 					'total_paginas' => $listarProduto['total_paginas'],
 					'total_produtos' => $listarProduto['total_produtos'],
-					'primeiro_produto' => $listarProduto['primeiro_produto'] + 1
+					'primeiro_produto' => $listarProduto['primeiro_produto'] + 1,
+					'datas' => $listarProduto['datas']
 					])
 					->setFile('listar');
 		}
