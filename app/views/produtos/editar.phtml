@@ -1,0 +1,111 @@
+<div class="breadcrumb-custom">
+  <i class="fa fa-barcode"></i> Editar produto
+  <span class="location" style="float: right;">Home > Produtos > Editar</span>
+</div>
+
+<div class="container">
+
+  <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> Atenção!</h3>
+      </div>
+      <div class="panel-body">
+        <p class="text-center">Todos os campos marcados com <span style="color: red;">*</span> são obrigatórios.</p>
+      </div>
+  </div>
+
+  <form action="<?php $this->printRelativeURL('produtos', false); ?>/cadastrar/" accept-charset="utf-8" role="form" method="post">
+    <div class="col-xs-12 container-form">
+      <h4>Dados</h4>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label>Código Interno</label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="internal_code" class="form-control" value="<?php echo $view_produto->internal_code; ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Descrição <span style="color: red;">*</span></label>
+          <label data-toggle="tooltip" data-placement="top" title="Informe o nome do produto"><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="description" class="form-control" required="required" value="<?php echo $view_produto->description; ?>">
+        </div>
+        <div class="form-group col-sm-4 col-md-4">
+          <label>Unidade</label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <select class="form-control" name="unity">
+            <option value="UN (Unidade)">UN (Unidade)</option>
+            <option value="MT (Metro)">MT (Metro)</option>
+            <option value="CM (Centimetro)">CM (Centímetro)</option>
+            <option value="KG (Kilograma)">KG (Kilograma)</option>
+            <option value="GM (Grama)">GM (Grama)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label>Custo</label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="custo" class="form-control real" placeholder="0,00" value="<?php if($view_parametros->custo != null) { echo $view_parametros->custo; } else { echo ""; } ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Estoque <span style="color: red;">*</span></label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="estoque_atual" min="0" class="form-control" required="required" value="<?php echo $view_parametros->estoque_atual; ?>">
+        </div>
+      </div>
+
+      <hr>
+      
+      <h4>Parâmetros</h4>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4><i class="fa fa-info-circle"></i> Observações!</h4>
+            <ul>
+              <li>Os valores abaixo fazem parte do cálculo dos indicadores!</li>
+              <li>Passe o mouse por cima do sinal de informação (<i class="fa fa-exclamation-circle"></i>) para saber mais.</li>
+            </ul>
+            
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Tempo de reposição </label>
+          <label data-toggle="tooltip" data-placement="top" title="O tempo de reposição é o intervalo da emissão do pedido de compras relativo a algum produto até seu recebimento pela empresa. Ele é necessário para o cálculo do estoque mínimo."><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="tempo_reposicao" class="form-control" value="<?php echo $view_parametros->tempo_reposicao; ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Demanda média </label>
+          <label><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="demanda_media" class="form-control" value="<?php echo $view_parametros->demanda_media; ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Frequência de Compra </label>
+          <label data-toggle="tooltip" data-placement="top" title="Informe a quantidade de vezes em que a
+compra do produto é realizada no mês."><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="freq_compra" class="form-control" value="<?php echo $view_parametros->freq_compra; ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Quantidade vendida <span style="color: red;">*</span></label>
+          <label data-toggle="tooltip" data-placement="top" title="Insira a quantidade de vendas do produto de acordo com sua unidade por mês."><span class="fa fa-exclamation-circle"></span></label>
+          <input type="number" name="quantidade_vendida" class="form-control" required="required" value="<?php echo $view_parametros->quantidade_vendida; ?>">
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Total de vendas</label>
+          <label data-toggle="tooltip" data-placement="top" title="Insira o acumúlo total de vendas do produto feita no mês em (R$)"><span class="fa fa-exclamation-circle"></span></label>
+          <input type="text" name="total_vendas" class="form-control real" placeholder="0,00" value="<?php echo $view_parametros->total_vendas; ?>">
+        </div>
+      </div>
+      
+      <hr>
+        
+      <div class="col-sm-12 text-right">
+        <a href="<?php $this->printRelativeURL('produtos', false); ?>" class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</a>
+        <button type="submit" class="btn side-primary-color"><span class="fa fa-check"></span> Salvar</button>
+      </div>
+    </div>
+  </form>
+
+</div>

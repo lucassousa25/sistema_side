@@ -69,19 +69,38 @@ class ProdutosController extends \HXPHP\System\Controller
 				));
 			}
 			else {
-				self::listarAction();
 
 				$this->load('Helpers\Alert', array(
 					'success',
 					'O produto ' . $cadastrarProduto->product_description . ' foi cadastrado no sistema!'
 				));
+				
+				self::listarAction();
 			}
 		}
 	}
 
-	public function cadastrarProdutoAction()
+	public function redirecionarCadastroAction()
 	{
 		$this->view->setFile('cadastrar');
+	}
+
+	public function redirecionarEdicaoAction($product_id = null)
+	{
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		if (!is_null($product_id)) {
+			$getProduct = Product::find_by_id($product_id);
+			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
+			$getParametersProduct = Parameter::find(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date)))));
+
+
+			$this->view->setVars([
+					'produto' => $getProduct,
+					'parametros' => $getParametersProduct
+					])
+					->setFile('editar');
+		}
 	}
 
 	public function visualizarProdutoAction($product_id = null)
