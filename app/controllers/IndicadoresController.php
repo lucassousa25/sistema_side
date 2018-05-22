@@ -28,7 +28,8 @@ class IndicadoresController extends \HXPHP\System\Controller
 						'pagina' => $pagina = $listarIndicadores['pagina'],
 						'total_paginas' => $listarIndicadores['total_paginas'],
 						'total_produtos' => $listarIndicadores['total_produtos'],
-						'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1
+						'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1,
+						'datas' => $listarIndicadores['datas']
 					])
 				->setHeader('header_side')
 				->setFooter('footer_side')
@@ -110,7 +111,8 @@ class IndicadoresController extends \HXPHP\System\Controller
 					'pagina' => $listarIndicadores['pagina'],
 					'total_paginas' => $listarIndicadores['total_paginas'],
 					'total_produtos' => $listarIndicadores['total_produtos'],
-					'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1
+					'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1,
+					'datas' => $listarIndicadores['datas']
 					])
 					->setFile('listar');
 		}

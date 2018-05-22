@@ -174,8 +174,9 @@ class Indicator extends \HXPHP\System\Model
 		$first_indicator = $first_indicator * $exib_limit;
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date'));
-		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date'));
+		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
 		$consultaProdutos = Product::find('all');
+		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT date', 'order' => 'date desc'));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_registros_por_pagina = count($all_rgs_by_page); // verifica o número total de registros
@@ -209,7 +210,8 @@ class Indicator extends \HXPHP\System\Model
 			'total_paginas' => $total_paginas,
 			'total_produtos' => $total_registros,
 			'primeiro_produto' => $first_indicator,
-			'registros' => $array_tabela
+			'registros' => $array_tabela,
+			'datas' => $parametrosData
 		];
 
 		return $dados;
