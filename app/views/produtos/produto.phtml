@@ -8,11 +8,15 @@
   <?php echo (isset($this->alert) ? $this->alert : ''); ?>
 
   <?php $this->partial('modal-giroestoque-grafico', [
-  	'array_indicadores' => $view_indicadores
+  	'array_indicadores' => $view_indicadores,
+  	'array_indicadores_modal' => $view_indicadores_modal,
+  	'description' => $view_produto->description
   ]); ?>
 
   <?php $this->partial('modal-coberturaestoque-grafico', [
-  	'array_indicadores' => $view_indicadores
+  	'array_indicadores' => $view_indicadores,
+  	'array_indicadores_modal' => $view_indicadores_modal,
+  	'description' => $view_produto->description
   ]); ?>
 
   <div class="row">

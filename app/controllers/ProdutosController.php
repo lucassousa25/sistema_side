@@ -92,12 +92,14 @@ class ProdutosController extends \HXPHP\System\Controller
 			$getProduct = Product::find_by_id($product_id);
 			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
 			$getParametersProduct = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date))), 'order' => 'date'));
-			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date desc')); 
+			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date desc'));
+			$getIndicatorsModal = Indicator::all(array('conditions' => array('product_id' => $product_id), 'limit' => 10, 'order' => 'date desc'));
 
 			$this->view->setVars([
 					'produto' => $getProduct,
 					'parametros' => $getParametersProduct,
-					'indicadores' => $getIndicatorsProduct
+					'indicadores' => $getIndicatorsProduct,
+					'indicadores_modal' => $getIndicatorsModal
 					])
 					->setFile('produto');
 		}

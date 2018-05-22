@@ -6,11 +6,16 @@
         <h4 class="modal-title">Histórico do Giro de Estoque</h4>
       </div>
       <div class="modal-body">
+        <div style="" class="text-center">
+          <h3><?php echo $view_description; ?></h3>
+        </div>
         <canvas id="historico-giro"></canvas>
+        <div style="padding-top: 10px;" class="text-center">
+          <p><strong>Obs:</strong> <i>Você pode visualizar o histórico do giro de estoque desse produto em até os últimos 10 meses.</i></p>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn side-primary-color" data-dismiss="modal">OK</button>
-        </form>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -24,9 +29,9 @@
     data: {
       labels: [
         <?php
-          $view_array_indicadores = array_reverse($view_array_indicadores); 
-          foreach ($view_array_indicadores as $linha) {
-              if ($linha == end($view_array_indicadores)) {
+          $view_array_indicadores_modal = array_reverse($view_array_indicadores_modal); 
+          foreach ($view_array_indicadores_modal as $linha) {
+              if ($linha == end($view_array_indicadores_modal)) {
                 echo "'".strftime('%b/%Y', strtotime($linha->date))."'";
               }
               else {
@@ -40,8 +45,8 @@
         data: [
           <?php
              
-            foreach ($view_array_indicadores as $linha) {
-                if ($linha == end($view_array_indicadores)) {
+            foreach ($view_array_indicadores_modal as $linha) {
+                if ($linha == end($view_array_indicadores_modal)) {
                   echo number_format($linha->giro_estoque, 2);
                 }
                 else {
