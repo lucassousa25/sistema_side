@@ -91,7 +91,7 @@ class ProdutosController extends \HXPHP\System\Controller
 
 		if (!is_null($product_id)) {
 			$getProduct = Product::find_by_id($product_id);
-			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
+			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date', 'conditions' => array('product_id' => $product_id)));
 			$getParametersProduct = Parameter::find(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date)))));
 
 
@@ -110,7 +110,8 @@ class ProdutosController extends \HXPHP\System\Controller
 		if (!is_null($product_id)) {
 			$getProduct = Product::find_by_id($product_id);
 			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
-			$getParametersProduct = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date))), 'order' => 'date'));
+			$saveData = strftime('%Y-%m', strtotime($maiorData[0]->date));
+			$getParametersProduct = Parameter::all(array('conditions' => "product_id = $product_id and date LIKE '%$saveData%'"));
 			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date desc'));
 			$getIndicatorsModal = Indicator::all(array('conditions' => array('product_id' => $product_id), 'limit' => 10, 'order' => 'date desc'));
 
@@ -122,6 +123,24 @@ class ProdutosController extends \HXPHP\System\Controller
 					])
 					->setFile('produto');
 		}
+	}
+
+	public function editarAction()
+	{
+		$this->view->setFile('editar');
+
+		$this->request->setCustomFilters(array());
+
+		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+
+		$post = $this->request->post();
+
+		if(!empty($post)) {
+			$editarProduto = Product::editar($post, $ );
+		}
+
+		var_dump($post);
+		die();
 	}
 
 	public function listarAction($pagina = 1)

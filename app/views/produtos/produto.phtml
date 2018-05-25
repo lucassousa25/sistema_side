@@ -41,7 +41,7 @@
 	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros[0]->estoque_atual; ?></li>
 	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros[0]->total_vendas)) : echo 'R$ ' . number_format($view_parametros[0]->total_vendas / $view_parametros[0]->quantidade_vendida, 2); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
 	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros[0]->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->custo; endif; ?></li>
-	    	<li><strong>Tempo de reposição: </strong><?php echo $view_parametros[0]->tempo_reposicao . ' dias.'; ?></li>
+	    	<li><strong>Tempo de reposição: </strong><?php if(is_null($view_parametros[0]->tempo_reposicao)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->tempo_reposicao . ' dias.'; endif; ?></li>
 	    	<li><strong>Quandidade vendida no mês: </strong><?php echo $view_parametros[0]->quantidade_vendida . " $view_produto->unity"; ?></li>
 	    	<li><strong>Frequência de compras por mês: </strong><?php if(is_null($view_parametros[0]->freq_compra)) : echo "<em>Sem registros</em>"; else : echo $view_parametros[0]->freq_compra; endif; ?></li>
 	  	</ul>
@@ -50,7 +50,7 @@
 	  	  <h3><i class="fa fa-line-chart"></i> Indicadores</h3>
 	  	</div>
 	  	<ul style="font-size: 13pt; line-height: 40px;">
-	    	<li><strong>Estoque Mínimo: </strong><?php echo $view_indicadores[0]->estoque_minimo; ?></li>
+	    	<li><strong>Estoque Mínimo: </strong><?php if(is_null($view_indicadores[0]->estoque_minimo)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->estoque_minimo . ' ' . $view_produto->unity; endif; ?></li>
 	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
 	    	<li><strong>Lote de Reposição: </strong><?php if(is_null($view_indicadores[0]->lote_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->lote_reposicao . ' ' . $view_produto->unity; endif; ?></li>
 

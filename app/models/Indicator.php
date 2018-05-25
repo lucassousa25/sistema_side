@@ -10,7 +10,7 @@ class Indicator extends \HXPHP\System\Model
 		$callbackObj->indicators = array();
 
 		$product = Product::find($product_id);
-		$parameters = Parameter::all(array('conditions' => array('product_id' => $product_id, 'date' => $date)));
+		$parameters = Parameter::all(array('conditions' => "product_id = $product_id and date LIKE '%$date%'"));
 		
 		if (!is_null($parameters)) {
 
@@ -176,7 +176,7 @@ class Indicator extends \HXPHP\System\Model
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date'));
 		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
 		$consultaProdutos = Product::find('all');
-		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT date', 'order' => 'date desc'));
+		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT(left(date,7)) as data', 'order' => 'date desc'));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
 		$total_registros_por_pagina = count($all_rgs_by_page); // verifica o número total de registros

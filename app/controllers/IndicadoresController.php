@@ -81,7 +81,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if (!is_null($date)) {
-			$allProductsDate = Parameter::all(array('conditions' => "date LIKE '$date'"));
+			$allProductsDate = Parameter::all(array('conditions' => "date LIKE '%$date%'"));
 			
 			foreach ($allProductsDate as $linha) :
 				$registrarIndicadoresProduto = Indicator::gerarIndicadores($user_id, $linha->product_id, $date);
