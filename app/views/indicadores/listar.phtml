@@ -41,6 +41,7 @@
           <tr>
             <th>Código</th>
             <th>Descrição</th>
+            <th>Unidade</th>
             <th>Giro de Estoque</th>
             <th>Cobertura de Estoque</th>
             <th>Estoque Mínimo</th>
@@ -56,13 +57,14 @@
           ?>
               <tr>
                 <td class="col-sm-1"><?php echo $product['codigo_interno']; ?></td>
-                <td class="col-sm-3 text-center"><?php echo $product['description']; ?></td>
+                <td class="col-sm-3 text-center"><?php echo $product['descricao']; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['unidade']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['giro_estoque']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo $product['cobertura_estoque'] . ' dias'; ?></td>
+                <td class="col-sm-1 text-center"><?php echo $product['cobertura_estoque'] . ' dias'; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['estoque_minimo']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['ponto_reposicao']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['lote_reposicao']; ?></td>
-                <td class="col-sm-2 text-center"><?php echo strftime('%B/%Y', strtotime($product['date'])); ?></td>
+                <td class="col-sm-2 text-center"><?php echo strftime('%B/%Y', strtotime($product['data'])); ?></td>
               </tr>
           <?php
               endforeach;

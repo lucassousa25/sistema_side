@@ -192,13 +192,14 @@ class Indicator extends \HXPHP\System\Model
 			for ($j=0; $j < $total_produtos; $j++) { 
 				if ($consultaProdutos[$j]->id == $all_rgs_by_page[$i]->product_id) {
 					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
-					$array_tabela[$i]['description'] = $consultaProdutos[$j]->description;
+					$array_tabela[$i]['descricao'] = $consultaProdutos[$j]->description;
+					$array_tabela[$i]['unidade'] = $consultaProdutos[$j]->unity;
 					$array_tabela[$i]['giro_estoque'] = $all_rgs_by_page[$i]->giro_estoque;
 					$array_tabela[$i]['cobertura_estoque'] = $all_rgs_by_page[$i]->cobertura_estoque;
 					$array_tabela[$i]['estoque_minimo'] = $all_rgs_by_page[$i]->estoque_minimo;
 					$array_tabela[$i]['ponto_reposicao'] = $all_rgs_by_page[$i]->ponto_reposicao;
 					$array_tabela[$i]['lote_reposicao'] = $all_rgs_by_page[$i]->lote_reposicao;
-					$array_tabela[$i]['date'] = $all_rgs_by_page[$i]->date;
+					$array_tabela[$i]['data'] = $all_rgs_by_page[$i]->date;
 				}
 			 } 
 		}
