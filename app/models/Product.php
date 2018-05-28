@@ -96,7 +96,7 @@ class Product extends \HXPHP\System\Model
 		
 	}
 
-	public function editar($product_id, array $post, $user_id)
+	public static function editar($product_id, array $post, $user_id)
 	{
 		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
 		$callbackObj->status = false;
@@ -107,6 +107,7 @@ class Product extends \HXPHP\System\Model
 		if (!empty($post['custo'])) {
 			$post['custo'] = str_replace(',', '.', $post['custo']);
 			$post['custo'] = floatval($post['custo']);
+			$post['custo'] = number_format($post['custo'], 2);
 		}
 		else {
 			$post['custo'] = null;
@@ -141,6 +142,8 @@ class Product extends \HXPHP\System\Model
 				$parametros_produto[0]->tempo_reposicao = $post['tempo_reposicao'];
 				$parametros_produto[0]->demanda_media = $post['demanda_media'];
 				$parametros_produto[0]->freq_compra = $post['freq_compra'];
+				$parametros_produto[0]->quantidade_vendida = $post['quantidade_vendida'];
+				$parametros_produto[0]->total_vendas = number_format(floatval($post['total_vendas']), 2);
 
 				if ($product->save(false) && $parametros_produto[0]->save(false)) {
 					$callbackObj->status = true;

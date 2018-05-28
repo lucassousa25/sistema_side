@@ -47,7 +47,7 @@
         <div class="form-group col-sm-4">
           <label>Custo</label>
           <label><span class="fa fa-exclamation-circle"></span></label>
-          <input type="text" name="custo" class="form-control real" placeholder="0,00" value="<?php if($view_parametros->custo != null) { echo $view_parametros->custo; } else { echo ""; } ?>">
+          <input type="text" name="custo" class="form-control real" placeholder="0,00" value="<?php if($view_parametros->custo != null) { echo number_format($view_parametros->custo, 2); } else { echo ""; } ?>">
         </div>
         <div class="form-group col-sm-4">
           <label>Estoque <span style="color: red;">*</span></label>
@@ -95,7 +95,7 @@ compra do produto é realizada no mês."><span class="fa fa-exclamation-circle">
         <div class="form-group col-sm-4">
           <label>Total de vendas</label>
           <label data-toggle="tooltip" data-placement="top" title="Insira o acumúlo total de vendas do produto feita no mês em (R$)"><span class="fa fa-exclamation-circle"></span></label>
-          <input type="text" name="total_vendas" class="form-control real" placeholder="0,00" value="<?php echo $view_parametros->total_vendas; ?>">
+          <input type="text" name="total_vendas" class="form-control real" placeholder="0,00" value="<?php echo number_format($view_parametros->total_vendas, 2); ?>">
         </div>
       </div>
       

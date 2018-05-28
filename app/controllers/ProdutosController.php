@@ -94,7 +94,6 @@ class ProdutosController extends \HXPHP\System\Controller
 			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date', 'conditions' => array('product_id' => $product_id)));
 			$getParametersProduct = Parameter::find(array('conditions' => array('product_id' => $product_id, 'date' => strftime('%Y-%m-%d', strtotime($maiorData[0]->date)))));
 
-
 			$this->view->setVars([
 					'produto' => $getProduct,
 					'parametros' => $getParametersProduct
@@ -155,7 +154,48 @@ class ProdutosController extends \HXPHP\System\Controller
 			}
 			
 		}
+	}
 
+	public function deletarAction($product_id = null)
+	{
+		$user_id = $this->auth->getUserId();
+
+		if (!is_null($product_id)) {
+			$produto = Product::find_by_id($product_id);
+			$parametros_produto = Parameter::find('all', array('conditions' => array("product_id = $product_id")));
+			$indicadores_produto = Indicator::find('all', array('conditions' => array("user_id = $user_id and product_id = $product_id")));
+
+			if(!is_null($produto)) {
+				$descrição_produto = $produto->description;
+				
+				foreach ($parametros_produto as $linha) {
+					$linha->delete();
+				}
+
+				foreach ($indicadores_produto as $linha) {
+					$linha->delete();
+				}
+
+				$produto->delete();
+
+				$this->load('Helpers\Alert', array(
+					'success',
+					'O produto ' . $descrição_produto . ' foi removido do sistema!'
+				));
+				
+				self::listarAction();
+			}
+			else{
+				$this->load('Helpers\Alert', array(
+					'warning',
+					'Produto Inexistente!',
+					'Esse produto já foi removido do sistema.'
+				));
+				
+				self::listarAction();
+			}
+
+		}
 	}
 
 	public function listarAction($pagina = 1)
