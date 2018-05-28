@@ -125,7 +125,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		}
 	}
 
-	public function editarAction()
+	public function editarAction($product_id = 1)
 	{
 		$this->view->setFile('editar');
 
@@ -134,13 +134,28 @@ class ProdutosController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		$post = $this->request->post();
-
+		
 		if(!empty($post)) {
-			$editarProduto = Product::editar($post, $ );
+			$editarProduto = Product::editar($product_id, $post, $user_id);
+
+			if ($editarProduto->status === false) {
+				$this->load('Helpers\Alert', array(
+					'error',
+					'Não foi possível editar o produto. Verifique os erros abaixos:',
+					$editarProduto->errors
+				));
+			}
+			else {
+				$this->load('Helpers\Alert', array(
+					'success',
+					'O produto ' . $editarProduto->product_description . ' foi atualizado no sistema!'
+				));
+				
+				self::listarAction();
+			}
+			
 		}
 
-		var_dump($post);
-		die();
 	}
 
 	public function listarAction($pagina = 1)

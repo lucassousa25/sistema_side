@@ -96,6 +96,71 @@ class Product extends \HXPHP\System\Model
 		
 	}
 
+	public function editar($product_id, array $post, $user_id)
+	{
+		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
+		$callbackObj->status = false;
+		$callbackObj->errors = array();
+		$callbackObj->product_description = null; // armazenando nome do produto para retorno no controller
+
+
+		if (!empty($post['custo'])) {
+			$post['custo'] = str_replace(',', '.', $post['custo']);
+			$post['custo'] = floatval($post['custo']);
+		}
+		else {
+			$post['custo'] = null;
+		}
+
+		if(empty($post['demanda_media']))
+			$post['demanda_media'] = null;
+
+		if(empty($post['tempo_reposicao']))
+			$post['tempo_reposicao'] = null;
+
+		if(empty($post['freq_compra']))
+			$post['freq_compra'] = null;
+
+		if(empty($post['total_vendas']))
+			$post['total_vendas'] = null;
+
+		$product = self::find_by_user_id_and_id($user_id, $product_id);
+
+		if (!is_null($product)) {
+
+			$product->internal_code = $post['internal_code'];
+			$product->description = $post['description'];
+			$product->unity = $post['unity'];
+			
+			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
+			$parametros_produto = Parameter::find('all', array('conditions' => array("product_id = $product_id and date LIKE ?", "%".strftime('%Y-%m', strtotime($maiorData[0]->date))."%")));
+
+			if (!is_null($parametros_produto)) {
+				$parametros_produto[0]->custo = $post['custo'];
+				$parametros_produto[0]->estoque_atual = $post['estoque_atual'];
+				$parametros_produto[0]->tempo_reposicao = $post['tempo_reposicao'];
+				$parametros_produto[0]->demanda_media = $post['demanda_media'];
+				$parametros_produto[0]->freq_compra = $post['freq_compra'];
+
+				if ($product->save(false) && $parametros_produto[0]->save(false)) {
+					$callbackObj->status = true;
+					$callbackObj->product_description = $post['description'];
+					return $callbackObj;
+				}
+
+			}
+
+			$errors = $cadastrar->errors->get_raw_errors();
+		
+			foreach ($errors as $field => $message) {
+				array_push($callbackObj->errors, $message[0]);
+			}
+
+			return $callbackObj;
+		}
+		
+	}
+
 
 	public static function inserirDadosPlanilha(array $post, array $nomeTitulo, array $matrizOriginal, $user_id)
 	{
