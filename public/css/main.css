@@ -385,9 +385,25 @@ thead > tr > th {
     text-align: center;
 }
 
+table.table-prod > thead > tr > th,
+table.table-prod > tbody > tr > td {
+    vertical-align: middle;
+}
+
 .table-prod > tbody > tr > td:last-child,
 .table-prod > tbody > tr > td:first-child {
     text-align: center;
+}
+
+
+div.prod-count p {
+    background: #555;
+    color: #fff;
+    font-style: italic;
+    padding: 5px;
+    text-align: center;
+    font-size: 10pt;
+    border-radius: 5px;
 }
 
 footer {

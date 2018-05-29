@@ -17,7 +17,7 @@
             <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modalImport"><i class="fa fa-file-excel-o"></i> Importar (Planilha)</a>
         </div>
       </div>
-      <div class="btn-group" data-toggle="tooltip" data-placement="top" title="Escolha o mês para calcular os indicadores!">
+      <div class="btn-group" data-toggle="tooltip" data-placement="top" title="Selecione o mês para calcular os indicadores!">
         <button type="button" class="btn side-primary-color dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Gerar Indicadores <span class="caret"></span>
         </button>
@@ -30,7 +30,7 @@
     </div>
     <div class="col-sm-4 pull-right">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Buscar por nome">
+        <input type="text" class="form-control" placeholder="Buscar na lista...">
         <span class="input-group-btn">
           <button class="btn side-primary-color" type="button"><span class="glyphicon glyphicon-search"></span></button>
         </span>
@@ -84,16 +84,8 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-4">
-      <p style="
-          background: #555;
-          color: #fff;
-          font-style: italic;
-          padding: 5px;
-          text-align: center;
-          font-size: 10pt;
-          border-radius: 5px;
-      ">
+    <div class="col-sm-4 prod-count">
+      <p>
         <?php 
           echo 'Mostrando ' . $view_primeiro_produto . ' a ';
           

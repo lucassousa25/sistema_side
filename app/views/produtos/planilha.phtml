@@ -29,15 +29,15 @@
           <select name="data" id="data" class="form-control">
             <option value="null">Selecione mês</option>
             <?php
-              for ($i = date("Y"); $i >= 2017; $i--) {
+              for ($i = date("Y"); $i >= (date("Y") - 1); $i--) {
                  
                 if ($i < date("Y")) {
-                  for ($j=12; $j >= 01; $j--) {
+                  for ($j = 12; $j >= 01; $j--) {
                     echo "<option value='" . date("$i-$j-d") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
                   }
                 }
                 else {
-                  for ($j=date("m"); $j >= 01; $j--) { 
+                  for ($j = date("m"); $j >= 01; $j--) { 
                     echo "<option value='" . date("$i-$j-d") . "'>" . strftime('%B/%Y', strtotime("$j/01/$i")) . "</option>";
                   }
                 }
