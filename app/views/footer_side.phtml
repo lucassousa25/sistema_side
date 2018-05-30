@@ -49,6 +49,30 @@
                 }
               }
             });
+            $('#table_indicators').DataTable({
+              bLengthChange: true,
+              lengthMenu: [[10, 25], [10, 25]],
+              pagingType: "first_last_numbers",
+              ordering: true,
+              paging: true,
+              info: true,
+              select: false,
+              language : {
+                "lengthMenu": "Mostrando _MENU_ produtos por páginas",
+                "info": "Mostrando _START_ a _END_ do total de _TOTAL_ registros",
+                "infoEmpty":      "Nenhum regitro disponível",
+                "infoFiltered":   "(filtrado de _MAX_ registros)",
+                "zeroRecords":    "Nenhum registro encontrado!",
+                "search":         "Pesquisar: ",
+                "paginate": {
+                    "first":      "Início",
+                    "last":       "Último",
+                    "next":       "Próximo",
+                    "previous":   "Anterior"
+                }
+              }
+            });
+
         } );
     </script>
   </body>

@@ -23,12 +23,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 		$this->view->setVars([
 						'user' => $user,
 						'products' => $listarIndicadores['registros'],
-						'anterior' => $listarIndicadores['anterior'],
-						'proximo' => $listarIndicadores['proximo'],
-						'pagina' => $pagina = $listarIndicadores['pagina'],
-						'total_paginas' => $listarIndicadores['total_paginas'],
 						'total_produtos' => $listarIndicadores['total_produtos'],
-						'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1,
 						'datas' => $listarIndicadores['datas']
 					])
 				->setHeader('header_side')
@@ -44,6 +39,8 @@ class IndicadoresController extends \HXPHP\System\Controller
 
 	public function geraIndicadorAction($product_id = 1, $date = null)
 	{
+		$this->view->setFile('listar');
+		
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if (is_numeric($product_id)) {
@@ -78,11 +75,13 @@ class IndicadoresController extends \HXPHP\System\Controller
 
 	public function gerarTodosIndicadoresAction($date = null)
 	{
+		$this->view->setFile('listar');
+
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if (!is_null($date)) {
 			$allProductsDate = Parameter::all(array('conditions' => "date LIKE '%$date%'"));
-			
+
 			foreach ($allProductsDate as $linha) :
 				$registrarIndicadoresProduto = Indicator::gerarIndicadores($user_id, $linha->product_id, $date);
 			endforeach;
@@ -97,21 +96,16 @@ class IndicadoresController extends \HXPHP\System\Controller
 		}
 	}
 
-	public function listarAction($pagina = 1)
+	public function listarAction()
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if(!empty($pagina)) {
-			$listarIndicadores = Indicator::listar($user_id, $pagina);
+			$listarIndicadores = Indicator::listar($user_id);
 
 			$this->view->setVars([
 					'products' => $listarIndicadores['registros'],
-					'anterior' => $listarIndicadores['anterior'],
-					'proximo' => $listarIndicadores['proximo'],
-					'pagina' => $listarIndicadores['pagina'],
-					'total_paginas' => $listarIndicadores['total_paginas'],
 					'total_produtos' => $listarIndicadores['total_produtos'],
-					'primeiro_produto' => $listarIndicadores['primeiro_produto'] + 1,
 					'datas' => $listarIndicadores['datas']
 					])
 					->setFile('listar');

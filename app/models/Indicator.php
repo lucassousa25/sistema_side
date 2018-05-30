@@ -45,6 +45,9 @@ class Indicator extends \HXPHP\System\Model
 			}
 			else {
 				$giroEstoque = number_format(($totalVendas / $mediaEstoque), 2, '.', ','); // Fazendo cálculo do giro de estoque
+				
+				if ($giroEstoque < 0.1)
+					$giroEstoque = 0.1;
 			}
 
 			### COBERTURA DE ESTOQUE ###
@@ -56,6 +59,9 @@ class Indicator extends \HXPHP\System\Model
 			}
 			else {
 				$coberturaEstoque = ($diasNoMes / $giroEstoque); // Fazendo cálculo da cobertura de estoque
+				
+				if ($coberturaEstoque > 180)
+					$coberturaEstoque = 180;
 			}
 
 			### ESTOQUE MÍNIMO ###
@@ -163,54 +169,36 @@ class Indicator extends \HXPHP\System\Model
 		}
 	}
 
-	public static function listar($user_id, $pagina = 1)
+	public static function listar($user_id)
 	{
-		if (!isset($pagina)) {
-			$pagina = 1;
-		}
-		
-		$exib_limit = 10;
-		$first_indicator = $pagina - 1; 
-		$first_indicator = $first_indicator * $exib_limit;
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => 'date'));
-		$all_rgs_by_page = self::find('all', array('limit' => $exib_limit, 'offset' => $first_indicator, 'conditions' => array('user_id' => $user_id), 'order' => 'date desc'));
 		$consultaProdutos = Product::find('all');
 		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT(left(date,7)) as data', 'order' => 'date desc'));
 			
 		$total_registros = count($all_rgs); // verifica o número total de registros
-		$total_registros_por_pagina = count($all_rgs_by_page); // verifica o número total de registros
 		$total_produtos = count($consultaProdutos); // verifica o número total de registros [Produtos]
-		$total_paginas = ceil($total_registros / $exib_limit); // verifica o número total de páginas
-		
-		$anterior = $pagina - 1; 
-		$proximo = $pagina + 1;
 
 		$array_tabela = array();
 
-		for ($i=0; $i < $total_registros_por_pagina; $i++) {
+		for ($i=0; $i < $total_registros; $i++) {
 			for ($j=0; $j < $total_produtos; $j++) { 
-				if ($consultaProdutos[$j]->id == $all_rgs_by_page[$i]->product_id) {
+				if ($consultaProdutos[$j]->id == $all_rgs[$i]->product_id) {
 					$array_tabela[$i]['codigo_interno'] = $consultaProdutos[$j]->internal_code;
 					$array_tabela[$i]['descricao'] = $consultaProdutos[$j]->description;
 					$array_tabela[$i]['unidade'] = $consultaProdutos[$j]->unity;
-					$array_tabela[$i]['giro_estoque'] = $all_rgs_by_page[$i]->giro_estoque;
-					$array_tabela[$i]['cobertura_estoque'] = $all_rgs_by_page[$i]->cobertura_estoque;
-					$array_tabela[$i]['estoque_minimo'] = $all_rgs_by_page[$i]->estoque_minimo;
-					$array_tabela[$i]['ponto_reposicao'] = $all_rgs_by_page[$i]->ponto_reposicao;
-					$array_tabela[$i]['lote_reposicao'] = $all_rgs_by_page[$i]->lote_reposicao;
-					$array_tabela[$i]['data'] = $all_rgs_by_page[$i]->date;
+					$array_tabela[$i]['giro_estoque'] = $all_rgs[$i]->giro_estoque;
+					$array_tabela[$i]['cobertura_estoque'] = $all_rgs[$i]->cobertura_estoque;
+					$array_tabela[$i]['estoque_minimo'] = $all_rgs[$i]->estoque_minimo;
+					$array_tabela[$i]['ponto_reposicao'] = $all_rgs[$i]->ponto_reposicao;
+					$array_tabela[$i]['lote_reposicao'] = $all_rgs[$i]->lote_reposicao;
+					$array_tabela[$i]['data'] = $all_rgs[$i]->date;
 				}
 			 } 
 		}
 
 		$dados = [
-			'anterior' => $anterior,
-			'proximo' => $proximo,
-			'pagina' => $pagina,
-			'total_paginas' => $total_paginas,
 			'total_produtos' => $total_registros,
-			'primeiro_produto' => $first_indicator,
 			'registros' => $array_tabela,
 			'datas' => $parametrosData
 		];
