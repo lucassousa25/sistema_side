@@ -382,7 +382,7 @@ form .form-group textarea:hover {
 }
 
 thead > tr > th {
-    text-align: center;
+    text-align: none;
 }
 
 table.table-prod > thead > tr > th,
