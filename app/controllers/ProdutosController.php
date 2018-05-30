@@ -198,12 +198,12 @@ class ProdutosController extends \HXPHP\System\Controller
 		}
 	}
 
-	public function listarAction($pagina = 1, $ordem = "date_insert")
+	public function listarAction($pagina = 1)
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if(!empty($pagina)) {
-			$listarProduto = Product::listar($user_id, $pagina, $ordem);
+			$listarProduto = Product::listar($user_id, $pagina);
 
 			$this->view->setVars([
 					'products' => $listarProduto['registros'],
@@ -213,7 +213,6 @@ class ProdutosController extends \HXPHP\System\Controller
 					'total_paginas' => $listarProduto['total_paginas'],
 					'total_produtos' => $listarProduto['total_produtos'],
 					'primeiro_produto' => $listarProduto['primeiro_produto'] + 1,
-					'ordem' => $listarProduto['ordem'],
 					'datas' => $listarProduto['datas']
 					])
 					->setFile('listar');

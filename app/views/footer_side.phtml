@@ -10,6 +10,8 @@
     <script src="<?php echo BOWER; ?>bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo BOWER; ?>bootstrap-sweetalert/dist/sweetalert.min.js"></script> <!-- Include Bootstrap-Sweetalert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
+    <script src="<?php echo BOWER; ?>datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo BOWER; ?>datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
           $('.real').mask('000.000.000.000.000,00', {reverse: true});
@@ -22,6 +24,27 @@
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
         });
+
+        $(document).ready( function () {
+            $('#table_prod').DataTable({
+              ordering: true,
+              paging: true,
+              select: false,
+              language : {
+                "lengthMenu": "Mostrando _MENU_ produtos por páginas",
+                "info": "Mostrando _START_ a _END_ do total de _TOTAL_ registros",
+                "infoEmpty":      "Nenhum regitro disponível",
+                "infoFiltered":   "(filtrado de _MAX_ total registros no total)",
+                "zeroRecords":    "Nada Encontrado!",
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       "Próximo",
+                    "previous":   "Anterior"
+                }
+              }
+            });
+        } );
     </script>
   </body>
 </html>

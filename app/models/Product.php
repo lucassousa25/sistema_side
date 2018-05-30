@@ -547,7 +547,7 @@ class Product extends \HXPHP\System\Model
 	}
 
 
-	public static function listar($user_id, $pagina = 1, $order = "date_insert")
+	public static function listar($user_id, $pagina = 1)
 	{
 		if (!isset($pagina)) {
 			$pagina = 1;
@@ -557,8 +557,8 @@ class Product extends \HXPHP\System\Model
 		$first_prod = $pagina - 1; 
 		$first_prod = $first_prod * $exib_produtos;
 
-		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id), 'order' => $order));
-		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id), 'order' => $order));
+		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id)));
+		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id)));
 		$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
 		$parametros = Parameter::find('all', array('conditions' => array("date LIKE ?", "%".strftime('%Y-%m', strtotime($maiorData[0]->date))."%"), 'order' => 'date desc'));
 		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT(left(date,7)) as data', 'order' => 'date desc'));
@@ -574,16 +574,16 @@ class Product extends \HXPHP\System\Model
 
 		$array_tabela = array();
 
-		for ($i=0; $i < $total_registros_por_pagina; $i++) {
+		for ($i=0; $i < $total_registros; $i++) {
 			for ($j=0; $j < $total_parametros; $j++) { 
-				if ($parametros[$j]->product_id == $consulta[$i]->id) {
-					$array_tabela[$i]['id'] = $consulta[$i]->id;
-					$array_tabela[$i]['internal_code'] = $consulta[$i]->internal_code;
-					$array_tabela[$i]['description'] = $consulta[$i]->description;
-					$array_tabela[$i]['unity'] = $consulta[$i]->unity;
+				if ($parametros[$j]->product_id == $all_rgs[$i]->id) {
+					$array_tabela[$i]['id'] = $all_rgs[$i]->id;
+					$array_tabela[$i]['internal_code'] = $all_rgs[$i]->internal_code;
+					$array_tabela[$i]['description'] = $all_rgs[$i]->description;
+					$array_tabela[$i]['unity'] = $all_rgs[$i]->unity;
 					$array_tabela[$i]['estoque_atual'] = $parametros[$j]->estoque_atual;
 					$array_tabela[$i]['quantidade_vendida'] = $parametros[$j]->quantidade_vendida;
-					$array_tabela[$i]['date_insert'] = $consulta[$i]->date_insert;
+					$array_tabela[$i]['date_insert'] = $all_rgs[$i]->date_insert;
 				}
 			 } 
 		}
@@ -596,7 +596,6 @@ class Product extends \HXPHP\System\Model
 			'total_produtos' => $total_registros,
 			'primeiro_produto' => $first_prod,
 			'registros' => $array_tabela,
-			'ordem' => $order,
 			'datas' => $parametrosData
 		];
 

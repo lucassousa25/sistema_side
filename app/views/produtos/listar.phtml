@@ -28,14 +28,6 @@
         </ul>
       </div>
     </div>
-    <div class="col-sm-4 pull-right">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Buscar na lista...">
-        <span class="input-group-btn">
-          <button class="btn side-primary-color" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-      </div><!-- /input-group -->
-    </div>
   </div>
 
   <br>
@@ -43,15 +35,15 @@
   <div class="row">
     <div class="table-responsive">
       
-      <table class="table table-striped table-condensed table-bordered table-hover table-prod">
+      <table class="table table-striped table-condensed table-bordered table-hover table-prod" id="table_prod">
         <thead>
           <tr>
-            <th><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1/internal_code">Código</a></th>
-            <th><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1/description">Descrição</a></th>
-            <th><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1/unity">Unidade</a></th>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th>Unidade</th>
             <th>Quantidade vendida</th>
             <th>Estoque</th>
-            <th><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1/date_insert">Cadastrado em</a></th>
+            <th>Cadastrado em</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -83,7 +75,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-sm-4 prod-count">
       <p>
         <?php 
@@ -108,7 +100,7 @@
 
           <?php if($view_anterior > 0) : ?>
             <li>
-              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1/<?php echo $view_ordem; ?>" aria-label="Previous">
+              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/1" aria-label="Previous">
                 <span aria-hidden="true">&laquo; Primeira</span>
               </a>
             </li>
@@ -119,16 +111,16 @@
           <?php endif; ?>
 
           <?php if($view_anterior > 0) : ?>
-            <li><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_anterior; ?>/<?php echo $view_ordem; ?>"><?php echo $view_anterior; ?></a></li>
+            <li><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_anterior; ?>"><?php echo $view_anterior; ?></a></li>
           <?php endif; ?>
           
       
-          <li class="active"><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_pagina; ?>/<?php echo $view_ordem; ?>"><?php echo $view_pagina; ?></a></li>
+          <li class="active"><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_pagina; ?>"><?php echo $view_pagina; ?></a></li>
           
           <?php if($view_pagina < $view_total_paginas) : ?>
-            <li><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_proximo; ?>/<?php echo $view_ordem; ?>"><?php echo $view_proximo; ?></a></li>
+            <li><a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_proximo; ?>"><?php echo $view_proximo; ?></a></li>
             <li>
-              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_total_paginas; ?>/<?php echo $view_ordem; ?>" aria-label="Next">
+              <a href="<?php $this->printRelativeURL('produtos', false); ?>/listar/<?php echo $view_total_paginas; ?>" aria-label="Next">
                 <span aria-hidden="true">Última &raquo;</span>
               </a>
             </li>
@@ -143,6 +135,6 @@
     </div>
 
     <?php endif; ?>
-  </div>
+  </div> -->
 
 </div>

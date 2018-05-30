@@ -18,6 +18,11 @@
     "font-awesome": "^4.7",
     "bootstrap": "3.3.7",
     "jquery": "^2.2.3",
-    "chart.js": "^2.7.2"
+    "chart.js": "^2.7.2",
+    "datatables.net-dt": "^3.2.2",
+    "datatables.net-colreorder-dt": "^1.4.1",
+    "datatables.net-bs": "^2.1.1",
+    "datatables-autofill-bs": "datatables.net-autofill-bs#^2.2.2",
+    "datatables.net-colreorder-bs": "^1.4.1"
   }
 }
