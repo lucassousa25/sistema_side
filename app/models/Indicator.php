@@ -169,6 +169,70 @@ class Indicator extends \HXPHP\System\Model
 		}
 	}
 
+	public static function gerarCurvaABC($user_id, $date) {
+		$callbackObj = new \stdClass; // Atribuindo classe vazio do framework
+		$callbackObj->status = false;
+		$callbackObj->errors = array();
+		$callbackObj->dados = array();
+
+		$produtos = Product::find('all', array('conditions' => array('user_id' => $user_id)));
+		$parametros = Parameter::all(array('conditions' => "date LIKE '%$date%'"));
+		$totalVendasMesQuery = Parameter::all(array('conditions' => "date LIKE '%$date%'", 'select' => 'SUM(total_vendas) as total')); // Obtendo a soma total de vendas no mês
+
+		$totalVendasMes = number_format($totalVendasMesQuery[0]->total, 2, ',', ''); // Formatando valor
+
+		$total_produtos = count($produtos); // verifica o número total de produtos
+		$total_parametros = count($parametros); // verifica o número total de registros [Parametros]
+
+		for ($i=0; $i < $total_produtos; $i++) {
+			for ($j=0; $j < $total_parametros; $j++) { 
+				if (($produtos[$i]->id == $parametros[$j]->product_id) && !is_null($produtos[$i]->id)) {
+					$callbackObj->dados[$i]['codigo'] = $produtos[$i]->internal_code;
+					$callbackObj->dados[$i]['descricao'] = $produtos[$i]->description;
+					$callbackObj->dados[$i]['quantidade_vendida'] = $parametros[$j]->quantidade_vendida;
+					
+					$callbackObj->dados[$i]['valor_unitario'] = number_format(($parametros[$j]->total_vendas / $parametros[$j]->quantidade_vendida), 2, ',', '.');
+					$callbackObj->dados[$i]['valor_total'] = $parametros[$j]->total_vendas;
+					$callbackObj->dados[$i]['porcentagem'] = number_format((($parametros[$j]->total_vendas / $totalVendasMes) * 100), 2);
+				}
+			} 
+		}
+
+		// Compara se $a é menor que $b
+		// Ordem decrescente
+		function cmp($a, $b) {
+			return $a['valor_total'] < $b['valor_total'];
+		}
+
+		// Ordena
+		usort($callbackObj->dados, 'cmp');
+
+		for ($i=0; $i < $total_produtos; $i++) { 
+			if ($i == 0)
+				$callbackObj->dados[$i]['porcentagem_acumulada'] = $callbackObj->dados[$i]['porcentagem'];
+			else
+				$callbackObj->dados[$i]['porcentagem_acumulada'] = (number_format($callbackObj->dados[$i]['porcentagem'] + $callbackObj->dados[$i-1]['porcentagem_acumulada'], 2));
+
+			// Atribuindo a Classificação do Produto de acordo com a Curva ABC
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] <= 80)
+				$callbackObj->dados[$i]['classificacao'] = 'A';
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] <= 95 && $callbackObj->dados[$i]['porcentagem_acumulada'] > 80)
+				$callbackObj->dados[$i]['classificacao'] = 'B';
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] > 95)
+				$callbackObj->dados[$i]['classificacao'] = 'C';
+
+			// Atribuindo background para a célula de acordo com a classificação do produto
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] <= 80)
+				$callbackObj->dados[$i]['background_color'] = '#00ff55';
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] <= 95 && $callbackObj->dados[$i]['porcentagem_acumulada'] > 80)
+				$callbackObj->dados[$i]['background_color'] = '#ff9933';
+			if($callbackObj->dados[$i]['porcentagem_acumulada'] > 95)
+				$callbackObj->dados[$i]['background_color'] = '#ff4d4d';
+		}
+
+		return $callbackObj->dados;
+	}
+
 	public static function listar($user_id)
 	{
 
@@ -194,7 +258,7 @@ class Indicator extends \HXPHP\System\Model
 					$array_tabela[$i]['lote_reposicao'] = $all_rgs[$i]->lote_reposicao;
 					$array_tabela[$i]['data'] = $all_rgs[$i]->date;
 				}
-			 } 
+			} 
 		}
 
 		$dados = [

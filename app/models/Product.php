@@ -38,9 +38,13 @@ class Product extends \HXPHP\System\Model
 		if(empty($post['freq_compra']))
 			$post['freq_compra'] = null;
 
-		if(empty($post['total_vendas']))
+		if(empty($post['total_vendas'])) {
 			$post['total_vendas'] = null;
-		
+		}
+		else {
+			$post['total_vendas'] = str_replace("." , "" , $post['total_vendas'] ); // Primeiro tira os pontos
+			$post['total_vendas'] = str_replace(',', '.', $post['total_vendas']);
+		}
 
 		$array_product_insert = [
 			'user_id' => $user_id,
@@ -58,7 +62,7 @@ class Product extends \HXPHP\System\Model
 			'demanda_media' => $post['demanda_media'],
 			'freq_compra' => $post['freq_compra'],
 			'quantidade_vendida' => $post['quantidade_vendida'],
-			'total_vendas' => $post['total_vendas'],
+			'total_vendas' => number_format($post['total_vendas'], 2, '.', ''),
 			'date' => date('Y-m-d')
 		];
 
@@ -70,7 +74,7 @@ class Product extends \HXPHP\System\Model
 			$array_product_parameters['product_id'] = $product->id;
 
 			$cadastrarParametros = Parameter::create($array_product_parameters);
-			
+			die();
 			if ($cadastrar->is_valid() && $cadastrarParametros->is_valid()) {
 				$callbackObj->status = true;
 				$callbackObj->product_description = $post['description'];
@@ -122,8 +126,13 @@ class Product extends \HXPHP\System\Model
 		if(empty($post['freq_compra']))
 			$post['freq_compra'] = null;
 
-		if(empty($post['total_vendas']))
+		if(empty($post['total_vendas'])) {
 			$post['total_vendas'] = null;
+		}
+		else {
+			$post['total_vendas'] = str_replace("." , "" , $post['total_vendas'] ); // Primeiro tira os pontos
+			$post['total_vendas'] = str_replace(',', '.', $post['total_vendas']);
+		}
 
 		$product = self::find_by_user_id_and_id($user_id, $product_id);
 
@@ -143,7 +152,7 @@ class Product extends \HXPHP\System\Model
 				$parametros_produto[0]->demanda_media = $post['demanda_media'];
 				$parametros_produto[0]->freq_compra = $post['freq_compra'];
 				$parametros_produto[0]->quantidade_vendida = $post['quantidade_vendida'];
-				$parametros_produto[0]->total_vendas = number_format(floatval($post['total_vendas']), 2);
+				$parametros_produto[0]->total_vendas = number_format($post['total_vendas'], 2, '.', '');
 
 				if ($product->save(false) && $parametros_produto[0]->save(false)) {
 					$callbackObj->status = true;
@@ -210,7 +219,7 @@ class Product extends \HXPHP\System\Model
 					$matrizParameters[$j][5] = $matrizOriginal[$j][$i];
 				}
 				if($nomeTitulo[$i] == "total_vendas") {
-					$matrizParameters[$j][6] = $matrizOriginal[$j][$i];
+					$matrizParameters[$j][6] = str_replace(',', '.', $matrizOriginal[$j][$i]);
 				}
 			}
 		}
@@ -343,7 +352,7 @@ class Product extends \HXPHP\System\Model
 
 				if (isset($matrizParameters[$linhaNum][6])) {
 					if(!empty($matrizParameters[$linhaNum][6]) && is_numeric($matrizParameters[$linhaNum][6])) {
-						$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][6];
+						$parametrosProduto['total_vendas'] = number_format($matrizParameters[$linhaNum][6], 2, '.', '');
 					}else {
 						if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors))
 							array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
@@ -435,7 +444,7 @@ class Product extends \HXPHP\System\Model
 
 					if (isset($matrizParameters[$linhaNum][6])) {
 						if(!empty($matrizParameters[$linhaNum][6]) && is_numeric($matrizParameters[$linhaNum][6])) {
-							$parametrosProduto['total_vendas'] = $matrizParameters[$linhaNum][6];
+							$parametrosProduto['total_vendas'] = number_format($matrizParameters[$linhaNum][6], 2, '.', '');
 						}else {
 							if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors))
 								array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
@@ -523,7 +532,7 @@ class Product extends \HXPHP\System\Model
 
 					if(!empty($matrizParameters[$linhaNum][6])) :
 						if (is_numeric($matrizParameters[$linhaNum][6])) :
-							$parametrosByProduto->total_vendas = $matrizParameters[$linhaNum][6];
+							$parametrosByProduto->total_vendas = number_format($matrizParameters[$linhaNum][6], 2, '.', '');
 						else :
 							if(!in_array('A coluna de Total de Vendas precisa conter valores numéricos!', $callbackObj->errors)) :
 								array_push($callbackObj->errors, 'A coluna de Total de Vendas precisa conter valores numéricos!');
@@ -547,30 +556,26 @@ class Product extends \HXPHP\System\Model
 	}
 
 
-	public static function listar($user_id, $pagina = 1)
+	public static function listar($user_id)
 	{
-		if (!isset($pagina)) {
-			$pagina = 1;
-		}
-		
-		$exib_produtos = 10;
-		$first_prod = $pagina - 1; 
-		$first_prod = $first_prod * $exib_produtos;
+		//$exib_produtos = 10;
+		//$first_prod = $pagina - 1; 
+		//$first_prod = $first_prod * $exib_produtos;
 
 		$all_rgs = self::find('all', array('conditions' => array('user_id' => $user_id)));
-		$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id)));
+		//$consulta = self::find('all', array('limit' => $exib_produtos, 'offset' => $first_prod, 'conditions' => array('user_id' => $user_id)));
 		$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
 		$parametros = Parameter::find('all', array('conditions' => array("date LIKE ?", "%".strftime('%Y-%m', strtotime($maiorData[0]->date))."%"), 'order' => 'date desc'));
 		$parametrosData = Parameter::find('all', array('select' => 'DISTINCT(left(date,7)) as data', 'order' => 'date desc'));
 
 
 		$total_registros = count($all_rgs); // verifica o número total de registros
-		$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Produtos]
+		//$total_registros_por_pagina = count($consulta); // verifica o número total de registros por páginas [Produtos]
 		$total_parametros = count($parametros); // verifica o número total de registros [Parametros]
-		$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas
+		//$total_paginas = ceil($total_registros / $exib_produtos); // verifica o número total de páginas
 
-		$anterior = $pagina - 1; 
-		$proximo = $pagina + 1;
+		//$anterior = $pagina - 1; 
+		//$proximo = $pagina + 1;
 
 		$array_tabela = array();
 
@@ -589,12 +594,12 @@ class Product extends \HXPHP\System\Model
 		}
 
 		$dados = [
-			'anterior' => $anterior,
-			'proximo' => $proximo,
-			'pagina' => $pagina,
-			'total_paginas' => $total_paginas,
+			//'anterior' => $anterior,
+			//'proximo' => $proximo,
+			//'pagina' => $pagina,
+			//'total_paginas' => $total_paginas,
 			'total_produtos' => $total_registros,
-			'primeiro_produto' => $first_prod,
+			//'primeiro_produto' => $first_prod,
 			'registros' => $array_tabela,
 			'datas' => $parametrosData
 		];

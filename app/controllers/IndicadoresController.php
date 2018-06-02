@@ -15,7 +15,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 
 		$this->auth->redirectCheck(false); // Configuração de redirecionamento de páginas (private/public)
 
-		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
 		$user = User::find($user_id);
 
 		$listarIndicadores = Indicator::listar($user_id);
@@ -41,7 +41,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 	{
 		$this->view->setFile('listar');
 		
-		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
 
 		if (is_numeric($product_id)) {
 			$registrarIndicadores = Indicator::gerarIndicadores($user_id, $product_id, $date);
@@ -77,7 +77,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 	{
 		$this->view->setFile('listar');
 
-		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
 
 		if (!is_null($date)) {
 			$allProductsDate = Parameter::all(array('conditions' => "date LIKE '%$date%'"));
@@ -96,9 +96,23 @@ class IndicadoresController extends \HXPHP\System\Controller
 		}
 	}
 
+	public function gerarListaABCAction($date = null)
+	{
+		$this->view->setFile('listar');
+
+		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
+
+		if (!is_null($date)) {
+			$dadosABC = Indicator::gerarCurvaABC($user_id, $date);
+
+			$this->view->setVar('dados', $dadosABC)
+					->setFile('abc_list');
+		}
+	}
+
 	public function listarAction()
 	{
-		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
 
 		if(!empty($pagina)) {
 			$listarIndicadores = Indicator::listar($user_id);

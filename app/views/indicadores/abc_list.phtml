@@ -1,0 +1,118 @@
+<div class="breadcrumb-custom">
+  <i class="fa fa-barcode"></i> Indicadores
+  <span class="location" style="float: right;">Home > Classificação ABC</span>
+</div>
+
+<div class="container">
+
+	<?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="container-form">
+				<canvas id="abc-list-10"></canvas>
+			</div>
+		</div>
+		<div class="col-sm-4 container-form">
+			<h4 class="text-center">Info <i class="fa fa-info-circle"></i></h4>
+			<hr>
+			<p><span style="color: #00ff55;"><strong>Grupo A:</strong></span> Responsáveis por 80% das vendas.</p>
+			<p><span style="color: #ff9933;"><strong>Grupo B:</strong></span> Responsáveis por 15% das vendas.</p>
+			<p><span style="color: #ff4d4d;"><strong>Grupo C:</strong></span> Responsáveis por 5% das vendas..</p>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 30px;">
+	<div class="table-responsive">
+	  
+	  <table class="table table-bordered table-striped table-condensed table-hover table-prod" id="table_abc">
+	    <thead>
+	      <tr >
+	        <th class="text-center">Código</th>
+	        <th class="text-center">Descrição</th>
+	        <th class="text-center">Quantidade</th>
+	        <th class="text-center">Valor Unitário</th>
+	        <th class="text-center">Valor Total</th>
+	        <th class="text-center">%</th>
+	        <th class="text-center">% Acumulada</th>
+	        <th class="text-center">Classif.</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    	<?php 
+	        if ($view_dados) :
+	        	foreach ($view_dados as $produto) :
+	      	?>
+			<tr>
+				<td class="col-sm-1 text-center"><?php echo $produto['codigo']; ?></td>
+				<td class="col-sm-3 text-center"><?php echo $produto['descricao']; ?></td>
+				<td class="col-sm-2 text-center"><?php echo $produto['quantidade_vendida']; ?></td>
+				<td class="col-sm-1 text-center"><?php echo 'R$ ' . $produto['valor_unitario']; ?></td>
+				<td class="col-sm-2 text-center"><?php echo 'R$ ' . number_format($produto['valor_total'], 2, ',', '.'); ?></td>
+				<td class="col-sm-1 text-center"><?php echo $produto['porcentagem'] . '%'; ?></td>
+				<td class="col-sm-2 text-center"><?php echo $produto['porcentagem_acumulada'] . '%'; ?></td>
+				<td class="col-sm-1 text-center" style="background: <?php echo $produto['background_color']; ?>"><?php echo $produto['classificacao']; ?></td>
+			</tr>
+			<?php
+				endforeach;
+			endif;
+			?>
+	    </tbody>
+	  </table>  
+	</div>
+
+	</div>
+
+</div>
+
+<script>
+  var ctx = document.getElementById("abc-list-10");
+
+  var chartGraph = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        <?php
+          foreach ($view_dados as $indice => $linha) {
+              if ($linha == end($view_dados)) {
+                echo $linha['codigo'];
+              }
+              else {
+                echo $linha['codigo'] . ',';
+              }
+
+              if ($indice == 9) { break; }
+          }
+        ?> 
+      ],
+      datasets: [{
+        label: 'Os 10 produtos mais valorosos',
+        data: [
+          <?php 
+            foreach ($view_dados as $indice => $linha) {
+                if ($linha == end($view_dados)) {
+                  echo 100 - $linha['porcentagem_acumulada'];
+                }
+                else {
+                  echo (100 - $linha['porcentagem_acumulada']) . ",";
+                }
+            	if ($indice == 9) { break; }
+            }
+          ?>
+        ],
+        borderWidth: 3,
+        borderColor: 'rgba(0,2,456,0.6)',
+        backgroundColor: 'transparent'
+      }] 
+    },
+    options: {
+      legend: {
+            labels: {
+                // This more specific font property overrides the global property
+                fontColor: 'black',
+                fontSize: 20
+            }
+        }
+    }
+  });
+</script>

@@ -26,12 +26,7 @@ class ProdutosController extends \HXPHP\System\Controller
 		$this->view->setVars([
 						'user' => $user,
 						'products' => $listarProduto['registros'],
-						'anterior' => $listarProduto['anterior'],
-						'proximo' => $listarProduto['proximo'],
-						'pagina' => $listarProduto['pagina'],
-						'total_paginas' => $listarProduto['total_paginas'],
 						'total_produtos' => $listarProduto['total_produtos'],
-						'primeiro_produto' => $listarProduto['primeiro_produto'] + 1,
 						'datas' => $listarProduto['datas']
 					])
 				->setHeader('header_side')
@@ -198,21 +193,16 @@ class ProdutosController extends \HXPHP\System\Controller
 		}
 	}
 
-	public function listarAction($pagina = 1)
+	public function listarAction()
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 
 		if(!empty($pagina)) {
-			$listarProduto = Product::listar($user_id, $pagina);
+			$listarProduto = Product::listar($user_id);
 
 			$this->view->setVars([
 					'products' => $listarProduto['registros'],
-					'anterior' => $listarProduto['anterior'],
-					'proximo' => $listarProduto['proximo'],
-					'pagina' => $listarProduto['pagina'],
-					'total_paginas' => $listarProduto['total_paginas'],
 					'total_produtos' => $listarProduto['total_produtos'],
-					'primeiro_produto' => $listarProduto['primeiro_produto'] + 1,
 					'datas' => $listarProduto['datas']
 					])
 					->setFile('listar');
@@ -443,8 +433,11 @@ class ProdutosController extends \HXPHP\System\Controller
 							));
 
 							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							if($arquivo_existente != '..')
+								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+
 							self::listarAction();
+							$this->view->setFile('listar');
 						endif;
 
 						if (is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
@@ -454,8 +447,12 @@ class ProdutosController extends \HXPHP\System\Controller
 							));
 
 							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							if($arquivo_existente != '..')
+								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+
+
 							self::listarAction();
+							$this->view->setFile('listar');
 						endif;
 
 						if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
@@ -466,8 +463,11 @@ class ProdutosController extends \HXPHP\System\Controller
 							));
 
 							$arquivo_existente = end(scandir(ROOT_PATH . 'public/uploads/sheets'));
-							unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+							if($arquivo_existente != '..')
+								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
+
 							self::listarAction();
+							$this->view->setFile('listar');
 						endif;
 						
 						if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :

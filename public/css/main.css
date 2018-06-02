@@ -370,7 +370,7 @@ form .form-group textarea:hover {
 }
 
 .container-form {
-    width: 100%;
+    width: auto;
     margin: 15px auto;
     padding: 15px;
     background: #fff;
