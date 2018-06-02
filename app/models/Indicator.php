@@ -207,11 +207,11 @@ class Indicator extends \HXPHP\System\Model
 		// Ordena
 		usort($callbackObj->dados, 'cmp');
 
-		for ($i=0; $i < $total_produtos; $i++) { 
+		for ($i=0; $i < $total_parametros; $i++) { 
 			if ($i == 0)
 				$callbackObj->dados[$i]['porcentagem_acumulada'] = $callbackObj->dados[$i]['porcentagem'];
 			else
-				$callbackObj->dados[$i]['porcentagem_acumulada'] = (number_format($callbackObj->dados[$i]['porcentagem'] + $callbackObj->dados[$i-1]['porcentagem_acumulada'], 2));
+				$callbackObj->dados[$i]['porcentagem_acumulada'] = number_format($callbackObj->dados[$i]['porcentagem'] + $callbackObj->dados[$i-1]['porcentagem_acumulada'], 2);
 
 			// Atribuindo a Classificação do Produto de acordo com a Curva ABC
 			if($callbackObj->dados[$i]['porcentagem_acumulada'] <= 80)

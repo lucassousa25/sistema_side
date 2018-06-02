@@ -92,7 +92,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 				'A tabela exibe os indicadores gerado de cada produto. Os valores em branco significa falta de parâmetros necessários.'
 			));
 
-			self::listarAction();
+			$this->view->setFile('listar');
 		}
 	}
 
@@ -105,8 +105,20 @@ class IndicadoresController extends \HXPHP\System\Controller
 		if (!is_null($date)) {
 			$dadosABC = Indicator::gerarCurvaABC($user_id, $date);
 
-			$this->view->setVar('dados', $dadosABC)
-					->setFile('abc_list');
+			if (count($dadosABC) >= 5) {
+				$this->view->setVar('dados', $dadosABC)
+						->setFile('abc_list');
+			}
+			else {
+				$this->load('Helpers\Alert', array(
+					'warning',
+					'Sem dados suficientes!',
+					'Você não tem dados suficientes cadastrados nesse mês, insira mais itens para o cálculo.'
+				));
+
+				$this->view->setFile('listar');
+			}
+			
 		}
 	}
 
