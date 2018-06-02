@@ -8,17 +8,23 @@
 	<?php echo (isset($this->alert) ? $this->alert : ''); ?>
 
 	<div class="row">
-		<div class="col-sm-8">
+		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="container-form">
 				<canvas id="abc-list-10"></canvas>
 			</div>
 		</div>
-		<div class="col-sm-4 container-form">
-			<h4 class="text-center">Info <i class="fa fa-info-circle"></i></h4>
-			<hr>
-			<p><span style="color: #00ff55;"><strong>Grupo A:</strong></span> Responsáveis por 80% das vendas.</p>
-			<p><span style="color: #ff9933;"><strong>Grupo B:</strong></span> Responsáveis por 15% das vendas.</p>
-			<p><span style="color: #ff4d4d;"><strong>Grupo C:</strong></span> Responsáveis por 5% das vendas..</p>
+		<div class="col-xs-12 col-sm-12 col-md-4">
+			<div class="container-form text-center">
+				<h4 class="">Info <i class="fa fa-info-circle"></i></h4>
+				<hr>
+				<p><span style="color: #00ff55;"><strong>Grupo A:</strong></span> Responsáveis por 80% das vendas.</p>
+				<p><span style="color: #ff9933;"><strong>Grupo B:</strong></span> Responsáveis por 15% das vendas.</p>
+				<p><span style="color: #ff4d4d;"><strong>Grupo C:</strong></span> Responsáveis por 5% das vendas.</p>
+
+				<hr>
+
+				<p>O gráfico exibe os produtos mais bem classificados de acordo com a curva ABC.</p>
+			</div>
 		</div>
 	</div>
 
@@ -86,16 +92,17 @@
         ?> 
       ],
       datasets: [{
-        label: 'Os 10 produtos mais valorosos',
+        label: 'Os produtos mais valiosos',
         data: [
           <?php 
             foreach ($view_dados as $indice => $linha) {
                 if ($linha == end($view_dados)) {
-                  echo 100 - $linha['porcentagem_acumulada'];
+                  echo $linha['porcentagem'];
                 }
                 else {
-                  echo (100 - $linha['porcentagem_acumulada']) . ",";
+                  echo $linha['porcentagem'] . ',';
                 }
+
             	if ($indice == 9) { break; }
             }
           ?>
@@ -106,13 +113,37 @@
       }] 
     },
     options: {
-      legend: {
+      	legend: {
             labels: {
                 // This more specific font property overrides the global property
                 fontColor: 'black',
                 fontSize: 20
             }
-        }
+        },
+        tooltips: {
+	      callbacks: {
+	        title: function(tooltipItem, data) {
+	          return data['labels'][tooltipItem[0]['index']];
+	        },
+	        label: function(tooltipItem, data) {
+	          return 'Corresponde à ' + data['datasets'][0]['data'][tooltipItem['index']] + '% do total de vendas no mês';
+	        }
+	       }
+	    },
+	    scales: {
+	        yAxes: [{
+	          scaleLabel: {
+	            display: true,
+	            labelString: 'Total de vendas (%)'
+	          }
+	        }],
+	        xAxes: [{
+	          scaleLabel: {
+	            display: true,
+	            labelString: 'Produto (Código)'
+	          }
+	        }]
+	    }
     }
   });
 </script>
