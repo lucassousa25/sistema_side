@@ -9,6 +9,7 @@
 
   <div class="row">
     <div class="col-sm-12">
+      <?php if(!empty($view_datas)) : ?>
       <div class="btn-group" data-toggle="tooltip" data-placement="top" title="Selecione o mês para calcular os indicadores!">
         <button type="button" class="btn side-primary-color dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Gerar Indicadores <span class="caret"></span>
@@ -30,6 +31,7 @@
           <?php endforeach; ?>
         </ul>
       </div>
+    <?php endif; ?>
     </div>
   </div>
 

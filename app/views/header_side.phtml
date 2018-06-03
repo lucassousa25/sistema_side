@@ -107,10 +107,16 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="sidebar-icon"><i class="fa fa-clipboard"></i></span>
-                            <span class="sidebar-title">Relatórios</span>
-                        </a>
+                        <?php if(!empty($view_datas)) : ?>
+                            <?php foreach($view_datas as $key => $data) : ?>
+                            <?php if($key == 0) : ?>
+                            <a href="<?php $this->printRelativeURL('indicadores', false); ?>/gerarListaABC/<?php echo strftime('%Y-%m', strtotime($data->data)); ?>">
+                                <span class="sidebar-icon"><i class="fa fa-clipboard"></i></span>
+                                <span class="sidebar-title">Curva ABC</span>
+                            </a>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </li>
                 </ul>
             </aside>            

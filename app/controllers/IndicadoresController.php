@@ -106,7 +106,10 @@ class IndicadoresController extends \HXPHP\System\Controller
 			$dadosABC = Indicator::gerarCurvaABC($user_id, $date);
 
 			if (count($dadosABC) >= 5) {
-				$this->view->setVar('dados', $dadosABC)
+				$this->view->setVars([
+						'dados' => $dadosABC,
+						'data' => $date
+						])
 						->setFile('abc_list');
 			}
 			else {
