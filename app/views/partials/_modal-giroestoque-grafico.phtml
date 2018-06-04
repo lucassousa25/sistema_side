@@ -6,6 +6,7 @@
         <h4 class="modal-title">Histórico do Giro de Estoque</h4>
       </div>
       <div class="modal-body">
+        <?php if(count($view_array_indicadores_modal) > 1) : ?>
         <div style="" class="text-center">
           <h3><?php echo $view_description; ?></h3>
         </div>
@@ -13,6 +14,13 @@
         <div style="padding-top: 10px;" class="text-center">
           <p><strong>Obs:</strong> <i>Você pode visualizar o histórico do giro de estoque desse produto em até os últimos 10 meses.</i></p>
         </div>
+        <?php else : ?>
+          <div style="background: #eee; padding: 10px; width: 50%; margin: 0 auto; box-shadow: 0 0 5px #aaa;" class="text-center">
+            <h3>Não há registros suficientes para gerar o histórico desse produto</h3>
+            <hr style="border-color: #aaa;">
+            <h5>Insira dados de outros meses para gerarmos o histórico desse produto.</h5>
+          </div>
+        <?php endif; ?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn side-primary-color" data-dismiss="modal">OK</button>
