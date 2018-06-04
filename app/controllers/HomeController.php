@@ -18,12 +18,17 @@ class HomeController extends \HXPHP\System\Controller
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
 		$user = User::find($user_id);
 
+		$listarProduto = Product::listar($user_id);
+
 		$this->view->setFile('index')
                ->setHeader('header_side')
                ->setFooter('footer_side')
                ->setTemplate(true)
                ->setTitle('SIDE | Home')
-               ->setVar('user', $user);
+               ->setVars([
+               		'user' => $user,
+               		'datas' => $listarProduto['datas']
+               		]);
 	}
 
 	public function indexAction()

@@ -89,7 +89,7 @@ class IndicadoresController extends \HXPHP\System\Controller
 			$this->load('Helpers\Alert', array(
 				'info',
 				'Verifique as informações abaixo:',
-				'A tabela exibe os indicadores gerado de cada produto. Os valores em branco significa falta de parâmetros necessários.'
+				'A tabela exibe os indicadores gerado de cada produto. Os campos com valores - SP - significam falta de parâmetros necessários.'
 			));
 
 			$this->view->setFile('listar');

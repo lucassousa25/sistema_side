@@ -74,7 +74,7 @@ class Product extends \HXPHP\System\Model
 			$array_product_parameters['product_id'] = $product->id;
 
 			$cadastrarParametros = Parameter::create($array_product_parameters);
-			die();
+			
 			if ($cadastrar->is_valid() && $cadastrarParametros->is_valid()) {
 				$callbackObj->status = true;
 				$callbackObj->product_description = $post['description'];

@@ -65,9 +65,9 @@
                 <td class="col-sm-1 text-center"><?php echo $product['unidade']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['giro_estoque']; ?></td>
                 <td class="col-sm-1 text-center"><?php echo $product['cobertura_estoque'] . ' dias'; ?></td>
-                <td class="col-sm-1 text-center"><?php if(is_null($product['estoque_minimo'])) : echo "- <i>SP</i> -"; else : echo $product['estoque_minimo']; endif; ?></td>
-                <td class="col-sm-1 text-center"><?php if(is_null($product['ponto_reposicao'])) : echo "- <i>SP</i> -"; else : echo $product['ponto_reposicao']; endif; ?></td>
-                <td class="col-sm-1 text-center"><?php if(is_null($product['lote_reposicao'])) : echo "- <i>SP</i> -"; else : echo $product['lote_reposicao']; endif; ?></td>
+                <td class="col-sm-1 text-center"><?php if(is_null($product['estoque_minimo'])) : echo "- <i data-toggle='tooltip' data-placement='top' title='Sem parametros suficientes para o cálculo!'>SP</i> -"; else : echo $product['estoque_minimo']; endif; ?></td>
+                <td class="col-sm-1 text-center"><?php if(is_null($product['ponto_reposicao'])) : echo "- <i data-toggle='tooltip' data-placement='top' title='Sem parametros suficientes para o cálculo!'>SP</i> -"; else : echo $product['ponto_reposicao']; endif; ?></td>
+                <td class="col-sm-1 text-center"><?php if(is_null($product['lote_reposicao'])) : echo "- <i data-toggle='tooltip' data-placement='top' title='Sem parametros suficientes para o cálculo!'>SP</i> -"; else : echo $product['lote_reposicao']; endif; ?></td>
                 <td class="col-sm-2 text-center"><?php echo utf8_encode(strftime('%B/%Y', strtotime($product['data']))); ?></td>
               </tr>
           <?php
