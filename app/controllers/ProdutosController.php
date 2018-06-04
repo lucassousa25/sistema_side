@@ -103,9 +103,7 @@ class ProdutosController extends \HXPHP\System\Controller
 
 		if (!is_null($product_id)) {
 			$getProduct = Product::find_by_id($product_id);
-			$maiorData = Parameter::find('all', array('select' => 'MAX(date) as date'));
-			$saveData = strftime('%Y-%m', strtotime($maiorData[0]->date));
-			$getParametersProduct = Parameter::all(array('conditions' => "product_id = $product_id and date LIKE '%$saveData%'"));
+			$getParametersProduct = Parameter::find('first', array('conditions' => "product_id = $product_id", 'order' => 'date desc'));
 			$getIndicatorsProduct = Indicator::all(array('conditions' => array('product_id' => $product_id), 'order' => 'date desc'));
 			$getIndicatorsModal = Indicator::all(array('conditions' => array('product_id' => $product_id), 'limit' => 10, 'order' => 'date desc'));
 

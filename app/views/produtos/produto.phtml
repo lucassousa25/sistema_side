@@ -46,18 +46,21 @@
 	    <div class="page-header">
 	  	  <h3><i class="fa fa-cubes"></i> Parâmetros</h3>
 	  	</div>
-	  	<ul style="font-size: 13pt; line-height: 40px;">
-	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros[0]->estoque_atual; ?></li>
-	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros[0]->total_vendas)) : echo 'R$ ' . number_format($view_parametros[0]->total_vendas / $view_parametros[0]->quantidade_vendida, 2); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
-	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros[0]->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->custo; endif; ?></li>
-	    	<li><strong>Tempo de reposição: </strong><?php if(is_null($view_parametros[0]->tempo_reposicao)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros[0]->tempo_reposicao . ' dias.'; endif; ?></li>
-	    	<li><strong>Quandidade vendida no mês: </strong><?php echo $view_parametros[0]->quantidade_vendida . " $view_produto->unity"; ?></li>
-	    	<li><strong>Frequência de compras por mês: </strong><?php if(is_null($view_parametros[0]->freq_compra)) : echo "<em>Sem registros</em>"; else : echo $view_parametros[0]->freq_compra; endif; ?></li>
-	  	</ul>
 
+	  	<ul style="font-size: 13pt; line-height: 40px;">
+	    	<li><strong>Estoque Atual: </strong><?php echo $view_parametros->estoque_atual; ?></li>
+	    	<li><strong>Preço (Unidade): </strong><?php if(!is_null($view_parametros->total_vendas)) : echo 'R$ ' . number_format($view_parametros->total_vendas / $view_parametros->quantidade_vendida, 2, ',', '.'); else: echo "<em>Alguns parâmetros não foram informados.</em>"; endif; ?></li>
+	    	<li><strong>Custo: </strong><?php if(is_null($view_parametros->custo)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros->custo; endif; ?></li>
+	    	<li><strong>Tempo de reposição: </strong><?php if(is_null($view_parametros->tempo_reposicao)) : echo "<em>Sem registros.</em>"; else : echo $view_parametros->tempo_reposicao . ' dias.'; endif; ?></li>
+	    	<li><strong>Quandidade vendida no mês: </strong><?php echo $view_parametros->quantidade_vendida . " $view_produto->unity"; ?></li>
+	    	<li><strong>Total em vendas no mês: </strong><?php if(is_null($view_parametros->total_vendas)) : echo "<em>Sem registros</em>"; else : echo 'R$ ' . number_format($view_parametros->total_vendas, 2, ',', '.'); endif; ?></li>
+	    	<li><strong>Frequência de compras por mês: </strong><?php if(is_null($view_parametros->freq_compra)) : echo "<em>Sem registros</em>"; else : echo $view_parametros->freq_compra; endif; ?></li>
+	  	</ul>
+	  	
 	  	<div class="page-header">
 	  	  <h3><i class="fa fa-line-chart"></i> Indicadores</h3>
 	  	</div>
+	  	<?php if(!empty($view_indicadores)) : ?>
 	  	<ul style="font-size: 13pt; line-height: 40px;">
 	    	<li><strong>Estoque Mínimo: </strong><?php if(is_null($view_indicadores[0]->estoque_minimo)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->estoque_minimo . ' ' . $view_produto->unity; endif; ?></li>
 	    	<li><strong>Ponto de Reposição: </strong><?php if(is_null($view_indicadores[0]->ponto_reposicao)) : echo '<em>Alguns parâmetros não foram informados.</em>'; else : echo $view_indicadores[0]->ponto_reposicao . ' ' . $view_produto->unity; endif; ?></li>
@@ -66,6 +69,14 @@
 	    	<li><strong>Giro de Estoque: </strong><?php echo $view_indicadores[0]->giro_estoque; ?> <span data-toggle="tooltip" data-placement="right" title="Pressione para visualizar o histórico do giro de estoque do produto"><button type="button" class="btn side-primary-color" data-toggle="modal" data-target="#modalGiro"><i class="fa fa-history"></i> Histórico</button></span></li>
 	    	<li><strong>Cobertura de Estoque: </strong><?php echo $view_indicadores[0]->cobertura_estoque . ' dias.'; ?> <span data-toggle="tooltip" data-placement="right" title="Pressione para visualizar o histórico da cobertura de estoque do produto"><button type="button" class="btn side-primary-color" data-toggle="modal" data-target="#modalCobertura"><i class="fa fa-history"></i> Histórico</button></span></li>
 	    </ul>
+	    <?php else : ?>
+		<div style="background: #eee; padding: 10px; width: 50%; margin: 0 auto; box-shadow: 0 0 5px #aaa;" class="text-center">
+			<h3>Você ainda não gerou os indicadores desse produto.</h3>
+			<hr style="border-color: #aaa;">
+			<h5>Pressione o botão abaixo para gerar os indicadores.</h5>
+			<a href="<?php $this->printRelativeURL('indicadores', false); ?>/geraIndicador/<?php echo intval($view_produto->id); ?>/<?php echo strftime('%Y-%m', strtotime($view_parametros->date)); ?>" class="btn side-primary-color"><i class="fa fa-line-chart"></i> Gerar indicadores</a>
+		</div>
+		<?php endif; ?>	  	
 	  </div>
 	</div>
   </div>
