@@ -4,27 +4,60 @@
 </div>
 
 <?php echo (isset($this->alert) ? $this->alert : ''); ?>
+
 <div class="container">
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>
+            <div class="col-sm-2" style="font-size: 20pt; color: red;"><?php echo $view_produtos_abaixo_est_minimo; ?></div>
+            <div class="col-sm-10" style="font-size: 15pt;">Produtos abaixo do estoque mínimo.</div></p>
+        </div>
+        <div class="panel-footer text-center">Mais detalhes >></div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>
+            <div class="col-sm-2" style="font-size: 20pt; color: green;"><?php echo $view_produtos_prox_ponto_reposicao; ?></div>
+            <div class="col-sm-10" style="font-size: 15pt;">Produtos prox. ao ponto de pedido.</div></p>
+        </div>
+        <div class="panel-footer text-center">Mais detalhes >></div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>
+            <div class="col-sm-2" style="font-size: 20pt; color: orange;"><?php echo $view_produtos_abaixo_ponto_reposicao; ?></div>
+            <div class="col-sm-10" style="font-size: 15pt;">Produtos abaixo do ponto de pedido.</div></p>
+        </div>
+        <div class="panel-footer text-center">Mais detalhes >></div>
+      </div>
+    </div>
+    
+  </div>
+
   <div class="row">
     <div class="col-sm-12">
 
-      <div class="thumbnail">
-        <div class="caption">
-          <div>
-            <h4>Página Inicial - Controle de Estoque</h4>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non cursus odio. Proin et porttitor lorem, non ullamcorper purus. Mauris consequat leo non lectus gravida, quis luctus elit mollis. Donec iaculis elit et convallis volutpat. Aenean ultricies justo ex, quis scelerisque quam vehicula tempus. Vivamus ultrices lorem et pretium finibus. Ut rhoncus mi faucibus, elementum risus ut, aliquam odio. Vestibulum porttitor ante eget velit elementum, id maximus sem auctor. Sed ultrices imperdiet risus, tincidunt dictum ex interdum a. Sed cursus velit lacus, non ultrices urna blandit eget.
-          </p>
-          <p>
-            Sed aliquet lorem vel ipsum venenatis sodales. Etiam facilisis est ultrices urna rutrum, sit amet rhoncus tortor malesuada. Nulla nibh sapien, placerat et metus eu, cursus posuere dui. In interdum augue sit amet ultrices dignissim. Etiam fermentum diam orci, non hendrerit odio cursus eget. Nunc convallis, libero et malesuada blandit, est diam sagittis lacus, egestas pretium ante elit ac urna. Morbi non venenatis magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus aliquam ipsum quis leo accumsan malesuada. Morbi tortor ex, feugiat sit amet lacus in, ullamcorper dapibus lorem. Integer eget sapien sed tellus pellentesque tincidunt. Vestibulum convallis, metus eget vestibulum malesuada, sem turpis lobortis lectus, vitae congue tellus nisi sed lacus. In ullamcorper accumsan arcu at porttitor.
-          </p>
-          <p>
-            Nam pretium eros turpis, ac mollis est sagittis vitae. Duis mi sem, ullamcorper eu fermentum elementum, bibendum congue tortor. Nam nec nisl et orci lacinia consequat quis ut leo. Nam suscipit sagittis vulputate. Maecenas pulvinar felis eu lacus pellentesque ullamcorper. Vivamus at auctor magna. Morbi in sollicitudin magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus euismod elit quis tortor rutrum, sed sodales lectus lacinia. Vivamus non tortor erat. Nam tempus, orci eleifend laoreet efficitur, felis erat iaculis erat, at viverra mauris sem ut tellus. Ut sed sodales velit. Ut quis placerat leo, at malesuada purus. Praesent bibendum augue at erat tempus, sit amet consectetur dui gravida.
-          </p>
-        </div>
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Atenção! <i class="fa fa-warning"></i></h4>
+        <hr>
+        <ul>
+          <li>Para melhores resultados ao utilizar o sistema, mantenha os seus dados de estoque atualizados!</li>
+          <li>Para o cálculo de alguns indicadores, certos parâmetros precisam ser informados previamente.</li>
+        </ul>
       </div>
 
     </div>
   </div>
+
 </div>
