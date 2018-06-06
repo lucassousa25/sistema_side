@@ -49,7 +49,7 @@
 
       <div class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4>Atenção! <i class="fa fa-warning"></i></h4>
+        <h4><i class="fa fa-warning"></i> Atenção!</h4>
         <hr>
         <ul>
           <li>Para melhores resultados ao utilizar o sistema, mantenha os seus dados de estoque atualizados!</li>
@@ -62,13 +62,12 @@
 
   <div class="row">
     
-    <div class="col-sm-8">
+    <div class="col-sm-7">
       <div class="panel panel-default">
         <div class="panel-heading">Gráfico (Total de vendas p/ mês)</div>
         <div class="panel-body">
-          <div class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4>Observação! <i class="fa fa-info-circle"></i></h4>
+          <div class="alert alert-info" role="alert">
+            <h4><i class="fa fa-info-circle"></i> Observação!</h4>
             <ul>
               <li>Verifique o total de vendas nos últimos meses abaixo!</li>
             </ul>
@@ -78,9 +77,34 @@
       </div>
     </div>
 
-    <div class="col-sm-4">
-
-    
+    <div class="col-sm-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">Produtos mais vendidos no mês</div>
+        <div class="panel-body">
+          <div class="alert alert-info" role="alert">
+            <h4><i class="fa fa-info-circle"></i> Observação!</h4>
+            <p>Verifique abaixo os produtos que mais venderam no último mês.</p>
+          </div>
+        </div>
+        <table class="table table-condensed table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Faturamento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (isset($view_produtos_mais_vendidos)) : ?>
+              <?php foreach ($view_produtos_mais_vendidos as $linha) : ?>
+                <tr>
+                  <td><?php echo $linha['descricao']; ?></td>
+                  <td><?php echo 'R$ ' . number_format($linha['valores_venda'], 2, ',', '.'); ?></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
