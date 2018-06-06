@@ -60,4 +60,106 @@
     </div>
   </div>
 
+  <div class="row">
+    
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">Gráfico (Total de vendas p/ mês)</div>
+        <div class="panel-body">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Observação! <i class="fa fa-info-circle"></i></h4>
+            <ul>
+              <li>Verifique o total de vendas nos últimos meses abaixo!</li>
+            </ul>
+          </div>
+          <canvas id="vendas-mes"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+
+    
+    </div>
+  </div>
+
 </div>
+
+<script>
+  var ctx = document.getElementById("vendas-mes");
+
+  var chartGraph = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        <?php
+          $view_datas = array_reverse($view_datas);
+          foreach ($view_datas as $linha) {
+              if ($linha == end($view_datas)) {
+                echo "'".strftime('%b/%Y', strtotime($linha))."'";
+              }
+              else {
+                echo "'".strftime('%b/%Y', strtotime($linha))."'" . ',';
+              }
+          }
+        ?> 
+      ],
+      datasets: [{
+        label: 'Total em vendas por mês',
+        data: [
+          <?php
+            $view_valores_vendas = array_reverse($view_valores_vendas); 
+            foreach ($view_valores_vendas as $linha) {
+                if ($linha == end($view_valores_vendas)) {
+                  echo round($linha);
+                }
+                else {
+                  echo round($linha) . ',';
+                }
+            }
+          ?>
+        ],
+        borderWidth: 3,
+        borderColor: 'rgba(0,2,456,0.6)',
+        backgroundColor: 'transparent'
+      }] 
+    },
+    options: {
+      legend: {
+            labels: {
+                // This more specific font property overrides the global property
+                fontColor: 'black',
+                fontSize: 20
+            }
+      },
+      tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += tooltipItem.yLabel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });;
+                    return label;
+                }
+            }
+      },
+      scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Total de vendas (R$)'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Mês/Ano'
+            }
+          }]
+      }
+    }
+  });
+</script>

@@ -61,11 +61,23 @@ class HomeController extends \HXPHP\System\Controller
 			}
 		endforeach;
 
+		$datasExistentes = Parameter::find('all', array('select' => 'DISTINCT(left(date,7)) as data', 'limit' => 7, 'order' => 'date desc'));
+		$totalVendas = array();
+		$datas = array();
+
+		foreach ($datasExistentes as $linha => $valor) { 
+			$valores_vendas = Parameter::find(array('select' => 'SUM(total_vendas) as total_vendas, date as data', 'conditions' => "date LIKE '%$valor->data%'"));
+			$totalVendas[$linha] = $valores_vendas->total_vendas;
+			$datas[$linha] = $valores_vendas->data;
+		}
+
 		$this->view->setFile('index')
                ->setVars([
                		'produtos_abaixo_est_minimo' => $produtos_abaixo_est_minimo,
                		'produtos_abaixo_ponto_reposicao' => $produtos_abaixo_ponto_reposicao,
-               		'produtos_prox_ponto_reposicao' => $produtos_prox_ponto_reposicao
+               		'produtos_prox_ponto_reposicao' => $produtos_prox_ponto_reposicao,
+               		'valores_vendas' => $totalVendas,
+               		'datas' => $datas
                		]);
 	}
 }
