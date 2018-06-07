@@ -13,7 +13,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <p>
-            <div class="col-sm-2" style="font-size: 20pt; color: red;"><?php echo $view_produtos_abaixo_est_minimo; ?></div>
+            <div class="col-sm-2" style="font-size: 20pt; color: red;"><?php if(is_null($view_produtos_abaixo_est_minimo)) : echo 0; else : echo $view_produtos_abaixo_est_minimo; endif; ?></div>
             <div class="col-sm-10" style="font-size: 15pt;">Produtos abaixo do estoque mínimo.</div></p>
         </div>
         <div class="panel-footer text-center">Mais detalhes >></div>
@@ -24,7 +24,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <p>
-            <div class="col-sm-2" style="font-size: 20pt; color: green;"><?php echo $view_produtos_prox_ponto_reposicao; ?></div>
+            <div class="col-sm-2" style="font-size: 20pt; color: green;"><?php if(is_null($view_produtos_prox_ponto_reposicao)) : echo 0; else : echo $view_produtos_prox_ponto_reposicao; endif; ?></div>
             <div class="col-sm-10" style="font-size: 15pt;">Produtos prox. ao ponto de pedido.</div></p>
         </div>
         <div class="panel-footer text-center">Mais detalhes >></div>
@@ -35,7 +35,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <p>
-            <div class="col-sm-2" style="font-size: 20pt; color: orange;"><?php echo $view_produtos_abaixo_ponto_reposicao; ?></div>
+            <div class="col-sm-2" style="font-size: 20pt; color: orange;"><?php if(is_null($view_produtos_abaixo_ponto_reposicao)) : echo 0; else : echo $view_produtos_abaixo_ponto_reposicao; endif; ?></div>
             <div class="col-sm-10" style="font-size: 15pt;">Produtos abaixo do ponto de pedido.</div></p>
         </div>
         <div class="panel-footer text-center">Mais detalhes >></div>
@@ -66,6 +66,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Gráfico (Total de vendas p/ mês)</div>
         <div class="panel-body">
+          <?php if(!empty($view_valores_vendas)) : ?>
           <div class="alert alert-info" role="alert">
             <h4><i class="fa fa-info-circle"></i> Observação!</h4>
             <ul>
@@ -73,6 +74,15 @@
             </ul>
           </div>
           <canvas id="vendas-mes"></canvas>
+          <?php else : ?>
+          <div class="alert alert-danger" role="alert">
+            <h4><i class="fa fa-warning"></i> Atenção!</h4>
+            <ul>
+              <li>Não há dados registrados para gerar o gráfico de vendas, por favor insira os dados no sistema no menu >> produtos.</li>
+            </ul>
+          </div>
+          <canvas id="vendas-mes"></canvas>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -81,6 +91,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Produtos mais vendidos no mês</div>
         <div class="panel-body">
+          <?php if(!empty($view_produtos_mais_vendidos)) : ?>
           <div class="alert alert-info" role="alert">
             <h4><i class="fa fa-info-circle"></i> Observação!</h4>
             <p>Verifique abaixo os produtos que mais venderam no último mês.</p>
@@ -104,6 +115,12 @@
             <?php endif; ?>
           </tbody>
         </table>
+        <?php else : ?>
+          <div class="alert alert-danger" role="alert">
+            <h4><i class="fa fa-warning"></i> Atenção!</h4>
+            <p>Não há dados para ser exibido, por favor insira os dados no sistema no menu >> produtos.</p>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
