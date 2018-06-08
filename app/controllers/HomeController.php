@@ -103,7 +103,7 @@ class HomeController extends \HXPHP\System\Controller
                		'produtos_prox_ponto_reposicao' => $produtos_prox_ponto_reposicao,
                		'valores_vendas' => $totalVendas,
                		'produtos_mais_vendidos' => $produtos_mais_vendidos,
-               		'datas' => $datas
+               		'datas_dados' => $datas
                		]);
 	}
 }

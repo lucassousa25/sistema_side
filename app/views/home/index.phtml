@@ -135,9 +135,9 @@
     data: {
       labels: [
         <?php
-          $view_datas = array_reverse($view_datas);
-          foreach ($view_datas as $linha) {
-              if ($linha == end($view_datas)) {
+          $view_datas_dados = array_reverse($view_datas_dados);
+          foreach ($view_datas_dados as $linha) {
+              if ($linha == end($view_datas_dados)) {
                 echo "'".strftime('%b/%Y', strtotime($linha))."'";
               }
               else {

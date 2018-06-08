@@ -53,7 +53,8 @@ class IndicadoresController extends \HXPHP\System\Controller
 					$registrarIndicadores->errors
 				));
 
-				$this->view->setFile('listar');
+				$this->view->setPath('produtos')
+						->setFile('listar');
 				
 			}
 			else {
@@ -68,7 +69,14 @@ class IndicadoresController extends \HXPHP\System\Controller
 					'\n Lote de Reposição: ' . $registrarIndicadores->indicators['lote_reposicao']
 				));
 
-				self::listarAction();
+				$listarIndicadores = Indicator::listar($user_id);
+
+				$this->view->setVars([
+						'products' => $listarIndicadores['registros'],
+						'total_produtos' => $listarIndicadores['total_produtos'],
+						'datas' => $listarIndicadores['datas']
+						])
+						->setFile('listar');
 			}
 		}
 	}
@@ -92,7 +100,14 @@ class IndicadoresController extends \HXPHP\System\Controller
 				'A tabela exibe os indicadores gerado de cada produto. Os campos com valores - SP - significam falta de parâmetros necessários.'
 			));
 
-			$this->view->setFile('listar');
+			$listarIndicadores = Indicator::listar($user_id);
+
+			$this->view->setVars([
+					'products' => $listarIndicadores['registros'],
+					'total_produtos' => $listarIndicadores['total_produtos'],
+					'datas' => $listarIndicadores['datas']
+					])
+					->setFile('listar');
 		}
 	}
 
@@ -129,15 +144,13 @@ class IndicadoresController extends \HXPHP\System\Controller
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo ID do usuário
 
-		if(!empty($pagina)) {
-			$listarIndicadores = Indicator::listar($user_id);
+		$listarIndicadores = Indicator::listar($user_id);
 
-			$this->view->setVars([
-					'products' => $listarIndicadores['registros'],
-					'total_produtos' => $listarIndicadores['total_produtos'],
-					'datas' => $listarIndicadores['datas']
-					])
-					->setFile('listar');
-		}
+		$this->view->setVars([
+				'products' => $listarIndicadores['registros'],
+				'total_produtos' => $listarIndicadores['total_produtos'],
+				'datas' => $listarIndicadores['datas']
+				])
+				->setFile('listar');
 	}
 }

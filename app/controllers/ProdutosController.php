@@ -70,7 +70,10 @@ class ProdutosController extends \HXPHP\System\Controller
 					'O produto ' . $cadastrarProduto->product_description . ' foi cadastrado no sistema!'
 				));
 				
-				self::listarAction();
+				/**
+		       * @param string $url Especifique o link para qual a aplicação será redirecionada
+		       */
+		      $this->redirectTo('http://localhost/sistema_side/produtos/listar/');
 			}
 		}
 	}
@@ -143,7 +146,7 @@ class ProdutosController extends \HXPHP\System\Controller
 					'O produto ' . $editarProduto->product_description . ' foi atualizado no sistema!'
 				));
 				
-				self::listarAction();
+				$this->view->setFile('listar');
 			}
 			
 		}
@@ -176,7 +179,7 @@ class ProdutosController extends \HXPHP\System\Controller
 					'O produto ' . $descrição_produto . ' foi removido do sistema!'
 				));
 				
-				self::listarAction();
+				$this->view->setFile('listar');
 			}
 			else{
 				$this->load('Helpers\Alert', array(
@@ -185,7 +188,7 @@ class ProdutosController extends \HXPHP\System\Controller
 					'Esse produto já foi removido do sistema.'
 				));
 				
-				self::listarAction();
+				$this->view->setFile('listar');
 			}
 
 		}
@@ -194,17 +197,16 @@ class ProdutosController extends \HXPHP\System\Controller
 	public function listarAction()
 	{
 		$user_id = $this->auth->getUserId(); // Obtendo atributos do usuário
+		
+		$listarProduto = Product::listar($user_id);
 
-		if(!empty($pagina)) {
-			$listarProduto = Product::listar($user_id);
-
-			$this->view->setVars([
-					'products' => $listarProduto['registros'],
-					'total_produtos' => $listarProduto['total_produtos'],
-					'datas' => $listarProduto['datas']
-					])
-					->setFile('listar');
-		}
+		$this->view->setVars([
+				'products' => $listarProduto['registros'],
+				'total_produtos' => $listarProduto['total_produtos'],
+				'datas' => $listarProduto['datas']
+				])
+				->setFile('listar');
+		
 	}
 
 	public function tratarPlanilhaAction()
@@ -434,8 +436,15 @@ class ProdutosController extends \HXPHP\System\Controller
 							if($arquivo_existente != '..')
 								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
 
-							self::listarAction();
-							$this->view->setFile('listar');
+							
+							$listarProduto = Product::listar($user_id);
+
+							$this->view->setVars([
+									'products' => $listarProduto['registros'],
+									'total_produtos' => $listarProduto['total_produtos'],
+									'datas' => $listarProduto['datas']
+									])
+									->setFile('listar');
 						endif;
 
 						if (is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
@@ -449,8 +458,14 @@ class ProdutosController extends \HXPHP\System\Controller
 								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
 
 
-							self::listarAction();
-							$this->view->setFile('listar');
+							$listarProduto = Product::listar($user_id);
+
+							$this->view->setVars([
+									'products' => $listarProduto['registros'],
+									'total_produtos' => $listarProduto['total_produtos'],
+									'datas' => $listarProduto['datas']
+									])
+									->setFile('listar');
 						endif;
 
 						if (!is_null($inserirDados->products_quantity) && is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
@@ -464,8 +479,15 @@ class ProdutosController extends \HXPHP\System\Controller
 							if($arquivo_existente != '..')
 								unlink(ROOT_PATH . 'public/uploads/sheets/' . $arquivo_existente);
 
-							self::listarAction();
-							$this->view->setFile('listar');
+							
+							$listarProduto = Product::listar($user_id);
+
+							$this->view->setVars([
+									'products' => $listarProduto['registros'],
+									'total_produtos' => $listarProduto['total_produtos'],
+									'datas' => $listarProduto['datas']
+									])
+									->setFile('listar');
 						endif;
 						
 						if(!is_null($inserirDados->products_quantity) && !is_null($inserirDados->products_quantity_errors) && !is_null($inserirDados->products_quantity_updated)) :
