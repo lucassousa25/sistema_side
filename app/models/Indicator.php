@@ -9,11 +9,11 @@ class Indicator extends \HXPHP\System\Model
 		$callbackObj->errors = array();
 		$callbackObj->indicators = array();
 
-		$product = Product::find($product_id);
-		$parameters = Parameter::all(array('conditions' => "product_id = $product->id and date LIKE '%$date%'")); 
+		//$product = Product::find($product_id);
+		$parameters = Parameter::all(array('conditions' => "product_id = $product_id and date LIKE '%$date%'")); 
 
 		if (empty($parameters)) {
-			$parameters = Parameter::find('first', array('conditions' => "product_id = $product->id", 'order' => 'date desc'));
+			$parameters = Parameter::all('first', array('conditions' => "product_id = $product_id", 'order' => 'date desc'));
 		}
 
 		if (!empty($parameters)) {
