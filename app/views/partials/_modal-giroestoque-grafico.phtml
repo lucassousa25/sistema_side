@@ -35,10 +35,33 @@
   var chartGraph = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['fev/2018', 'mar/2018', 'abr/2018', 'mai/2018', 'jun/2018', 'jul/2018'],
+      labels: [
+         <?php
+          $view_array_indicadores_modal = array_reverse($view_array_indicadores_modal); 
+          foreach ($view_array_indicadores_modal as $linha) {
+              if ($linha == end($view_array_indicadores_modal)) {
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'";
+              }
+              else {
+                echo "'".strftime('%b/%Y', strtotime($linha->date))."'" . ',';
+              }
+          }
+        ?>
+      ],
       datasets: [{
         label: 'Histórico do Giro',
-        data: [0.9, 1.1, 1.4, 0.7, 1, 0.7],
+        data: [
+          <?php 
+            foreach ($view_array_indicadores_modal as $linha) {
+                if ($linha == end($view_array_indicadores_modal)) {
+                  echo number_format($linha->cobertura_estoque, 2);
+                }
+                else {
+                  echo number_format($linha->cobertura_estoque, 2) . ",";
+                }
+            }
+          ?>
+        ],
         borderWidth: 3,
         borderColor: 'rgba(0,2,456,0.6)',
         backgroundColor: 'transparent'
