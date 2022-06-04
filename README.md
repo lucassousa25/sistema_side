@@ -1,6 +1,8 @@
 ## SIDE (Sistema de Indicadores de Desempenho de Estoque)
 
-Projeto para criação de um sistema de indicadores de desempenho.
+- Projeto para criação de um sistema de indicadores de desempenho.
+- Em referência a Trabalho de Conclusão de Curso
+- Descontinuado desde 2019...
 
 
 ### Detalhes do projeto?
